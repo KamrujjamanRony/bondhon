@@ -1,0 +1,17 @@
+.elementor-shape-top {
+  bottom: -1px;
+}
+.elementor-shape {
+  overflow: hidden;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  line-height: 0;
+  direction: ltr;
+}
+
+.elementor-shape .elementor-shape-fill {
+  fill: #fff;
+  transform-origin: center;
+  transform: rotateX(180deg);
+}
