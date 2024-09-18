@@ -20,7 +20,7 @@
           <app-inputs type="select" defaultPlaceholder="Select Blood Group" [options]="bloodGroups" inputId="bloodGroup" placeholder="Type Here" label="bloodGroup" [(value)]="model.bloodGroup" [isRequired]="true"></app-inputs>
           <app-inputs type="select" defaultPlaceholder="Select Occupation" [options]="occupation" inputId="occupation" placeholder="Type Here" label="occupation" [(value)]="model.occupation" [isRequired]="true"></app-inputs>
           @if (model.occupation == 'Student') {
-            <app-inputs inputId="college" placeholder="Type Here" label="college/university" [(value)]="model.college" [isRequired]="true"></app-inputs>
+            <app-inputs inputId="college" placeholder="Type Here" label="college/university" [(value)]="model.college"></app-inputs>
           }
           <app-inputs type="textarea" inputId="describe" placeholder="Type Here" label="describe" [(value)]="model.describe"></app-inputs>
           
