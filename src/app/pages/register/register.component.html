@@ -15,14 +15,14 @@
           <app-inputs type="select" defaultPlaceholder="Select district" [options]="districts" inputId="district" placeholder="Type Here" label="district" [(value)]="model.district" [isDisabled]="model.division === ''" [isRequired]="true"></app-inputs>
           <app-inputs inputId="name" placeholder="Type Here" label="name" [(value)]="model.name" [isRequired]="true"></app-inputs>
           <app-inputs type="number" inputId="phone" placeholder="Type Here" label="phone" [(value)]="model.phone" [isRequired]="true"></app-inputs>
-          <app-inputs type="date" inputId="lastDateOfDonate" placeholder="Type Here" label="last Donate Date" [(value)]="model.lastDateOfDonate" [isRequired]="true"></app-inputs>
+          <app-inputs type="date" inputId="lastDateOfDonate" placeholder="Type Here" label="last Donate Date" [(value)]="model.lastDateOfDonate"></app-inputs>
           <app-inputs type="password" inputId="password" placeholder="Type Here" label="password" [(value)]="model.password" [isRequired]="true"></app-inputs>
           <app-inputs type="select" defaultPlaceholder="Select Blood Group" [options]="bloodGroups" inputId="bloodGroup" placeholder="Type Here" label="bloodGroup" [(value)]="model.bloodGroup" [isRequired]="true"></app-inputs>
           <app-inputs type="select" defaultPlaceholder="Select Occupation" [options]="occupation" inputId="occupation" placeholder="Type Here" label="occupation" [(value)]="model.occupation" [isRequired]="true"></app-inputs>
           @if (model.occupation == 'Student') {
             <app-inputs inputId="college" placeholder="Type Here" label="college/university" [(value)]="model.college" [isRequired]="true"></app-inputs>
           }
-          <app-inputs type="textarea" inputId="describe" placeholder="Type Here" label="describe" [(value)]="model.describe" [isRequired]="true"></app-inputs>
+          <app-inputs type="textarea" inputId="describe" placeholder="Type Here" label="describe" [(value)]="model.describe"></app-inputs>
           
           <div class="form-control mt-6">
             <button class="btn btn-error text-white">Register</button>
