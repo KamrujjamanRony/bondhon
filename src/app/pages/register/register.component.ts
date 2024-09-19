@@ -3,6 +3,7 @@ import { InputsComponent } from "../../components/shared/inputs/inputs.component
 import { DataService } from '../../services/data.service';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -14,11 +15,14 @@ import { UserService } from '../../services/user.service';
 export class RegisterComponent {
   private dataService = inject(DataService);
   private userService = inject(UserService);
+  router = inject(Router);
   model : any;
   divisions : any;
   districts : any;
   bloodGroups : any;
   occupation : any;
+  error : any;
+  success : any;
 
   constructor() {
     this.model = {
@@ -44,30 +48,49 @@ export class RegisterComponent {
   }
 
   onFormSubmit(){
-    console.log(this.model)
-    if (this.model.division && this.model.districts && this.model.name && this.model.phone && this.model.password && this.model.bloodGroup && this.model.occupation) {
+    const {
+      division,
+      district,
+      name,
+      phone,
+      lastDateOfDonate,
+      password,
+      bloodGroup,
+      occupation,
+      college,
+      describe
+    } = this.model;
+    if (division && district && name && phone && password && bloodGroup && occupation) {
       const userInfo = {
-        id: crypto.randomUUID(),
-        division: this.model.division,
-        district: this.model.district,
-        name: this.model.name,
-        phone: this.model.phone,
-        lastDateOfDonate: this.model.lastDateOfDonate,
-        password: this.model.password,
-        bloodGroup: this.model.bloodGroup,
-        occupation: this.model.occupation,
-        college: this.model.college,
-        describe: this.model.describe
+        division,
+        district,
+        name,
+        phone,
+        lastDateOfDonate,
+        password,
+        bloodGroup,
+        occupation,
+        college,
+        describe
       };
       this.userService.addUser(userInfo)
       .subscribe({
         next: (response) => {
-            console.log(response)
+          this.success = 'User registered successfully';
+          setTimeout(() => {
+            this.success = null;
+          }, 3000);
+          this.router.navigateByUrl('login');
         },
         error: (error) => {
-            console.error('Error register:', error);
+          console.error('Error register:', error);
         }
-    });
+      });
+    } else {
+      this.error = 'Please Fill all the required fields'
+      setTimeout(() => {
+        this.error = null;
+      }, 3000);
     }
   }
 

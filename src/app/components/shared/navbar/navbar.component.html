@@ -82,7 +82,21 @@
               <ul class="menu menu-horizontal p-1 items-center rounded">
                 @for (menuItem of menuItems; track $index) {
                 <li>
-                  <a [routerLink]="menuItem.link" class="pb-3">{{ menuItem.label }}</a>
+                  @if (menuItem.subItems) {
+                    <span class="hoverable">
+                      {{ menuItem.label }}
+                      <ul class="sub-menu">
+                        @for (subItem of menuItem.subItems; track $index) {
+                        <li>
+                          <a [routerLink]="subItem.link">{{ subItem.label }}</a>
+                        </li>
+                        }
+                      </ul>
+                    </span>
+                    } @else {
+                      <a [routerLink]="menuItem.link" class="pb-3">{{ menuItem.label }}</a>
+                    }
+                  
                 </li>
                 }
                 <li>
