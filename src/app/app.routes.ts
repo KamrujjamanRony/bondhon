@@ -6,7 +6,6 @@ import { SearchDonorsComponent } from './pages/search-donors/search-donors.compo
 import { BloodRequestComponent } from './pages/blood-request/blood-request.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
-import { LogoutComponent } from './pages/logout/logout.component';
 import { AccountUpdateComponent } from './pages/account-update/account-update.component';
 
 export const routes: Routes = [
@@ -42,10 +41,6 @@ export const routes: Routes = [
           {
             path: 'account-update',
             component: AccountUpdateComponent
-          },
-          {
-            path: 'logout',
-            component: LogoutComponent
           },
         ],
       }

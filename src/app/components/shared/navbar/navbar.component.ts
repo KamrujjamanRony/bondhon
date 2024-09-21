@@ -7,20 +7,23 @@ import { AuthService } from '../../../services/auth.service';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.css'
+  styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
   private authService = inject(AuthService);
   user: any;
   menuItems: any;
 
-  ngOnInit() {
-    this.user = this.authService.getUserInfo();
-    console.log(this.user)
+  constructor() {
+    // Subscribe to changes in login status
+    this.authService.userInfo$.subscribe((user) => {
+      this.user = user;
+      this.updateMenuItems();
+    });
   }
 
-  constructor(){
-    this.user = this.authService.getUserInfo();
+  // Method to update menu items based on user status
+  updateMenuItems() {
     this.menuItems = this.user ? [
       {
         label: 'Home',
@@ -39,10 +42,6 @@ export class NavbarComponent {
         link: '/blood-request'
       },
       {
-        label: 'Register',
-        link: '/register'
-      },
-      {
         label: 'Account',
         subItems: [
           {
@@ -51,7 +50,7 @@ export class NavbarComponent {
           },
           {
             label: 'Logout',
-            link: '/logout'
+            action: () => this.logout() // Call logout function when clicked
           }
         ]
       },
@@ -83,4 +82,8 @@ export class NavbarComponent {
     ];
   }
 
+  // Method to handle logout and update menu items
+  logout() {
+    this.authService.deleteUserInfo(); // Call the deleteUserInfo from AuthService
+  }
 }

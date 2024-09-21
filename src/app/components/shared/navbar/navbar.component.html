@@ -83,12 +83,13 @@
                 @for (menuItem of menuItems; track $index) {
                 <li>
                   @if (menuItem.subItems) {
-                    <span class="hoverable">
+                    <span class="hoverable pb-3">
                       {{ menuItem.label }}
                       <ul class="sub-menu">
                         @for (subItem of menuItem.subItems; track $index) {
                         <li>
-                          <a [routerLink]="subItem.link">{{ subItem.label }}</a>
+                          @if (subItem.link) {<a [routerLink]="subItem.link">{{ subItem.label }}</a>}
+                          @if (subItem.action) {<a (click)="subItem.action()">{{ subItem.label }}</a>}
                         </li>
                         }
                       </ul>

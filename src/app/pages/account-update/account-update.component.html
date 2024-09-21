@@ -1,1 +1,57 @@
-<p>account-update works!</p>
+<div class="hero min-h-screen mb-10">
+    <div class="hero-content flex-col lg:flex-row items-start">
+      <div class="text-center lg:text-left max-w-3xl min-w-80">
+        <h1 class="text-5xl font-bold text-rose-600 py-6">My Profile</h1>
+        <p class="py-2 capitalize font-semibold text-xl">name: <span class="text-rose-600">{{userData?.name}}</span> </p>
+        <p class="py-2 capitalize font-semibold text-xl">phone: <span class="text-rose-600">{{userData?.phone}}</span> </p>
+        <p class="py-2 capitalize font-semibold text-xl">division: <span class="text-rose-600">{{userData?.division}}</span> </p>
+        <p class="py-2 capitalize font-semibold text-xl">district: <span class="text-rose-600">{{userData?.district}}</span> </p>
+        <p class="py-2 capitalize font-semibold text-xl">blood Group: <span class="text-rose-600">{{userData?.bloodGroup}}</span> </p>
+        <p class="py-2 capitalize font-semibold text-xl">occupation: <span class="text-rose-600">{{userData?.occupation}}</span> </p>
+        @if (model.occupation == 'Student') {
+            <p class="py-2 capitalize font-semibold text-xl">college: <span class="text-rose-600">{{userData?.college}}</span> </p>
+          }
+        <p class="py-2 capitalize font-semibold text-xl">password: <span class="text-rose-600">{{userData?.password}}</span> </p>
+        <p class="py-2 capitalize font-semibold text-xl">description: <span class="text-rose-600">{{userData?.describe}}</span> </p>
+      </div>
+      <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+        <form class="card-body"
+        #form="ngForm"
+        (ngSubmit)="onFormSubmit()">
+          <app-inputs type="select" defaultPlaceholder="Select division" [options]="divisions" inputId="division" placeholder="Type Here" label="division" [(value)]="model.division" (valueChange)="onDivisionChanged()" [isRequired]="true"></app-inputs>
+          <app-inputs type="select" defaultPlaceholder="Select district" [options]="districts" inputId="district" placeholder="Type Here" label="district" [(value)]="model.district" [isDisabled]="model.division === ''" [isRequired]="true"></app-inputs>
+          <app-inputs inputId="name" placeholder="Type Here" label="name" [(value)]="model.name" [isRequired]="true"></app-inputs>
+          <app-inputs type="number" inputId="phone" placeholder="Type Here" label="phone" [(value)]="model.phone" [isRequired]="true"></app-inputs>
+          <app-inputs type="date" inputId="lastDateOfDonate" placeholder="Type Here" label="last Donate Date" [(value)]="model.lastDateOfDonate"></app-inputs>
+          <app-inputs type="password" inputId="password" placeholder="Type Here" label="password" [(value)]="model.password" [isRequired]="true"></app-inputs>
+          <app-inputs type="select" defaultPlaceholder="Select Blood Group" [options]="bloodGroups" inputId="bloodGroup" placeholder="Type Here" label="bloodGroup" [(value)]="model.bloodGroup" [isRequired]="true"></app-inputs>
+          <app-inputs type="select" defaultPlaceholder="Select Occupation" [options]="occupation" inputId="occupation" placeholder="Type Here" label="occupation" [(value)]="model.occupation" [isRequired]="true"></app-inputs>
+          @if (model.occupation == 'Student') {
+            <app-inputs inputId="college" placeholder="Type Here" label="college/university" [(value)]="model.college"></app-inputs>
+          }
+          <app-inputs type="textarea" inputId="describe" placeholder="Type Here" label="describe" [(value)]="model.describe"></app-inputs>
+          
+          <div class="form-control mt-6">
+            <button class="btn btn-error text-white">Update Profile</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  @if (error) {
+    <div class="toast toast-top toast-end">
+      <div class="alert alert-info">
+        <span class="text-white">{{error}}</span>
+      </div>
+    </div>
+  }
+  
+  @if (success) {
+    <div class="toast toast-top toast-end">
+      <div class="alert alert-success">
+        <span class="text-white">{{success}}</span>
+      </div>
+    </div>
+  }

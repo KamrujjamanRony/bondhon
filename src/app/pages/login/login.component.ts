@@ -43,7 +43,6 @@ export class LoginComponent {
             this.authService.setUserInfo(response[0])
             this.success = 'User login successfully';
             setTimeout(() => {
-              window.location.reload();
               this.router.navigateByUrl('/');
             }, 1500);
           } else {
