@@ -1,0 +1,16 @@
+<div class="card lg:card-side bg-base-100 shadow-lg rounded h-full">
+    <figure>
+      <img
+        src="https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.png"
+        alt="Album"
+        class="h-40" />
+    </figure>
+    <div class="card-body">
+      <h2 class="card-title">{{user?.name}}</h2>
+      <p>Blood Group: {{user?.bloodGroup}}</p>
+      <p>{{user?.phone}}</p>
+      @if(user?.college) {<p>{{user?.college}}</p>}
+      <p>{{user?.district}}, {{user?.division}}</p>
+      <p class="text-xs">{{user?.describe}}</p>
+    </div>
+  </div>

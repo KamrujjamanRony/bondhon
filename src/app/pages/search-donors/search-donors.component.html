@@ -15,3 +15,15 @@
       </div>
     </form>
 </section>
+
+<section class="mx-auto max-w-6xl my-5">
+  <div class="w-full bg-rose-600 text-white">
+    <p class="p-2">Total donors found {{users?.length || 0}}</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 my-5">
+    @for(user of users; track user.id){
+      <user-card [user]="user"></user-card>
+    }
+  </div>
+</section>
