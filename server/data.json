@@ -11,6 +11,7 @@
       "occupation": "Student",
       "college": "Northern University",
       "describe": "dsad asdasd sadasda",
+      "role": "user",
       "id": "53c7"
     },
     {
@@ -24,6 +25,7 @@
       "bloodGroup": "B+",
       "occupation": "Student",
       "college": "Northern University",
+      "role": "user",
       "describe": "sdfs sdfsd sdfsddsf"
     },
     {
@@ -37,6 +39,7 @@
       "occupation": "Student",
       "college": "NUBTK",
       "describe": "",
+      "role": "user",
       "id": "faa7"
     }
   ]

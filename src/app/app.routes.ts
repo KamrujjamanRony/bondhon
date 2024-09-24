@@ -7,6 +7,9 @@ import { BloodRequestComponent } from './pages/blood-request/blood-request.compo
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AccountUpdateComponent } from './pages/account-update/account-update.component';
+import { AuthGuard } from './services/auth.guard';
+import { AdminPanelComponent } from './layout/admin-panel/admin-panel.component';
+import { UserListComponent } from './pages/user-list/user-list.component';
 
 export const routes: Routes = [
     {
@@ -24,11 +27,11 @@ export const routes: Routes = [
           },
           {
             path: 'search-donors',
-            component: SearchDonorsComponent
+            component: SearchDonorsComponent, canActivate: [AuthGuard]
           },
           {
             path: 'blood-request',
-            component: BloodRequestComponent
+            component: BloodRequestComponent, canActivate: [AuthGuard]
           },
           {
             path: 'register',
@@ -40,7 +43,26 @@ export const routes: Routes = [
           },
           {
             path: 'account-update',
-            component: AccountUpdateComponent
+            component: AccountUpdateComponent, canActivate: [AuthGuard]
+          },
+        ],
+      },
+    {
+        path: 'admin-panel',
+        component: AdminPanelComponent,
+        canActivate: [AuthGuard],
+        children: [
+          {
+            path: '',
+            component: UserListComponent, canActivate: [AuthGuard]
+          },
+          {
+            path: 'user-list',
+            component: SearchDonorsComponent, canActivate: [AuthGuard]
+          },
+          {
+            path: 'make-admin',
+            component: BloodRequestComponent, canActivate: [AuthGuard]
           },
         ],
       }

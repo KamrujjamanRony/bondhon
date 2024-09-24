@@ -71,7 +71,8 @@ export class RegisterComponent {
         bloodGroup,
         occupation,
         college,
-        describe
+        describe,
+        role: 'user'
       };
       this.userService.addUser(userInfo)
       .subscribe({

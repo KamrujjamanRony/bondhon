@@ -1,53 +1,60 @@
+@if (type == "select") { @if (label) {
+<label [for]="inputId" class="label capitalize">
+  <span class="label-text"
+    >{{ label }}@if (isRequired) {<span class="text-rose-600">*</span>}</span
+  >
+</label>
+}
 
-@if (type == "select") {
-    <label [for]="inputId" class="label capitalize">
-      <span class="label-text">{{ label }}@if (isRequired) {<span class="text-rose-600">*</span>}</span>
-      </label>
-      <select
-        [id]="inputId"
-        [(ngModel)]="value"
-        [ngClass]="{'cursor-not-allowed': isDisabled, 'cursor-pointer': !isDisabled}"
-        (ngModelChange)="onValueChange()"
-        class="select select-bordered w-full max-w-xs"
-        [disabled]="isDisabled"
-      >
-        <option selected disabled hidden value="">
-          {{ defaultPlaceholder }}
-        </option>
-        @for (option of options; track $index) {
-            <option [value]="option?.name">
-                {{ option?.name }}
-            </option>
-        }
-        
-      </select>
+<select
+  [id]="inputId"
+  [(ngModel)]="value"
+  [ngClass]="{
+    'cursor-not-allowed': isDisabled,
+    'cursor-pointer': !isDisabled
+  }"
+  (ngModelChange)="onValueChange()"
+  class="select select-bordered w-full max-w-xs"
+  [disabled]="isDisabled"
+>
+  <option selected disabled hidden value="">
+    {{ defaultPlaceholder }}
+  </option>
+  @for (option of options; track $index) {
+  <option [value]="option?.name">
+    {{ option?.name }}
+  </option>
+  }
+</select>
 } @else if(type == "textarea"){
-  <div class="form-control">
-    <label [for]="inputId" class="label capitalize">
-        <span class="label-text">{{ label }}@if (isRequired) {<span class="text-rose-600">*</span>}</span>
-        
-      </label>
-      <textarea 
-      [id]="inputId"
-      class="textarea textarea-bordered" 
-      [placeholder]="placeholder"
-      [(ngModel)]="value"
-      (ngModelChange)="onValueChange()"
-      ></textarea>
-  </div>
+<div class="form-control">
+  <label [for]="inputId" class="label capitalize">
+    <span class="label-text"
+      >{{ label }}@if (isRequired) {<span class="text-rose-600">*</span>}</span
+    >
+  </label>
+  <textarea
+    [id]="inputId"
+    class="textarea textarea-bordered"
+    [placeholder]="placeholder"
+    [(ngModel)]="value"
+    (ngModelChange)="onValueChange()"
+  ></textarea>
+</div>
 } @else {
-  <div class="form-control">
-    <label [for]="inputId" class="label capitalize">
-        <span class="label-text">{{ label }}@if (isRequired) {<span class="text-rose-600">*</span>}</span>
-        
-      </label>
-      <input
-        [id]="inputId"
-        [type]="type"
-        [placeholder]="placeholder"
-        [(ngModel)]="value"
-        (ngModelChange)="onValueChange()"
-        class="input input-bordered"
-      />
-  </div>
+<div class="form-control">
+  <label [for]="inputId" class="label capitalize">
+    <span class="label-text"
+      >{{ label }}@if (isRequired) {<span class="text-rose-600">*</span>}</span
+    >
+  </label>
+  <input
+    [id]="inputId"
+    [type]="type"
+    [placeholder]="placeholder"
+    [(ngModel)]="value"
+    (ngModelChange)="onValueChange()"
+    class="input input-bordered"
+  />
+</div>
 }

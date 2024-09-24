@@ -37,10 +37,10 @@ export class NavbarComponent {
         label: 'Search Donors',
         link: '/search-donors'
       },
-      {
-        label: 'Blood Request',
-        link: '/blood-request'
-      },
+      // {
+      //   label: 'Blood Request',
+      //   link: '/blood-request'
+      // },
       {
         label: 'Account',
         subItems: [
@@ -67,10 +67,10 @@ export class NavbarComponent {
         label: 'Search Donors',
         link: '/search-donors'
       },
-      {
-        label: 'Blood Request',
-        link: '/blood-request'
-      },
+      // {
+      //   label: 'Blood Request',
+      //   link: '/blood-request'
+      // },
       {
         label: 'Register',
         link: '/register'
