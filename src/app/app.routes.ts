@@ -10,6 +10,9 @@ import { AccountUpdateComponent } from './pages/account-update/account-update.co
 import { AuthGuard } from './services/auth.guard';
 import { AdminPanelComponent } from './layout/admin-panel/admin-panel.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
+import { MakeAdminComponent } from './pages/make-admin/make-admin.component';
+import { AdminGuard } from './services/admin.guard';
+import { SuperAdminGuard } from './services/super-admin.guard';
 
 export const routes: Routes = [
     {
@@ -50,19 +53,15 @@ export const routes: Routes = [
     {
         path: 'admin-panel',
         component: AdminPanelComponent,
-        canActivate: [AuthGuard],
+        canActivate: [AdminGuard],
         children: [
           {
             path: '',
-            component: UserListComponent, canActivate: [AuthGuard]
-          },
-          {
-            path: 'user-list',
-            component: SearchDonorsComponent, canActivate: [AuthGuard]
+            component: UserListComponent, canActivate: [AdminGuard]
           },
           {
             path: 'make-admin',
-            component: BloodRequestComponent, canActivate: [AuthGuard]
+            component: MakeAdminComponent, canActivate: [SuperAdminGuard]
           },
         ],
       }

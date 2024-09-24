@@ -11,7 +11,7 @@
       "occupation": "Student",
       "college": "Northern University",
       "describe": "dsad asdasd sadasda",
-      "role": "user",
+      "role": "super-admin",
       "id": "53c7"
     },
     {
@@ -39,7 +39,7 @@
       "occupation": "Student",
       "college": "NUBTK",
       "describe": "",
-      "role": "user",
+      "role": "admin",
       "id": "faa7"
     }
   ]

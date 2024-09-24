@@ -24,7 +24,9 @@ export class NavbarComponent {
 
   // Method to update menu items based on user status
   updateMenuItems() {
-    this.menuItems = this.user ? [
+    this.menuItems = this.user ? 
+    (this.user.role === 'user') ?
+    [
       {
         label: 'Home',
         link: '/'
@@ -55,6 +57,41 @@ export class NavbarComponent {
         ]
       },
     ] : [
+      {
+        label: 'Home',
+        link: '/'
+      },
+      {
+        label: 'About',
+        link: '/about'
+      },
+      {
+        label: 'Search Donors',
+        link: '/search-donors'
+      },
+      {
+        label: 'Admin Panel',
+        link: '/admin-panel'
+      },
+      // {
+      //   label: 'Blood Request',
+      //   link: '/blood-request'
+      // },
+      {
+        label: 'Account',
+        subItems: [
+          {
+            label: 'Update',
+            link: '/account-update'
+          },
+          {
+            label: 'Logout',
+            action: () => this.logout() // Call logout function when clicked
+          }
+        ]
+      },
+    ]    
+    : [
       {
         label: 'Home',
         link: '/'
