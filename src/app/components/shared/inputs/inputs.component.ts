@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 @Component({
@@ -21,7 +21,7 @@ export class InputsComponent {
   @Input() defaultPlaceholder: string = '';
   @Input() maxLength: string = '';
 
-  @Output() valueChange = new EventEmitter<any>(); // Emit changes to the parent component
+  valueChange = output<any>(); // Emit changes to the parent component
 
   // Emit changes when the input value changes
   onValueChange() {

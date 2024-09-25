@@ -52,7 +52,7 @@ export class UserListComponent {
       user.bloodGroup,
       user.lastDateOfDonate || 'N/A',
       user.occupation,
-      user.college,
+      user.college || 'N/A',
       user.role
     ]);
   
