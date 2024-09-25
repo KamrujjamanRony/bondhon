@@ -34,7 +34,7 @@ export class SearchDonorsComponent {
 
   ngOnInit() {
     this.userService.getAllUsers().subscribe(data => {
-      this.allUsers = data;
+      this.allUsers = data.filter(user => user.role === 'user');
       this.users = this.allUsers;
       console.log(this.users)
     });
@@ -51,40 +51,40 @@ export class SearchDonorsComponent {
       date,
       bloodGroup
     } = this.model;
-
+  
     // Convert the date from the form into a Date object
     const formDate = new Date(date);
-
-    // Filter users based on district, bloodGroup, and 4-month gap between donation dates
+  
+    // Filter users based on individual conditions
     this.users = this.allUsers.filter((data: any) => {
       const donateDate = data?.lastDateOfDonate ? new Date(data?.lastDateOfDonate) : null;
-
-      let isDateGapValid;
-
-      // If lastDateOfDonate is not available, the user is eligible to donate
-      if (!donateDate) {
-        isDateGapValid = true;
-      } else {
-        // Calculate the year and month difference
+  
+      // Check if date gap is valid (4-month rule)
+      let isDateGapValid = true;  // By default, if no lastDateOfDonate is provided, it's valid
+      if (donateDate) {
         let yearDiff = formDate.getFullYear() - donateDate.getFullYear();
         let monthDiff = formDate.getMonth() - donateDate.getMonth();
-
-        // Adjust month difference to be consistent across years
         let totalMonthDiff = yearDiff * 12 + monthDiff;
-
-        // Check if the gap is at least 4 months, and handle exact days of the month
+  
+        // Handle exact day of the month comparison
         if (totalMonthDiff === 4 && formDate.getDate() < donateDate.getDate()) {
-          totalMonthDiff--;  // If the day of formDate is earlier in the month, reduce the month difference
+          totalMonthDiff--;
         }
-
+  
         isDateGapValid = totalMonthDiff >= 4;
       }
-
-      return data.district === district &&
-        data.bloodGroup === bloodGroup &&
-        isDateGapValid;
+  
+      // Check each condition individually
+      const matchesDivision = division ? data.division === division : true;
+      const matchesDistrict = district ? data.district === district : true;
+      const matchesBloodGroup = bloodGroup ? data.bloodGroup === bloodGroup : true;
+      const matchesDateGap = isDateGapValid;
+  
+      // Return user if any of the conditions are met
+      return matchesDivision && matchesDistrict && matchesBloodGroup && matchesDateGap;
     });
   }
+  
 
 
   onDivisionChanged() {

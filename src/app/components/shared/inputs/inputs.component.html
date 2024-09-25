@@ -51,9 +51,11 @@
   <input
     [id]="inputId"
     [type]="type"
+    [maxlength]="maxLength"
     [placeholder]="placeholder"
     [(ngModel)]="value"
     (ngModelChange)="onValueChange()"
+    (keydown)="preventOverLimit($event)"
     class="input input-bordered"
   />
 </div>

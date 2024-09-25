@@ -19,12 +19,29 @@ export class InputsComponent {
   @Input() isRequired: boolean = false;
   @Input() isDisabled: boolean = false;
   @Input() defaultPlaceholder: string = '';
+  @Input() maxLength: string = '';
 
   @Output() valueChange = new EventEmitter<any>(); // Emit changes to the parent component
 
   // Emit changes when the input value changes
   onValueChange() {
     this.valueChange.emit(this.value);
+  }
+
+  // Prevent additional input if the value has already reached 11 digits
+  preventOverLimit(event: KeyboardEvent) {
+    if (this.type === 'number') {
+      // Allow special keys: backspace, arrow keys, delete, etc.
+      const allowedKeys = ['Backspace', 'ArrowLeft', 'ArrowRight', 'Delete'];
+      if (allowedKeys.includes(event.key)) {
+        return; // Allow the action for these keys
+      }
+
+      // Check if the input length exceeds or equals the max length
+      if (this.value.length >= this.maxLength && !allowedKeys.includes(event.key)) {
+        event.preventDefault(); // Prevent any further typing
+      }
+    }
   }
 
 }
