@@ -1,7 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { SidebarComponent } from "../../components/shared/sidebar/sidebar.component";
-import { Router, RouterOutlet } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-admin-panel',
@@ -11,7 +10,5 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './admin-panel.component.css'
 })
 export class AdminPanelComponent {
-
-  ngOnInit() {}
 
 }

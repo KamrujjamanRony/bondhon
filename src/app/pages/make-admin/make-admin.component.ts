@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { CoverComponent } from "../../components/shared/cover/cover.component";
-import { UserService } from '../../services/user.service';
 import { DataService } from '../../services/data.service';
 import { InputsComponent } from "../../components/shared/inputs/inputs.component";
+import { AdminService } from '../../services/admin.service';
 
 @Component({
   selector: 'app-make-admin',
@@ -12,19 +12,19 @@ import { InputsComponent } from "../../components/shared/inputs/inputs.component
   styleUrl: './make-admin.component.css'
 })
 export class MakeAdminComponent {
-  private userService = inject(UserService);
+  private adminService = inject(AdminService);
   private dataService = inject(DataService);
   
-  filterUsers: any;
-  users: any;
+  filterAdmins: any;
+  Admins: any;
   roles: any;
   selectedRole: any = '';
   success: any = '';
 
   ngOnInit(): void {
-    this.userService.getAllUsers().subscribe(data => {
-      this.filterUsers = data;
-      this.users = this.filterUsers;
+    this.adminService.getAllAdmins().subscribe(data => {
+      this.filterAdmins = data;
+      this.Admins = this.filterAdmins;
     });
     this.dataService.getJsonData().subscribe(data => {
       this.roles = data?.role;
@@ -37,7 +37,7 @@ export class MakeAdminComponent {
   onRoleChanged(data: any){
     console.log(data);
     const updated = {...data, role: this.selectedRole};
-    this.userService.updateUser( data.id, updated)
+    this.adminService.updateAdmin( data.id, updated)
       .subscribe({
         next: (response) => {
           this.success = 'Role update successfully';

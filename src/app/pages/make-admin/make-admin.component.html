@@ -12,22 +12,22 @@
             >
               <th class="px-4 py-3 hidden md:inline-block">SL</th>
               <th class="px-4 py-3 hidden sm:inline-block">Name</th>
-              <th class="px-4 py-3">Phone</th>
+              <th class="px-4 py-3">Email</th>
               <th class="px-4 py-3 max-w-18 md:max-w-12 min-w-12">Role</th>
             </tr>
           </thead>
           <tbody
             class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
           >
-          @if (users) {
-            @for (user of users; track $index) {
+          @if (Admins) {
+            @for (user of Admins; track $index) {
                 {{onRoleValueUpdate(user.role)}}
               <tr
                 class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400"
               >
                 <td class="px-4 py-3 text-xs hidden md:inline-block">{{ $index+1 }}</td>
                 <td class="px-4 py-3 text-xs hidden sm:inline-block">{{ user?.name }}</td>
-                <td class="px-4 py-3 text-xs">{{ user?.phone }}</td>
+                <td class="px-4 py-3 text-xs">{{ user?.email }}</td>
                 <td class="px-4 py-3 text-xs max-w-18 md:max-w-12 min-w-12"><app-inputs type="select" defaultPlaceholder="Select Blood Group" [options]="roles" inputId="bloodGroup" placeholder="Type Here" [(value)]="selectedRole" (valueChange)="onRoleChanged(user)"></app-inputs></td>
               </tr>
             }

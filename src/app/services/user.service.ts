@@ -17,9 +17,12 @@ export class UserService {
     return this.http.get<any[]>('http://localhost:3000/users');
   }
 
-  getUser(phone: any, password: any): Observable<any> {
-    return this.http.get<any>(`http://localhost:3000/users?phone=${phone}&password=${password}`);
+  getUser(phone: any): Observable<any> {
+    return this.http.get<any>(`http://localhost:3000/users?phone=${phone}`);
   }
+  // getUser(phone: any, password: any): Observable<any> {
+  //   return this.http.get<any>(`http://localhost:3000/users?phone=${phone}&password=${password}`);
+  // }
 
   updateUser(id: any, updateUserRequest: any | FormData): Observable<any>{
     return this.http.put<any>(`http://localhost:3000/users/${id}`, updateUserRequest);

@@ -1,18 +1,14 @@
-<div class="hero min-h-screen mb-10">
-    <div class="hero-content flex-col lg:flex-row-reverse">
+<div class="hero py-10 mb-10">
+    <div class="hero-content flex-col">
       <div class="text-center lg:text-left max-w-xl">
         <h1 class="text-5xl font-bold text-rose-600">Login now!</h1>
-        <p class="py-6">
-          Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-          quasi. In deleniti eaque aut repudiandae et a id nisi.
-        </p>
       </div>
       <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
         <form class="card-body"
         #form="ngForm"
         (ngSubmit)="onFormSubmit()">
           <app-inputs type="number" inputId="phone" maxLength="11" placeholder="Type Here" label="phone" [(value)]="model.phone" [isRequired]="true"></app-inputs>
-          <app-inputs type="password" inputId="password" placeholder="Type Here" label="password" [(value)]="model.password" [isRequired]="true"></app-inputs>
+          <!-- <app-inputs type="password" inputId="password" placeholder="Type Here" label="password" [(value)]="model.password" [isRequired]="true"></app-inputs> -->
           
           <div class="form-control mt-6">
             <button class="btn btn-error text-white">Login</button>

@@ -24,103 +24,68 @@ export class NavbarComponent {
 
   // Method to update menu items based on user status
   updateMenuItems() {
-    this.menuItems = this.user ? 
-    (this.user.role === 'user') ?
-    [
-      {
-        label: 'Home',
-        link: '/'
-      },
-      {
-        label: 'About',
-        link: '/about'
-      },
-      {
-        label: 'Search Donors',
-        link: '/search-donors'
-      },
-      // {
-      //   label: 'Blood Request',
-      //   link: '/blood-request'
-      // },
-      {
-        label: 'Account',
-        subItems: [
-          {
-            label: 'Update',
-            link: '/account-update'
-          },
-          {
-            label: 'Logout',
-            action: () => this.logout() // Call logout function when clicked
-          }
-        ]
-      },
-    ] : [
-      {
-        label: 'Home',
-        link: '/'
-      },
-      {
-        label: 'About',
-        link: '/about'
-      },
-      {
-        label: 'Search Donors',
-        link: '/search-donors'
-      },
-      {
-        label: 'Admin Panel',
-        link: '/admin-panel'
-      },
-      // {
-      //   label: 'Blood Request',
-      //   link: '/blood-request'
-      // },
-      {
-        label: 'Account',
-        subItems: [
-          {
-            label: 'Update',
-            link: '/account-update'
-          },
-          {
-            label: 'Logout',
-            action: () => this.logout() // Call logout function when clicked
-          }
-        ]
-      },
-    ]    
-    : [
-      {
-        label: 'Home',
-        link: '/'
-      },
-      {
-        label: 'About',
-        link: '/about'
-      },
-      {
-        label: 'Search Donors',
-        link: '/search-donors'
-      },
-      // {
-      //   label: 'Blood Request',
-      //   link: '/blood-request'
-      // },
-      {
-        label: 'Register',
-        link: '/register'
-      },
-      {
-        label: 'Login',
-        link: '/login'
-      },
-    ];
+    this.menuItems = this.user ?
+      [
+        {
+          label: 'Home',
+          link: '/'
+        },
+        {
+          label: 'About',
+          link: '/about'
+        },
+        {
+          label: 'Search Donors',
+          link: '/search-donors'
+        },
+        // {
+        //   label: 'Blood Request',
+        //   link: '/blood-request'
+        // },
+        {
+          label: 'Account',
+          subItems: [
+            {
+              label: 'Update',
+              link: '/account-update'
+            },
+            {
+              label: 'Logout',
+              action: () => this.logout()
+            }
+          ]
+        },
+      ]
+      : [
+        {
+          label: 'Home',
+          link: '/'
+        },
+        {
+          label: 'About',
+          link: '/about'
+        },
+        {
+          label: 'Search Donors',
+          link: '/search-donors'
+        },
+        // {
+        //   label: 'Blood Request',
+        //   link: '/blood-request'
+        // },
+        {
+          label: 'Register',
+          link: '/register'
+        },
+        {
+          label: 'Login',
+          link: '/login'
+        },
+      ];
   }
 
   // Method to handle logout and update menu items
   logout() {
-    this.authService.deleteUserInfo(); // Call the deleteUserInfo from AuthService
+    this.authService.deleteUserInfo();
   }
 }

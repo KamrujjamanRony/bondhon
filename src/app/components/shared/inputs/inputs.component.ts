@@ -23,6 +23,12 @@ export class InputsComponent {
 
   valueChange = output<any>(); // Emit changes to the parent component
 
+  showPassword: boolean = false; // Flag to toggle password visibility
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword; // Toggle the password visibility
+  }
+
   // Emit changes when the input value changes
   onValueChange() {
     this.valueChange.emit(this.value);

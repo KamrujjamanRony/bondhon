@@ -52,8 +52,7 @@ export class UserListComponent {
       user.bloodGroup,
       user.lastDateOfDonate || 'N/A',
       user.occupation,
-      user.college || 'N/A',
-      user.role
+      user.college || 'N/A'
     ]);
   
     // Add header before table
@@ -61,7 +60,7 @@ export class UserListComponent {
   
     // Generate table with autoTable
     (doc as any).autoTable({
-      head: [['SL', 'Name', 'Phone', 'Blood Group', 'Last Donation', 'Occupation', 'College', 'Role']],
+      head: [['SL', 'Name', 'Phone', 'Blood Group', 'Last Donation', 'Occupation', 'College']],
       body: userRows,
       theme: 'grid', // Ensure the grid theme is used for borders
       startY: 25,
@@ -84,8 +83,7 @@ export class UserListComponent {
         3: { halign: 'center' },
         4: { halign: 'center' },
         5: { halign: 'center' },
-        6: { halign: 'center' },
-        7: { halign: 'center' }
+        6: { halign: 'center' }
       }
     });
   

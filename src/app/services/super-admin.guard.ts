@@ -12,13 +12,13 @@ export class SuperAdminGuard implements CanActivate {
   private router = inject(Router);
 
   canActivate(): Observable<boolean> {
-    return this.authService.userInfo$.pipe(
+    return this.authService.adminInfo$.pipe(
       take(1), // Ensure we only take the first emitted value
-      map(user => {
-        if (user && user?.role == 'super-admin') {
-          return true; // Allow navigation
+      map(admin => {
+        if (admin && admin?.role == 'super-admin') {
+          return true;
         } else {
-          // this.router.navigate(['/']);
+          this.router.navigate(['/admin-login']);
           return false;
         }
       })

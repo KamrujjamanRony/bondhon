@@ -1,0 +1,46 @@
+<div class="hero py-10 min-h-screen bg-red-100">
+    <div class="hero-content flex-col">
+      <div class="text-center lg:text-left max-w-xl">
+        <h1 class="text-5xl font-bold text-rose-600">Login now!</h1>
+      </div>
+      <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+        <form class="card-body" #form="ngForm" (ngSubmit)="onFormSubmit()">
+          <app-inputs
+            type="text"
+            inputId="username"
+            maxLength="50"
+            placeholder="Type Here"
+            label="username"
+            [(value)]="model.username"
+            [isRequired]="true"
+          ></app-inputs>
+          <app-inputs
+            type="password"
+            inputId="password"
+            placeholder="Type Here"
+            label="password"
+            [(value)]="model.password"
+            [isRequired]="true"
+          ></app-inputs>
+  
+          <div class="form-control mt-6">
+            <button class="btn btn-error text-white">Login</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  @if (error) {
+  <div class="toast toast-top toast-end">
+    <div class="alert alert-info">
+      <span class="text-white">{{ error }}</span>
+    </div>
+  </div>
+  } @if (success) {
+  <div class="toast toast-top toast-end">
+    <div class="alert alert-success">
+      <span class="text-white">{{ success }}</span>
+    </div>
+  </div>
+  }

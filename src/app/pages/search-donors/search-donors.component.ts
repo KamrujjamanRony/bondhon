@@ -34,7 +34,7 @@ export class SearchDonorsComponent {
 
   ngOnInit() {
     this.userService.getAllUsers().subscribe(data => {
-      this.allUsers = data.filter(user => user.role === 'user');
+      this.allUsers = data;
       this.users = this.allUsers;
       console.log(this.users)
     });

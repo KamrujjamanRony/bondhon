@@ -1,44 +1,62 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private localStorageKey = 'UserInfo';
+  private router = inject(Router);
+  private userKey = 'UserInfo';
+  private adminKey = 'AdminInfo';
   private userInfoSubject = new BehaviorSubject<any>(this.getUserInfo());
+  private adminInfoSubject = new BehaviorSubject<any>(this.getAdminInfo());
 
   // Observable for components to subscribe to
   userInfo$ = this.userInfoSubject.asObservable();
+  adminInfo$ = this.adminInfoSubject.asObservable();
 
   setUserInfo(value: any) {
-    // Save UserInfo to local storage
-    localStorage.setItem(this.localStorageKey, JSON.stringify(value));
-    this.userInfoSubject.next(value); // Notify subscribers
+    localStorage.setItem(this.userKey, JSON.stringify(value));
+    this.userInfoSubject.next(value);
+  }
+  setAdminInfo(value: any) {
+    localStorage.setItem(this.adminKey, JSON.stringify(value));
+    this.adminInfoSubject.next(value);
   }
 
   getUserInfo() {
-    // Retrieve UserInfo from local storage
-    const storedUserInfo = localStorage.getItem(this.localStorageKey);
+    const storedUserInfo = localStorage.getItem(this.userKey);
     return storedUserInfo ? JSON.parse(storedUserInfo) : null;
+  }
+  getAdminInfo() {
+    const storedAdminInfo = localStorage.getItem(this.adminKey);
+    return storedAdminInfo ? JSON.parse(storedAdminInfo) : null;
   }
 
   updateUserInfo(updatedData: any) {
-    // Get the current user data from local storage
     let currentUserInfo = this.getUserInfo();
-    
     if (currentUserInfo) {
-      // Merge updated data with the existing user data
       currentUserInfo = { ...currentUserInfo, ...updatedData };
-      
-      // Save the updated user data to local storage
       this.setUserInfo(currentUserInfo);
+    }
+  }
+  updateAdminInfo(updatedData: any) {
+    let currentAdminInfo = this.getAdminInfo();
+    if (currentAdminInfo) {
+      currentAdminInfo = { ...currentAdminInfo, ...updatedData };
+      this.setAdminInfo(currentAdminInfo);
     }
   }
 
   deleteUserInfo() {
-    // Remove UserInfo from local storage
-    localStorage.removeItem(this.localStorageKey);
-    this.userInfoSubject.next(null); // Notify subscribers of logout
+    localStorage.removeItem(this.userKey);
+    this.userInfoSubject.next(null);
+    this.router.navigateByUrl('/');
+  }
+  deleteAdminInfo() {
+    localStorage.removeItem(this.adminKey);
+    this.adminInfoSubject.next(null);
+    this.router.navigateByUrl('/admin-login');
   }
 }

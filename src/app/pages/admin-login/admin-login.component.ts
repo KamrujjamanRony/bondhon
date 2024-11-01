@@ -1,19 +1,19 @@
 import { Component, inject } from '@angular/core';
-import { InputsComponent } from "../../components/shared/inputs/inputs.component";
-import { UserService } from '../../services/user.service';
-import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { AdminService } from '../../services/admin.service';
 import { AuthService } from '../../services/auth.service';
+import { InputsComponent } from "../../components/shared/inputs/inputs.component";
+import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-admin-login',
   standalone: true,
   imports: [InputsComponent, FormsModule],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  templateUrl: './admin-login.component.html',
+  styleUrl: './admin-login.component.css'
 })
-export class LoginComponent {
-  private userService = inject(UserService);
+export class AdminLoginComponent {
+  private adminService = inject(AdminService);
   private authService = inject(AuthService);
   router = inject(Router);
   model : any;
@@ -22,7 +22,7 @@ export class LoginComponent {
 
   constructor() {
     this.model = {
-      phone: '',
+      username: '',
       password: ''
     };
   }
@@ -31,22 +31,22 @@ export class LoginComponent {
 
   onFormSubmit(){
     const {
-      phone,
+      username,
       password
     } = this.model;
-    if (phone) {
-      this.userService.getUser(phone)
+    if (username && password) {
+      this.adminService.getAdmin(username, password)
       .subscribe({
         next: (response) => {
           console.log(response)
           if (response[0]) {
-            this.authService.setUserInfo(response[0])
-            this.success = 'User login successfully';
+            this.authService.setAdminInfo(response[0])
+            this.success = 'Admin login successfully';
             setTimeout(() => {
-              this.router.navigateByUrl('/');
+              this.router.navigateByUrl('/admin-panel');
             }, 1500);
           } else {
-            this.error = 'Please Fill phone and password correctly';
+            this.error = 'Please Fill username and password correctly';
             setTimeout(() => {
               this.error = null;
             }, 3000);            
@@ -58,7 +58,7 @@ export class LoginComponent {
         }
       });
     } else {
-      this.error = 'Please Fill phone and password field';
+      this.error = 'Please Fill username and password field';
       setTimeout(() => {
         this.error = null;
       }, 3000);

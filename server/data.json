@@ -5,13 +5,12 @@
       "district": "Patuakhali",
       "name": "Md. Kamrujjaman",
       "phone": "01580866993",
+      "gender": "Male",
       "lastDateOfDonate": "2024-09-19",
-      "password": "1234",
       "bloodGroup": "O+",
       "occupation": "Student",
       "college": "Northern University",
       "describe": "dsad asdasd sadasda",
-      "role": "super-admin",
       "id": "53c7"
     },
     {
@@ -21,11 +20,9 @@
       "name": "my book 53",
       "phone": "01580866992",
       "lastDateOfDonate": "",
-      "password": "123",
       "bloodGroup": "B+",
       "occupation": "Student",
       "college": "Northern University",
-      "role": "user",
       "describe": "sdfs sdfsd sdfsddsf"
     },
     {
@@ -34,12 +31,10 @@
       "name": "Sumaiya",
       "phone": "01234567890",
       "lastDateOfDonate": "2024-09-23",
-      "password": "12345",
       "bloodGroup": "O-",
       "occupation": "Student",
       "college": "NUBTK",
       "describe": "",
-      "role": "admin",
       "id": "faa7"
     },
     {
@@ -49,12 +44,10 @@
       "name": "Person 1",
       "phone": "11111111111",
       "lastDateOfDonate": "",
-      "password": "1234",
       "bloodGroup": "A+",
       "occupation": "Others",
       "college": "",
-      "describe": "",
-      "role": "user"
+      "describe": ""
     },
     {
       "id": "b526",
@@ -63,12 +56,10 @@
       "name": "Person 2",
       "phone": "22222222222",
       "lastDateOfDonate": "",
-      "password": "1234",
       "bloodGroup": "A-",
       "occupation": "Others",
       "college": "",
-      "describe": "",
-      "role": "user"
+      "describe": ""
     },
     {
       "id": "4414",
@@ -77,12 +68,10 @@
       "name": "Person 3",
       "phone": "33333333333",
       "lastDateOfDonate": "",
-      "password": "1234",
       "bloodGroup": "B+",
       "occupation": "Student",
       "college": "DU",
-      "describe": "",
-      "role": "user"
+      "describe": ""
     },
     {
       "id": "4a56",
@@ -91,12 +80,10 @@
       "name": "Person 4",
       "phone": "44444444444",
       "lastDateOfDonate": "",
-      "password": "1234",
       "bloodGroup": "B-",
       "occupation": "Others",
       "college": "",
-      "describe": "",
-      "role": "user"
+      "describe": ""
     },
     {
       "id": "3779",
@@ -105,12 +92,10 @@
       "name": "Person 5",
       "phone": "55555555555",
       "lastDateOfDonate": "",
-      "password": "1234",
       "bloodGroup": "AB+",
       "occupation": "Others",
       "college": "",
-      "describe": "",
-      "role": "user"
+      "describe": ""
     },
     {
       "id": "7176",
@@ -119,12 +104,10 @@
       "name": "Person 6",
       "phone": "66666666666",
       "lastDateOfDonate": "",
-      "password": "1234",
       "bloodGroup": "AB-",
       "occupation": "Student",
       "college": "DU",
-      "describe": "",
-      "role": "user"
+      "describe": ""
     },
     {
       "id": "5003",
@@ -133,12 +116,10 @@
       "name": "Person 7",
       "phone": "77777777777",
       "lastDateOfDonate": "2024-01-25",
-      "password": "1234",
       "bloodGroup": "O+",
       "occupation": "Others",
       "college": "",
-      "describe": "",
-      "role": "user"
+      "describe": ""
     },
     {
       "id": "c2ef",
@@ -147,12 +128,26 @@
       "name": "Person 8",
       "phone": "88888888888",
       "lastDateOfDonate": "2024-05-09",
-      "password": "1234",
       "bloodGroup": "O-",
       "occupation": "Student",
       "college": "DU",
-      "describe": "",
-      "role": "user"
+      "describe": ""
+    }
+  ],
+  "admins": [
+    {
+      "id": "admin1",
+      "name": "Admin 1",
+      "role": "super-admin",
+      "username": "admin@bondhon.com",
+      "password": "password123"
+    },
+    {
+      "id": "admin2",
+      "name": "Admin 2",
+      "role": "admin",
+      "username": "admin2@bondhon.com",
+      "password": "password456"
     }
   ]
 }

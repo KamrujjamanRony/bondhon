@@ -25,6 +25,7 @@ export class AccountUpdateComponent {
   occupation : any;
   error : any;
   success : any;
+  gender : any;
 
   constructor() {
     this.model = {
@@ -32,8 +33,10 @@ export class AccountUpdateComponent {
       district: '',
       name: '',
       phone: '',
+      gender: '',
       lastDateOfDonate: '',
       password: '',
+      rePassword: '',
       bloodGroup: '',
       occupation: '',
       college: '',
@@ -46,11 +49,12 @@ export class AccountUpdateComponent {
       this.divisions = data?.divisions;
       this.bloodGroups = data?.bloodGroups;
       this.occupation = data?.occupation;
+      this.gender = data?.gender;
     });
     this.authService.userInfo$.subscribe((user) => {
       this.model = user;
       this.onDivisionChanged();
-      this.userService.getUser(user.phone, user.password).subscribe((data) =>{
+      this.userService.getUser(user.phone).subscribe((data) =>{
         this.userData = data[0] || user;
       });
     });

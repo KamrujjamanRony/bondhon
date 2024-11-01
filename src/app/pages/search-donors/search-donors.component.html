@@ -4,10 +4,10 @@
     #form="ngForm"
     (ngSubmit)="onFormSubmit()">
       <div class="flex flex-col items-start gap-5 w-full lg:flex-row lg:justify-center lg:items-end">
-        <app-inputs type="select" defaultPlaceholder="Select division" [options]="divisions" inputId="division" placeholder="Type Here" label="division" [(value)]="model.division" (valueChange)="onDivisionChanged()" [isRequired]="true"></app-inputs>
-      <app-inputs type="select" defaultPlaceholder="Select district" [options]="districts" inputId="district" placeholder="Type Here" label="district" [(value)]="model.district" [isDisabled]="model.division === ''" [isRequired]="true"></app-inputs>
-      <app-inputs type="date" inputId="date" placeholder="Type Here" label="Date of Blood Donation" [(value)]="model.date"></app-inputs>
-      <app-inputs type="select" defaultPlaceholder="Select Blood Group" [options]="bloodGroups" inputId="bloodGroup" placeholder="Type Here" label="bloodGroup" [(value)]="model.bloodGroup" [isRequired]="true"></app-inputs>
+        <app-inputs type="select" defaultPlaceholder="Select division" [options]="divisions" inputId="division" placeholder="Type Here" label="division (বিভাগ)" [(value)]="model.division" (valueChange)="onDivisionChanged()" [isRequired]="true"></app-inputs>
+      <app-inputs type="select" defaultPlaceholder="Select district" [options]="districts" inputId="district" placeholder="Type Here" label="district (জেলা)" [(value)]="model.district" [isDisabled]="model.division === ''" [isRequired]="true"></app-inputs>
+      <app-inputs type="date" inputId="date" placeholder="Type Here" label="needed (প্রয়োজন)" [(value)]="model.date"></app-inputs>
+      <app-inputs type="select" defaultPlaceholder="Select Blood Group" [options]="bloodGroups" inputId="bloodGroup" placeholder="Type Here" label="bloodGroup (রক্তের গ্রুপ)" [(value)]="model.bloodGroup" [isRequired]="true"></app-inputs>
       
       <div class="form-control mt-6">
         <button class="btn btn-error text-white capitalize">search donors</button>
