@@ -14,6 +14,9 @@ import { MakeAdminComponent } from './pages/make-admin/make-admin.component';
 import { AdminGuard } from './services/admin.guard';
 import { SuperAdminGuard } from './services/super-admin.guard';
 import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
+import { GalleryComponent } from './pages/gallery/gallery.component';
+import { GalleryListComponent } from './pages/gallery-list/gallery-list.component';
+import { GalleryFormComponent } from './pages/gallery-form/gallery-form.component';
 
 export const routes: Routes = [
   {
@@ -28,6 +31,10 @@ export const routes: Routes = [
       {
         path: 'about',
         component: AboutComponent
+      },
+      {
+        path: 'gallery',
+        component: GalleryComponent
       },
       {
         path: 'search-donors',
@@ -63,6 +70,18 @@ export const routes: Routes = [
       {
         path: 'make-admin',
         component: MakeAdminComponent, canActivate: [SuperAdminGuard]
+      },
+      {
+        path: 'gallery-list',
+        component: GalleryListComponent, canActivate: [AdminGuard]
+      },
+      {
+        path: 'gallery-list/add',
+        component: GalleryFormComponent, canActivate: [AdminGuard]
+      },
+      {
+        path: 'gallery-list/edit/:id',
+        component: GalleryFormComponent, canActivate: [AdminGuard]
       },
     ],
   },

@@ -35,6 +35,10 @@ export class NavbarComponent {
           link: '/about'
         },
         {
+          label: 'Gallery',
+          link: '/gallery'
+        },
+        {
           label: 'Search Donors',
           link: '/search-donors'
         },
@@ -64,6 +68,10 @@ export class NavbarComponent {
         {
           label: 'About',
           link: '/about'
+        },
+        {
+          label: 'Gallery',
+          link: '/gallery'
         },
         {
           label: 'Search Donors',
