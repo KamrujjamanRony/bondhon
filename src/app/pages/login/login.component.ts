@@ -22,20 +22,16 @@ export class LoginComponent {
 
   constructor() {
     this.model = {
-      phone: '',
-      password: ''
+      mobileNumber: ''
     };
   }
 
   ngOnInit() {}
 
   onFormSubmit(){
-    const {
-      phone,
-      password
-    } = this.model;
-    if (phone) {
-      this.userService.getUser(phone)
+    const { mobileNumber } = this.model;
+    if (mobileNumber) {
+      this.userService.getUser(mobileNumber)
       .subscribe({
         next: (response) => {
           console.log(response)
@@ -46,7 +42,7 @@ export class LoginComponent {
               this.router.navigateByUrl('/');
             }, 1500);
           } else {
-            this.error = 'Please Fill phone and password correctly';
+            this.error = 'Mobile Number is Incorrect!';
             setTimeout(() => {
               this.error = null;
             }, 3000);            
@@ -58,7 +54,7 @@ export class LoginComponent {
         }
       });
     } else {
-      this.error = 'Please Fill phone and password field';
+      this.error = 'Mobile Number is Required!';
       setTimeout(() => {
         this.error = null;
       }, 3000);

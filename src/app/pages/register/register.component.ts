@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { InputsComponent } from "../../components/shared/inputs/inputs.component";
 import { DataService } from '../../services/data.service';
 import { FormsModule } from '@angular/forms';
@@ -15,34 +15,38 @@ import { Router } from '@angular/router';
 export class RegisterComponent {
   private dataService = inject(DataService);
   private userService = inject(UserService);
+  // private cdr = inject(ChangeDetectorRef);
   router = inject(Router);
-  model : any;
-  divisions : any;
-  districts : any;
-  bloodGroups : any;
-  occupation : any;
-  conditions : any;
-  gender : any;
-  error : any;
-  success : any;
-  isDisable : boolean = true;
-  // passwordMismatch: boolean = false;
+  model: any;
+  divisions: any;
+  districts: any;
+  bloodGroups: any;
+  occupation: any;
+  conditions: any;
+  gender: any;
+  error: any;
+  success: any;
+  isDisable: boolean = true;
 
   constructor() {
     this.model = {
       division: '',
-      district: '',
+      thana: '',
       name: '',
-      phone: '',
+      mobileNumber: '',
       gender: '',
-      lastDateOfDonate: '',
+      dob: '',
+      lastDoneteDate: '',
       password: '',
       rePassword: '',
       bloodGroup: '',
       occupation: '',
       college: '',
       describe: '',
-      conditions: ''
+      isAgree: false,
+      others: '',
+      postedBy: '',
+      entryDate: new Date()
     };
   }
 
@@ -56,50 +60,60 @@ export class RegisterComponent {
     });
   }
 
-  onFormSubmit(){
+  onFormSubmit() {
     // if (this.passwordMismatch) {
     //   this.error = 'Passwords do not match';
     //   return;
     // }
     const {
       division,
-      district,
+      thana,
       name,
-      phone,
+      mobileNumber,
       gender,
-      lastDateOfDonate,
+      dob,
+      lastDoneteDate,
       bloodGroup,
       occupation,
       college,
-      describe
+      describe,
+      isAgree,
+      others,
+      entryDate
     } = this.model;
-    if (division && district && name && phone && bloodGroup && occupation) {
+    if (division && thana && name && mobileNumber && bloodGroup && occupation) {
       const userInfo = {
         division,
-        district,
+        thana,
         name,
-        phone,
+        mobileNumber,
         gender,
-        lastDateOfDonate,
+        dob,
+        lastDoneteDate,
         bloodGroup,
         occupation,
         college,
         describe,
-        role: 'user'
+        isAgree : true,
+        others,
+        postedBy: 'user',
+        entryDate
       };
+      console.log(userInfo)
       this.userService.addUser(userInfo)
-      .subscribe({
-        next: (response) => {
-          this.success = 'User registered successfully';
-          setTimeout(() => {
-            this.success = null;
-          }, 3000);
-          this.router.navigateByUrl('login');
-        },
-        error: (error) => {
-          console.error('Error register:', error);
-        }
-      });
+        .subscribe({
+          next: (response) => {
+            console.log(response)
+            this.success = 'User registered successfully';
+            setTimeout(() => {
+              this.success = null;
+            }, 3000);
+            this.router.navigateByUrl('login');
+          },
+          error: (error) => {
+            console.error('Error register:', error);
+          }
+        });
     } else {
       this.error = 'Please Fill all the required fields'
       setTimeout(() => {
@@ -117,10 +131,11 @@ export class RegisterComponent {
   //   console.log(this.passwordMismatch);
   // }
 
-  onDivisionChanged(){
+  onDivisionChanged() {
     this.dataService.getCityByParentId(this.model.division).subscribe(
       data => {
         this.districts = data;
+        // this.cdr.detectChanges();
       },
       error => {
         console.error('Error fetching data', error);

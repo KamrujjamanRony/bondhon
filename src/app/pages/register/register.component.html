@@ -15,17 +15,27 @@
         (ngSubmit)="onFormSubmit()">
         <app-inputs inputId="name" placeholder="Type Here" label="name (নাম)" [(value)]="model.name" [isRequired]="true"></app-inputs>
 
-        <app-inputs type="number" inputId="phone" maxLength="11" placeholder="Type Here" label="phone (মোবাইল)" [(value)]="model.phone" [isRequired]="true"></app-inputs>
+        <app-inputs type="number" inputId="mobileNumber" maxLength="11" placeholder="Type Here" label="mobile (মোবাইল)" [(value)]="model.mobileNumber" [isRequired]="true"></app-inputs>
 
           <app-inputs type="select" defaultPlaceholder="Select Gender" [options]="gender" inputId="gender" placeholder="Type Here" label="gender (লিঙ্গ)" [(value)]="model.gender" [isRequired]="true"></app-inputs>
 
           <app-inputs type="select" defaultPlaceholder="Select division" [options]="divisions" inputId="division" placeholder="Type Here" label="division (বিভাগ)" [(value)]="model.division" (valueChange)="onDivisionChanged()" [isRequired]="true"></app-inputs>
 
-          <app-inputs type="select" defaultPlaceholder="Select district" [options]="districts" inputId="district" placeholder="Type Here" label="district (জেলা)" [(value)]="model.district" [isDisabled]="model.division === ''" [isRequired]="true"></app-inputs>
+          <app-inputs 
+          type="select"
+          [options]="districts"
+          inputId="thana"
+          label="district (জেলা)"
+          [(value)]="model.thana"
+          [isDisabled]="model.division === ''"
+          [isRequired]="true">
+        </app-inputs>
 
           <app-inputs type="textarea" inputId="describe" placeholder="Type Here" label="full address (সম্পূর্ণ ঠিকানা)" [(value)]="model.describe"></app-inputs>
 
-          <app-inputs type="date" inputId="lastDateOfDonate" placeholder="Type Here" label="last blood Donate (শেষ রক্তদান)" [(value)]="model.lastDateOfDonate"></app-inputs>
+          <app-inputs type="date" inputId="dob" placeholder="Type Here" label="Date of Birth (জন্মতারিখ)" [(value)]="model.dob"></app-inputs>
+
+          <app-inputs type="date" inputId="lastDoneteDate" placeholder="Type Here" label="last blood Donate (শেষ রক্তদান)" [(value)]="model.lastDoneteDate"></app-inputs>
 
           <!-- <app-inputs type="password" inputId="password" placeholder="Type Here" label="password (পাসওয়ার্ড)" [(value)]="model.password" [isRequired]="true"></app-inputs>
 
@@ -43,11 +53,24 @@
           @if (model.occupation == 'Student') {
             <app-inputs inputId="college" placeholder="Type Here" label="educational institution (শিক্ষা প্রতিষ্ঠান)" [(value)]="model.college"></app-inputs>
           }
-          
-          <app-inputs type="checkbox" inputId="conditions" label="আপনি কি আমাদের শর্তসমূহে রাজী?" [(value)]="model.conditions"></app-inputs>
+
+          <div class="form-control">
+            <label for="isAgree" class="label capitalize cursor-pointer">
+              <input
+              id="isAgree"
+              name="isAgree"
+              type="checkbox"
+              [(ngModel)]="model.isAgree"
+              class="checkbox checkbox-secondary"
+            />
+              <p class="label-text ml-2 text-blue-700 font-bold"
+                >আপনি কি আমাদের শর্তসমূহে রাজী?</p
+              >
+            </label>
+          </div>
 
           <div class="form-control mt-6">
-            <button [disabled]="!model.conditions" class="btn btn-error text-white">Register</button>
+            <button [disabled]="!model.isAgree" class="btn btn-error text-white">Register</button>
           </div>
         </form>
       </div>

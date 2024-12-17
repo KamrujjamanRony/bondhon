@@ -7,28 +7,27 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
+  urlUser = 'http://localhost:1001/api/DonerReg';
+
   http = inject(HttpClient);
 
   addUser(model: any | FormData): Observable<void>{
-    return this.http.post<void>('http://localhost:3000/users', model)
+    return this.http.post<void>(this.urlUser, model)
   }
 
   getAllUsers(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:3000/users');
+    return this.http.post<any[]>(this.urlUser + '/SearchDonerReg', {});
   }
 
   getUser(phone: any): Observable<any> {
-    return this.http.get<any>(`http://localhost:3000/users?phone=${phone}`);
+    return this.http.post<any>(this.urlUser + `/SearchDonerReg?Search=${phone}`, {});
   }
-  // getUser(phone: any, password: any): Observable<any> {
-  //   return this.http.get<any>(`http://localhost:3000/users?phone=${phone}&password=${password}`);
-  // }
 
   updateUser(id: any, updateUserRequest: any | FormData): Observable<any>{
-    return this.http.put<any>(`http://localhost:3000/users/${id}`, updateUserRequest);
+    return this.http.put<any>(this.urlUser + `/EditReg/${id}`, updateUserRequest);
   }
 
   deleteUser(id: any): Observable<any>{
-    return this.http.delete<any>(`http://localhost:3000/users/${id}`);
+    return this.http.post<any>(this.urlUser + `/DeleteAddress?id=${id}`, {});
   }
 }
