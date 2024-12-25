@@ -26,18 +26,14 @@ export class SearchDonorsComponent {
   constructor() {
     this.model = {
       division: '',
-      district: '',
+      thana: '',
       date: '',
-      bloodGroup: ''
+      TodayOrBack3Month: '',
+      BloodGroup: ''
     };
   }
 
   ngOnInit() {
-    this.userService.getAllUsers().subscribe(data => {
-      this.allUsers = data;
-      this.users = this.allUsers;
-      console.log(this.users)
-    });
     this.dataService.getJsonData().subscribe(data => {
       this.divisions = data?.divisions;
       this.bloodGroups = data?.bloodGroups;
@@ -47,42 +43,38 @@ export class SearchDonorsComponent {
   onFormSubmit() {
     const {
       division,
-      district,
-      date,
-      bloodGroup
+      thana,
+      TodayOrBack3Month,
+      BloodGroup
     } = this.model;
-  
-    // Convert the date from the form into a Date object
-    const formDate = new Date(date);
-  
-    // Filter users based on individual conditions
-    this.users = this.allUsers.filter((data: any) => {
-      const donateDate = data?.lastDateOfDonate ? new Date(data?.lastDateOfDonate) : null;
-  
-      // Check if date gap is valid (4-month rule)
-      let isDateGapValid = true;  // By default, if no lastDateOfDonate is provided, it's valid
-      if (donateDate) {
-        let yearDiff = formDate.getFullYear() - donateDate.getFullYear();
-        let monthDiff = formDate.getMonth() - donateDate.getMonth();
-        let totalMonthDiff = yearDiff * 12 + monthDiff;
-  
-        // Handle exact day of the month comparison
-        if (totalMonthDiff === 4 && formDate.getDate() < donateDate.getDate()) {
-          totalMonthDiff--;
-        }
-  
-        isDateGapValid = totalMonthDiff >= 4;
-      }
-  
-      // Check each condition individually
-      const matchesDivision = division ? data.division === division : true;
-      const matchesDistrict = district ? data.district === district : true;
-      const matchesBloodGroup = bloodGroup ? data.bloodGroup === bloodGroup : true;
-      const matchesDateGap = isDateGapValid;
-  
-      // Return user if any of the conditions are met
-      return matchesDivision && matchesDistrict && matchesBloodGroup && matchesDateGap;
-    });
+
+    if (division && thana && TodayOrBack3Month && BloodGroup) {
+      // Encode the parameters properly
+      const encodedDivision = encodeURIComponent(division);
+      const encodedThana = encodeURIComponent(thana);
+      const encodedDate = encodeURIComponent(TodayOrBack3Month);
+      this.userService.searchUsers(encodedDivision, encodedThana, BloodGroup, encodedDate).subscribe(data => {
+        this.allUsers = data;
+        this.users = this.allUsers;
+      });
+    }
+    
+  }
+
+  // Method to subtract 4 months from a given date
+  calculateMinusFourMonths(dateInput: string): string {
+    if (!dateInput) return '';
+
+    const date = new Date(dateInput);
+    date.setMonth(date.getMonth() - 4);
+
+    // Format the date as YYYY-MM-DD
+    return date.toISOString().split('T')[0];
+  }
+
+  // Example method to handle the date change
+  onDateChange(): void {
+    this.model.TodayOrBack3Month = this.calculateMinusFourMonths(this.model.date);
   }
   
 

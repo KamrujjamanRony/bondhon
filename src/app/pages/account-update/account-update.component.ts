@@ -1,7 +1,6 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { UserService } from '../../services/user.service';
-import { Router } from '@angular/router';
 import { InputsComponent } from "../../components/shared/inputs/inputs.component";
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
@@ -30,17 +29,21 @@ export class AccountUpdateComponent {
   constructor() {
     this.model = {
       division: '',
-      district: '',
+      thana: '',
       name: '',
-      phone: '',
+      mobileNumber: '',
       gender: '',
-      lastDateOfDonate: '',
+      dob: new Date(),
+      lastDoneteDate: '',
       password: '',
       rePassword: '',
       bloodGroup: '',
       occupation: '',
       college: '',
-      describe: ''
+      isAgree: false,
+      others: '',
+      postedBy: '',
+      entryDate: ""
     };
   }
 
@@ -54,10 +57,16 @@ export class AccountUpdateComponent {
     this.authService.userInfo$.subscribe((user) => {
       this.model = user;
       this.onDivisionChanged();
-      this.userService.getUser(user.phone).subscribe((data) =>{
-        this.userData = data[0] || user;
+      this.userService.getUser(user.phone).subscribe((data) => {
+        const responseData = data[0] || user;
+        this.model = {
+          ...responseData,
+          dob: responseData.dob ? responseData.dob.split('T')[0] : '',
+          lastDoneteDate: responseData.lastDoneteDate ? responseData.lastDoneteDate.split('T')[0] : ''
+        };
       });
     });
+    
   }
 
   onFormSubmit(){
@@ -71,7 +80,7 @@ export class AccountUpdateComponent {
       bloodGroup,
       occupation,
       college,
-      describe
+      others
     } = this.model;
     if (division && district && name && phone && password && bloodGroup && occupation) {
       const userInfo = {
@@ -84,7 +93,7 @@ export class AccountUpdateComponent {
         bloodGroup,
         occupation,
         college,
-        describe
+        others
       };
       this.userService.updateUser( this.userData.id, userInfo)
       .subscribe({

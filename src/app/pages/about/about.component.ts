@@ -1,14 +1,27 @@
-import { Component } from '@angular/core';
-import { CoverComponent } from "../../components/shared/cover/cover.component";
-import { AboutBannerComponent } from "../../components/about/about-banner/about-banner.component";
+import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { CoverComponent } from '../../components/shared/cover/cover.component';
+import { AboutService } from '../../services/about.service';
 
 @Component({
   selector: 'app-about',
-  standalone: true,
-  imports: [CoverComponent, AboutBannerComponent],
   templateUrl: './about.component.html',
-  styleUrl: './about.component.css'
+  styleUrls: ['./about.component.css'],
+  standalone: true,
+  imports: [CoverComponent]
 })
-export class AboutComponent {
+export class AboutComponent implements OnInit {
+  allAbout$?: Observable<any[]>;
+  about!: any;
 
+  constructor(private aboutService: AboutService) { }
+  
+  ngOnInit(): void {
+    this.allAbout$ = this.aboutService.getAllAbout();
+      this.allAbout$.subscribe(aboutUs => {
+        if (aboutUs) {
+          this.about = aboutUs.find(a=>a.companyID.toString() === this.aboutService.companyCode);
+        }
+      });
+  };
 }

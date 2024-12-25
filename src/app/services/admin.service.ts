@@ -16,18 +16,21 @@ export class AdminService {
   }
 
   getAllAdmins(): Observable<any[]> {
-    return this.http.get<any[]>(this.urlAdmin + '/SearchAdmin');
+    return this.http.post<any[]>(this.urlAdmin + '/SearchAdmin', {});
   }
 
   getAdmin(username: any, password: any): Observable<any> {
-    return this.http.get<any>(this.urlAdmin + `http://localhost:3000/admins?username=${username}&password=${password}`);
+    return this.http.post<any>(`http://localhost:3000/admins?username=${username}&password=${password}`, {});
   }
+  // getAdmin(username: any, password: any): Observable<any> {
+  //   return this.http.get<any>(this.urlAdmin + `/SearchAdmin?username=${username}&password=${password}`);
+  // }
 
   updateAdmin(id: any, updateAdminRequest: any | FormData): Observable<any>{
-    return this.http.put<any>(this.urlAdmin + `http://localhost:3000/admins/${id}`, updateAdminRequest);
+    return this.http.put<any>(this.urlAdmin + `/EditReg/${id}`, updateAdminRequest);
   }
 
   deleteAdmin(id: any): Observable<any>{
-    return this.http.delete<any>(this.urlAdmin + `http://localhost:3000/admins/${id}`);
+    return this.http.post<any>(this.urlAdmin + `/DeleteAddress?id=${id}`, {});
   }
 }

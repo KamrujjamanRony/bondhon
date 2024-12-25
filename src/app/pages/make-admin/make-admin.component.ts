@@ -3,11 +3,12 @@ import { CoverComponent } from "../../components/shared/cover/cover.component";
 import { DataService } from '../../services/data.service';
 import { InputsComponent } from "../../components/shared/inputs/inputs.component";
 import { AdminService } from '../../services/admin.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-make-admin',
   standalone: true,
-  imports: [CoverComponent, InputsComponent],
+  imports: [CoverComponent, InputsComponent, RouterLink],
   templateUrl: './make-admin.component.html',
   styleUrl: './make-admin.component.css'
 })
@@ -30,25 +31,11 @@ export class MakeAdminComponent {
       this.roles = data?.role;
     });
   }
-
-  onRoleValueUpdate(role: any){
-    this.selectedRole = role
+  onDelete(arg0: any) {
+  throw new Error('Method not implemented.');
   }
-  onRoleChanged(data: any){
-    console.log(data);
-    const updated = {...data, role: this.selectedRole};
-    this.adminService.updateAdmin( data.id, updated)
-      .subscribe({
-        next: (response) => {
-          this.success = 'Role update successfully';
-          setTimeout(() => {
-            this.success = null;
-          }, 3000);
-        },
-        error: (error) => {
-          console.error('Error update:', error);
-        }
-      });
+  onUpdate(_t17: any) {
+  throw new Error('Method not implemented.');
   }
 
 }

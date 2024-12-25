@@ -15,8 +15,13 @@ export class UserService {
     return this.http.post<void>(this.urlUser, model)
   }
 
-  getAllUsers(): Observable<any[]> {
-    return this.http.post<any[]>(this.urlUser + '/SearchDonerReg', {});
+  getAllUsers(query: any): Observable<any[]> {
+    return this.http.post<any[]>(this.urlUser + `/SearchDonerReg?Search=${encodeURIComponent(query)}`, {});
+  }
+
+  searchUsers(division: any = '', thana: any = '', bloodGroup: any = '', date: any = '', postBy: any = '', from: any = '', to: any = ''): Observable<any[]> {
+    console.log(this.urlUser + `/SearchDonerReg?division=${division}&thana=${thana}&BloodGroup=${encodeURIComponent(bloodGroup)}&TodayOrBack3Month=${date}&postBy=${encodeURIComponent(postBy)}&from=${from}&to=${to ? to : from}`)
+    return this.http.post<any[]>(this.urlUser + `/SearchDonerReg?division=${division}&thana=${thana}&BloodGroup=${encodeURIComponent(bloodGroup)}&TodayOrBack3Month=${date}`, {});
   }
 
   getUser(phone: any): Observable<any> {

@@ -17,6 +17,8 @@ import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
 import { GalleryComponent } from './pages/gallery/gallery.component';
 import { GalleryListComponent } from './pages/gallery-list/gallery-list.component';
 import { GalleryFormComponent } from './pages/gallery-form/gallery-form.component';
+import { AdminFormComponent } from './pages/admin-form/admin-form.component';
+import { AboutUsComponent } from './pages/about-us/about-us.component';
 
 export const routes: Routes = [
   {
@@ -61,27 +63,38 @@ export const routes: Routes = [
   {
     path: 'admin-panel',
     component: AdminPanelComponent,
-    canActivate: [AdminGuard],
     children: [
       {
         path: '',
-        component: UserListComponent, canActivate: [AdminGuard]
+        component: UserListComponent
       },
       {
         path: 'make-admin',
-        component: MakeAdminComponent, canActivate: [SuperAdminGuard]
+        component: MakeAdminComponent
+      },
+      {
+        path: 'make-admin/add',
+        component: AdminFormComponent
+      },
+      {
+        path: 'make-admin/edit/:id',
+        component: AdminFormComponent
       },
       {
         path: 'gallery-list',
-        component: GalleryListComponent, canActivate: [AdminGuard]
+        component: GalleryListComponent
       },
       {
         path: 'gallery-list/add',
-        component: GalleryFormComponent, canActivate: [AdminGuard]
+        component: GalleryFormComponent
       },
       {
         path: 'gallery-list/edit/:id',
-        component: GalleryFormComponent, canActivate: [AdminGuard]
+        component: GalleryFormComponent
+      },
+      {
+        path: 'update-about/:id',
+        component: AboutUsComponent
       },
     ],
   },

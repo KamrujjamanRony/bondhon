@@ -42,9 +42,8 @@ export class RegisterComponent {
       bloodGroup: '',
       occupation: '',
       college: '',
-      describe: '',
-      isAgree: false,
       others: '',
+      isAgree: false,
       postedBy: '',
       entryDate: new Date()
     };
@@ -76,7 +75,6 @@ export class RegisterComponent {
       bloodGroup,
       occupation,
       college,
-      describe,
       isAgree,
       others,
       entryDate
@@ -93,9 +91,8 @@ export class RegisterComponent {
         bloodGroup,
         occupation,
         college,
-        describe,
-        isAgree : true,
         others,
+        isAgree : true,
         postedBy: 'user',
         entryDate
       };

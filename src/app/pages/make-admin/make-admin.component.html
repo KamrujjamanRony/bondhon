@@ -1,5 +1,14 @@
 <app-cover title="make admin" sub1="Dashboard" sub2="Make Admin"></app-cover>
 
+<div class="container mx-auto flex justify-end mt-2">
+  <a
+    routerLink="add"
+    class="bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded uppercase"
+  >
+    Add Admin
+  </a>
+</div>
+
 
 
   <div class="mt-4">
@@ -12,8 +21,11 @@
             >
               <th class="px-4 py-3 hidden md:inline-block">SL</th>
               <th class="px-4 py-3 hidden sm:inline-block">Name</th>
-              <th class="px-4 py-3">Email</th>
+              <th class="px-4 py-3">Mobile</th>
+              <th class="px-4 py-3">Address</th>
               <th class="px-4 py-3 max-w-18 md:max-w-12 min-w-12">Role</th>
+              <th class="px-4 py-3 max-w-18 md:max-w-12 min-w-12">Edit</th>
+              <th class="px-4 py-3 max-w-18 md:max-w-12 min-w-12">Delete</th>
             </tr>
           </thead>
           <tbody
@@ -21,14 +33,29 @@
           >
           @if (Admins) {
             @for (user of Admins; track $index) {
-                {{onRoleValueUpdate(user.role)}}
               <tr
                 class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400"
               >
                 <td class="px-4 py-3 text-xs hidden md:inline-block">{{ $index+1 }}</td>
                 <td class="px-4 py-3 text-xs hidden sm:inline-block">{{ user?.name }}</td>
-                <td class="px-4 py-3 text-xs">{{ user?.email }}</td>
-                <td class="px-4 py-3 text-xs max-w-18 md:max-w-12 min-w-12"><app-inputs type="select" defaultPlaceholder="Select Blood Group" [options]="roles" inputId="bloodGroup" placeholder="Type Here" [(value)]="selectedRole" (valueChange)="onRoleChanged(user)"></app-inputs></td>
+                <td class="px-4 py-3 text-xs">{{ user?.mobileNumber }}</td>
+                <td class="px-4 py-3 text-xs">{{ user?.address }}</td>
+                <td class="px-4 py-3 text-xs">
+                  <a
+                  [routerLink]="['edit', user?.id]"
+                  class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded dark:bg-green-700 dark:text-green-100 mr-2 inline-block my-2"
+                >
+                  Edit
+                </a>
+                </td>
+                <td class="px-4 py-3 text-xs">
+                  <button
+                    class="text-rose-400 hover:bg-white px-1 rounded"
+                    (click)="onDelete(user.id)"
+                  >
+                    Delete
+                  </button>
+                </td>
               </tr>
             }
           }

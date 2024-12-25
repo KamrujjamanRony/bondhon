@@ -1,29 +1,67 @@
 <section class="bg-rose-200">
-    
-    <form class="card-body"
-    #form="ngForm"
-    (ngSubmit)="onFormSubmit()">
-      <div class="flex flex-col items-start gap-5 w-full lg:flex-row lg:justify-center lg:items-end">
-        <app-inputs type="select" defaultPlaceholder="Select division" [options]="divisions" inputId="division" placeholder="Type Here" label="division (বিভাগ)" [(value)]="model.division" (valueChange)="onDivisionChanged()" [isRequired]="true"></app-inputs>
-      <app-inputs type="select" defaultPlaceholder="Select district" [options]="districts" inputId="district" placeholder="Type Here" label="district (জেলা)" [(value)]="model.district" [isDisabled]="model.division === ''" [isRequired]="true"></app-inputs>
-      <app-inputs type="date" inputId="date" placeholder="Type Here" label="needed (প্রয়োজন)" [(value)]="model.date"></app-inputs>
-      <app-inputs type="select" defaultPlaceholder="Select Blood Group" [options]="bloodGroups" inputId="bloodGroup" placeholder="Type Here" label="bloodGroup (রক্তের গ্রুপ)" [(value)]="model.bloodGroup" [isRequired]="true"></app-inputs>
-      
+  <form class="card-body" #form="ngForm" (ngSubmit)="onFormSubmit()">
+    <div
+      class="flex flex-col items-start gap-5 w-full lg:flex-row lg:justify-center lg:items-end"
+    >
+      <app-inputs
+        type="select"
+        defaultPlaceholder="Select division"
+        [options]="divisions"
+        inputId="division"
+        placeholder="Type Here"
+        label="division (বিভাগ)"
+        [(value)]="model.division"
+        (valueChange)="onDivisionChanged()"
+        [isRequired]="true"
+      ></app-inputs>
+      <app-inputs
+        type="select"
+        defaultPlaceholder="Select district"
+        [options]="districts"
+        inputId="thana"
+        placeholder="Type Here"
+        label="district (জেলা)"
+        [(value)]="model.thana"
+        [isDisabled]="model.division === ''"
+        [isRequired]="true"
+      ></app-inputs>
+      <app-inputs
+        type="date"
+        inputId="date"
+        placeholder="Type Here"
+        label="needed (প্রয়োজন)"
+        [(value)]="model.date"
+        (input) = "onDateChange()"
+        [isRequired]="true"
+      ></app-inputs>
+      <app-inputs
+        type="select"
+        defaultPlaceholder="Select Blood Group"
+        [options]="bloodGroups"
+        inputId="BloodGroup"
+        placeholder="Type Here"
+        label="bloodGroup (রক্তের গ্রুপ)"
+        [(value)]="model.BloodGroup"
+        [isRequired]="true"
+      ></app-inputs>
+
       <div class="form-control mt-6">
-        <button class="btn btn-error text-white capitalize">search donors</button>
+        <button class="btn btn-error text-white capitalize">
+          search donors
+        </button>
       </div>
-      </div>
-    </form>
+    </div>
+  </form>
 </section>
 
 <section class="mx-auto max-w-6xl my-5">
   <div class="w-full bg-rose-600 text-white">
-    <p class="p-2">Total donors found {{users?.length || 0}}</p>
+    <p class="p-2">Total donors found {{ users?.length || 0 }}</p>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 my-5">
     @for(user of users; track user.id){
-      <user-card [user]="user"></user-card>
+    <user-card [user]="user"></user-card>
     }
   </div>
 </section>

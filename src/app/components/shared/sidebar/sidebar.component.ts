@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 import { Component, inject, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { AboutService } from '../../../services/about.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -12,10 +13,16 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class SidebarComponent implements OnInit {
   private authService = inject(AuthService);
-  about!: any;
-  address!: any;
-  constructor() { }
-  ngOnInit(): void {}
+  aboutId!: any;
+  constructor(private aboutService: AboutService) { }
+  ngOnInit(): void {
+    this.aboutService.getAllAbout().subscribe(aboutUs => {
+      if (aboutUs) {
+        const about = aboutUs.find(a => a.companyID.toString() === this.aboutService.companyCode);
+        this.aboutId = about?.id;
+      }
+    });
+  }
 
   // Method to handle logout
   logout() {
