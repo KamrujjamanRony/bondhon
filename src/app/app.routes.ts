@@ -10,7 +10,6 @@ import { AccountUpdateComponent } from './pages/account-update/account-update.co
 import { AuthGuard } from './services/auth.guard';
 import { AdminPanelComponent } from './layout/admin-panel/admin-panel.component';
 import { UserListComponent } from './pages/user-list/user-list.component';
-import { MakeAdminComponent } from './pages/make-admin/make-admin.component';
 import { AdminGuard } from './services/admin.guard';
 import { SuperAdminGuard } from './services/super-admin.guard';
 import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
@@ -19,6 +18,11 @@ import { GalleryListComponent } from './pages/gallery-list/gallery-list.componen
 import { GalleryFormComponent } from './pages/gallery-form/gallery-form.component';
 import { AdminFormComponent } from './pages/admin-form/admin-form.component';
 import { AboutUsComponent } from './pages/about-us/about-us.component';
+import { ThanaComponent } from './pages/thana/thana.component';
+import { ThanaFormComponent } from './pages/thana-form/thana-form.component';
+import { ReportComponent } from './pages/report/report.component';
+import { UserFormComponent } from './pages/user-form/user-form.component';
+import { AdminListComponent } from './pages/admin-list/admin-list.component';
 
 export const routes: Routes = [
   {
@@ -64,21 +68,49 @@ export const routes: Routes = [
     path: 'admin-panel',
     component: AdminPanelComponent,
     children: [
+      { path: '', redirectTo: 'user-list', pathMatch: 'full' },
       {
-        path: '',
+        path: 'user-list',
         component: UserListComponent
       },
       {
-        path: 'make-admin',
-        component: MakeAdminComponent
+        path: 'user-list/add',
+        component: UserFormComponent
       },
       {
-        path: 'make-admin/add',
+        path: 'user-list/edit/:id',
+        component: UserFormComponent
+      },
+
+      {
+        path: 'admin-list',
+        component: AdminListComponent
+      },
+      {
+        path: 'admin-list/add',
         component: AdminFormComponent
       },
       {
-        path: 'make-admin/edit/:id',
+        path: 'admin-list/edit/:id',
         component: AdminFormComponent
+      },
+
+      {
+        path: 'thana-list',
+        component: ThanaComponent
+      },
+      {
+        path: 'thana-list/add',
+        component: ThanaFormComponent
+      },
+      {
+        path: 'thana-list/edit/:id',
+        component: ThanaFormComponent
+      },
+
+      {
+        path: 'report',
+        component: ReportComponent
       },
       {
         path: 'gallery-list',
@@ -92,6 +124,7 @@ export const routes: Routes = [
         path: 'gallery-list/edit/:id',
         component: GalleryFormComponent
       },
+
       {
         path: 'update-about/:id',
         component: AboutUsComponent

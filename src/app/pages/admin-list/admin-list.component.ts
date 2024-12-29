@@ -1,17 +1,17 @@
 import { Component, inject } from '@angular/core';
-import { CoverComponent } from "../../components/shared/cover/cover.component";
-import { DataService } from '../../services/data.service';
-import { AdminService } from '../../services/admin.service';
+import { CoverComponent } from '../../components/shared/cover/cover.component';
 import { RouterLink } from '@angular/router';
+import { AdminService } from '../../services/admin.service';
+import { DataService } from '../../services/data.service';
 
 @Component({
-  selector: 'app-make-admin',
+  selector: 'app-admin-list',
   standalone: true,
   imports: [CoverComponent, RouterLink],
-  templateUrl: './make-admin.component.html',
-  styleUrl: './make-admin.component.css'
+  templateUrl: './admin-list.component.html',
+  styleUrl: './admin-list.component.css'
 })
-export class MakeAdminComponent {
+export class AdminListComponent {
   private adminService = inject(AdminService);
   private dataService = inject(DataService);
 

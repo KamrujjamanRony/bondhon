@@ -29,9 +29,10 @@ export class GalleryFormComponent {
     this.paramsSubscription = this.route.paramMap.subscribe({
       next: (params) => {
         this.id = params.get('id');
-        console.log(this.id)
         if (this.id) {
-          this.galleryService.getGallery(this.id)
+          this.galleryService.getGallery({
+            "search": this.id
+        })
             .subscribe({
               next: (response) => {
                 if (response) {
@@ -46,21 +47,15 @@ export class GalleryFormComponent {
 
   onFormSubmit(): void {
 
-    // const formData = new FormData();
-    // formData.append('image', this.model.image || "");
-    // formData.append('title', this.model.title || "");
-    // formData.append('description', this.model.description || "");
-    const formData = { id: crypto.randomUUID().toString(), title: this.model.title, description: this.model.description, image: this.model.image }
-
     if (this.id) {
-      this.gallerySubscription = this.galleryService.updateGallery(this.id, formData)
+      this.gallerySubscription = this.galleryService.updateGallery(this.id, this.model)
         .subscribe({
           next: (response) => {
             this.confirmModal = true;
           }
         });
     } else {
-      this.gallerySubscription = this.galleryService.addGallery(formData)
+      this.gallerySubscription = this.galleryService.addGallery(this.model)
         .subscribe({
           next: (response) => {
             this.confirmModal = true;
@@ -73,7 +68,7 @@ export class GalleryFormComponent {
     this.model = {
       title: "",
       description: "",
-      image: "",
+      link: "",
     };
   }
 

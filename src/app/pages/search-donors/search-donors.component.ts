@@ -52,8 +52,7 @@ export class SearchDonorsComponent {
       // Encode the parameters properly
       const encodedDivision = encodeURIComponent(division);
       const encodedThana = encodeURIComponent(thana);
-      const encodedDate = encodeURIComponent(TodayOrBack3Month);
-      this.userService.searchUsers(encodedDivision, encodedThana, BloodGroup, encodedDate).subscribe(data => {
+      this.userService.getUser(encodedDivision, encodedThana, BloodGroup, TodayOrBack3Month).subscribe(data => {
         this.allUsers = data;
         this.users = this.allUsers;
       });

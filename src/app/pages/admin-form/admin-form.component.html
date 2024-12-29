@@ -1,1 +1,126 @@
-<p>admin-form works!</p>
+<section>
+  <div class="w-full max-w-7xl mx-auto">
+    <div class="text-center mb-5">
+      <h2 class="text-4xl capitalize font-bold">
+        {{ id ? "update admin" : "add admin" }}
+      </h2>
+    </div>
+    @if (model) {
+    <form
+      #form="ngForm"
+      (ngSubmit)="onFormSubmit()"
+      class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+    >
+      <!-- name  -->
+      <div class="mb-4">
+        <label
+          for="name"
+          class="block text-gray-700 text-sm font-bold mb-2 capitalize"
+          >name</label
+        >
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="name"
+          name="name"
+          type="text"
+          placeholder="Type here"
+          [(ngModel)]="model.name"
+          required
+        />
+      </div>
+
+      <!-- mobileNumber  -->
+      <div class="mb-4">
+        <label
+          for="mobileNumber"
+          class="block text-gray-700 text-sm font-bold mb-2 capitalize"
+          >mobile Number</label
+        >
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="mobileNumber"
+          name="mobileNumber"
+          type="text"
+          placeholder="Type here"
+          [(ngModel)]="model.mobileNumber"
+          required
+        />
+      </div>
+      <!-- pass  -->
+      <div class="mb-4">
+        <label
+          for="pass"
+          class="block text-gray-700 text-sm font-bold mb-2 capitalize"
+          >password</label
+        >
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="pass"
+          name="pass"
+          type="text"
+          placeholder="Type here"
+          [(ngModel)]="model.pass"
+          required
+        />
+      </div>
+
+      <!-- role  -->
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="role">
+          role
+        </label>
+        <select
+          name="role"
+          id="role"
+          [(ngModel)]="model.role"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        >
+          <option selected disabled hidden value="">Select Role</option>
+          @for (option of roles; track $index) {
+          <option [value]="option?.value">
+            {{ option?.label }}
+          </option>
+          }
+        </select>
+      </div>
+      <!-- address  -->
+      <div class="mb-4">
+        <label
+          for="address"
+          class="block text-gray-700 text-sm font-bold mb-2 capitalize"
+          >address</label
+        >
+        <input
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          id="address"
+          name="address"
+          type="text"
+          placeholder="Type here"
+          [(ngModel)]="model.address"
+          required
+        />
+      </div>
+
+      <input
+        type="submit"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        [value]="id ? 'Update' : 'Add'"
+      />
+    </form>
+    }
+  </div>
+
+  @if(confirmModal){ @if (id) {
+  <confirm-modal
+    title="admin is successfully updated!"
+    url="/admin-panel/admin-list"
+    (closeModal)="closeModal()"
+  />
+  } @else {
+  <confirm-modal
+    title="admin is successfully added!"
+    url="/admin-panel/admin-list"
+    (closeModal)="closeModal()"
+  />
+  } }
+</section>

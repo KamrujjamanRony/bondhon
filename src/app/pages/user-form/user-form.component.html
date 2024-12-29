@@ -1,0 +1,189 @@
+<section>
+  <div class="w-full max-w-7xl mx-auto">
+    <div class="text-center mb-5">
+      <h2 class="text-4xl capitalize font-bold">
+        {{ id ? "update user" : "add user" }}
+      </h2>
+    </div>
+    @if (model) {
+    <form
+      #form="ngForm"
+      (ngSubmit)="onFormSubmit()"
+      class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+    >
+      <app-inputs
+        inputId="name"
+        placeholder="Type Here"
+        label="name (নাম)"
+        [(value)]="model.name"
+        [isRequired]="true"
+      ></app-inputs>
+
+      <app-inputs
+        type="number"
+        inputId="mobileNumber"
+        maxLength="11"
+        placeholder="Type Here"
+        label="mobile (মোবাইল)"
+        [(value)]="model.mobileNumber"
+        [isRequired]="true"
+      ></app-inputs>
+
+      <app-inputs
+        type="select"
+        defaultPlaceholder="Select Gender"
+        [options]="gender"
+        inputId="gender"
+        placeholder="Type Here"
+        label="gender (লিঙ্গ)"
+        [(value)]="model.gender"
+        [isRequired]="true"
+      ></app-inputs>
+
+      <app-inputs
+        type="select"
+        defaultPlaceholder="Select division"
+        [options]="divisions"
+        inputId="division"
+        placeholder="Type Here"
+        label="division (বিভাগ)"
+        [(value)]="model.division"
+        (valueChange)="onDivisionChanged()"
+        [isRequired]="true"
+      ></app-inputs>
+
+      <app-inputs
+        type="select"
+        [options]="districts"
+        inputId="thana"
+        label="district (জেলা)"
+        [(value)]="model.district"
+        [isDisabled]="model.division === ''"
+        (valueChange)="onDistrictChanged()"
+        [isRequired]="true"
+      >
+      </app-inputs>
+
+      <div>
+        <label for="thana" class="label capitalize">
+          <span class="label-text"> thana (থানা) </span>
+        </label>
+        <select
+          name="thana"
+          id="thana"
+          [(ngModel)]="model.thana"
+          (change)="onDistrictChanged()"
+          class="select select-bordered w-full"
+          [disabled]="!thana"
+        >
+          <option selected disabled hidden value="">Select thana</option>
+          @for (option of thana; track $index) {
+          <option [value]="option?.thana1">
+            {{ option?.thana1 }}
+          </option>
+          }
+        </select>
+      </div>
+
+      <app-inputs
+        type="textarea"
+        inputId="fullAddress"
+        placeholder="Type Here"
+        label="full address (সম্পূর্ণ ঠিকানা)"
+        [(value)]="model.fullAddress"
+      ></app-inputs>
+
+      <app-inputs
+        type="date"
+        inputId="dob"
+        placeholder="Type Here"
+        label="Date of Birth (জন্মতারিখ)"
+        [(value)]="model.dob"
+      ></app-inputs>
+
+      <app-inputs
+        type="date"
+        inputId="lastDoneteDate"
+        placeholder="Type Here"
+        label="last blood Donate (শেষ রক্তদান)"
+        [(value)]="model.lastDoneteDate"
+      ></app-inputs>
+
+      <!-- <app-inputs type="password" inputId="password" placeholder="Type Here" label="password (পাসওয়ার্ড)" [(value)]="model.password" [isRequired]="true"></app-inputs>
+
+          <app-inputs type="password" inputId="re-password" placeholder="Type Here" label="re-password (পুনরায় পাসওয়ার্ড)" [(value)]="model.rePassword" (valueChange)="checkPasswordMatch()" [isRequired]="true"></app-inputs>
+          @if (passwordMismatch) {
+            <div class="text-red-500 mt-2 text-xs">
+              Password do not match
+            </div>
+          } -->
+
+      <app-inputs
+        type="select"
+        defaultPlaceholder="Select Blood Group"
+        [options]="bloodGroups"
+        inputId="bloodGroup"
+        placeholder="Type Here"
+        label="bloodGroup (রক্তের গ্রুপ)"
+        [(value)]="model.bloodGroup"
+        [isRequired]="true"
+      ></app-inputs>
+
+      <app-inputs
+        type="select"
+        defaultPlaceholder="Select Occupation"
+        [options]="occupation"
+        inputId="occupation"
+        placeholder="Type Here"
+        label="occupation (পেশা)"
+        [(value)]="model.occupation"
+        [isRequired]="true"
+      ></app-inputs>
+
+      @if (model.occupation == 'Student') {
+      <app-inputs
+        inputId="college"
+        placeholder="Type Here"
+        label="educational institution (শিক্ষা প্রতিষ্ঠান)"
+        [(value)]="model.college"
+      ></app-inputs>
+      }
+
+      <div class="form-control">
+        <label for="isAgree" class="label capitalize cursor-pointer">
+          <input
+            id="isAgree"
+            name="isAgree"
+            type="checkbox"
+            [(ngModel)]="model.isAgree"
+            class="checkbox checkbox-secondary"
+          />
+          <p class="label-text ml-2 text-blue-700 font-bold">
+            আপনি কি আমাদের শর্তসমূহে রাজী?
+          </p>
+        </label>
+      </div>
+
+      <div class="form-control mt-6">
+        <button [disabled]="!model.isAgree" class="btn btn-error text-white">
+          {{ id ? "Update" : "Add" }}
+        </button>
+      </div>
+    </form>
+    }
+  </div>
+
+  @if(confirmModal){ @if (id) {
+  <confirm-modal
+    title="user is successfully updated!"
+    url="/admin-panel/user-list"
+    (closeModal)="closeModal()"
+  />
+  } @else {
+  <confirm-modal
+    title="user is successfully added!"
+    url="/admin-panel/user-list"
+    (closeModal)="closeModal()"
+  />
+  } }
+</section>

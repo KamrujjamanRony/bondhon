@@ -16,7 +16,9 @@ export class GalleryComponent {
   
 
   ngOnInit(): void {
-    this.galleryService.getAllGallery().subscribe(data => {
+    this.galleryService.getGallery({
+      "search": ""
+  }).subscribe(data => {
       this.gallery = data;
     })
   }

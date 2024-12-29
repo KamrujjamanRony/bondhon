@@ -5,24 +5,24 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class GalleryService {
+export class ThanaService {
 
   http = inject(HttpClient);
-  rootUrl = 'http://localhost:1001/api/Gallery';
+  rootUrl = 'http://localhost:1001/api/Thana';
 
-  addGallery(model: any | FormData): Observable<void>{
+  addThana(model: any | FormData): Observable<void>{
     return this.http.post<void>(this.rootUrl, model)
   }
 
-  getGallery(query: any): Observable<any> {
+  getThana(query: any): Observable<any> {
     return this.http.post<any>(`${this.rootUrl}/Search`, query);
   }
 
-  updateGallery(id: any, updateGalleryRequest: any | FormData): Observable<any>{
-    return this.http.put<any>(`${this.rootUrl}/Edit/${id}`, updateGalleryRequest);
+  updateThana(id: any, updateThanaRequest: any | FormData): Observable<any>{
+    return this.http.put<any>(`${this.rootUrl}/Edit/${id}`, updateThanaRequest);
   }
 
-  deleteGallery(id: any): Observable<any>{
+  deleteThana(id: any): Observable<any>{
     return this.http.delete<any>(`${this.rootUrl}/Delete?id=${id}`);
   }
 }

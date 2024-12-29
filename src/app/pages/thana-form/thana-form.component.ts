@@ -1,47 +1,51 @@
 import { Component, inject } from '@angular/core';
-import { AdminService } from '../../services/admin.service';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { ConfirmModalComponent } from '../../components/shared/confirm-modal/confirm-modal.component';
 import { FormsModule } from '@angular/forms';
+import { ThanaService } from '../../services/thana.service';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { DataService } from '../../services/data.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-admin-form',
+  selector: 'app-thana-form',
   standalone: true,
   imports: [ConfirmModalComponent, FormsModule, CommonModule],
-  templateUrl: './admin-form.component.html',
-  styleUrl: './admin-form.component.css'
+  templateUrl: './thana-form.component.html',
+  styleUrl: './thana-form.component.css'
 })
-export class AdminFormComponent {
-  adminService = inject(AdminService);
+export class ThanaFormComponent {
+  private dataService = inject(DataService);
+  thanaService = inject(ThanaService);
   route = inject(ActivatedRoute);
   id: any = null;
   model?: any;
+  divisions: any;
+  districts: any;
   confirmModal: boolean = false;
-  roles = [
-    { value: 'admin', label: 'Admin' },
-    { value: 'manager', label: 'Manager' },
-    { value: 'user', label: 'User' }
-  ]
   paramsSubscription?: Subscription;
-  adminSubscription?: Subscription;
+  thanaSubscription?: Subscription;
 
   constructor() {
     this.onReset();
   }
 
   ngOnInit(): void {
+    this.dataService.getJsonData().subscribe(data => {
+      this.divisions = data?.divisions;
+    });
     this.paramsSubscription = this.route.paramMap.subscribe({
       next: (params) => {
         this.id = params.get('id');
-        console.log(this.id)
         if (this.id) {
-          this.adminService.getAdmin(this.id)
+          this.thanaService.getThana({ "search" : this.id})
             .subscribe({
               next: (response) => {
                 if (response) {
                   this.model = response[0];
+                  if (this.model.division) {
+                    this.onDivisionChanged();
+                  }
                 }
               }
             });
@@ -53,14 +57,14 @@ export class AdminFormComponent {
   onFormSubmit(): void {
 
     if (this.id) {
-      this.adminSubscription = this.adminService.updateAdmin(this.id, this.model)
+      this.thanaSubscription = this.thanaService.updateThana(this.id, this.model)
         .subscribe({
           next: (response) => {
             this.confirmModal = true;
           }
         });
     } else {
-      this.adminSubscription = this.adminService.addAdmin(this.model)
+      this.thanaSubscription = this.thanaService.addThana(this.model)
         .subscribe({
           next: (response) => {
             this.confirmModal = true;
@@ -69,14 +73,23 @@ export class AdminFormComponent {
     }
   };
 
-  onReset() {
+  onReset(){
     this.model = {
-      name: "",
-      mobileNumber: "",
-      address: "",
-      role: "",
-      pass: "",
+      division: "",
+      district: "",
+      thana1: "",
     };
+  }
+
+  onDivisionChanged() {
+    this.dataService.getCityByParentId(this.model.division).subscribe(
+      data => {
+        this.districts = data;
+      },
+      error => {
+        console.error('Error fetching data', error);
+      }
+    );
   }
 
   closeModal() {
@@ -85,7 +98,7 @@ export class AdminFormComponent {
 
   ngOnDestroy(): void {
     this.paramsSubscription?.unsubscribe();
-    this.adminSubscription?.unsubscribe();
+    this.thanaSubscription?.unsubscribe();
   }
 
 }

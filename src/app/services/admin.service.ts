@@ -11,26 +11,23 @@ export class AdminService {
 
   http = inject(HttpClient);
 
-  addAdmin(model: any | FormData): Observable<void>{
+  addAdmin(model: any | FormData): Observable<void> {
     return this.http.post<void>(this.urlAdmin, model)
   }
 
-  getAllAdmins(): Observable<any[]> {
-    return this.http.post<any[]>(this.urlAdmin + '/SearchAdmin', {});
+  getAdmin(query: any): Observable<any[]> {
+    return this.http.post<any[]>(this.urlAdmin + '/Search', { "search": query });
   }
 
-  getAdmin(username: any, password: any): Observable<any> {
+  loginAdmin(username: any, password: any): Observable<any> {
     return this.http.post<any>(`http://localhost:3000/admins?username=${username}&password=${password}`, {});
   }
-  // getAdmin(username: any, password: any): Observable<any> {
-  //   return this.http.get<any>(this.urlAdmin + `/SearchAdmin?username=${username}&password=${password}`);
-  // }
 
-  updateAdmin(id: any, updateAdminRequest: any | FormData): Observable<any>{
-    return this.http.put<any>(this.urlAdmin + `/EditReg/${id}`, updateAdminRequest);
+  updateAdmin(id: any, updateAdminRequest: any | FormData): Observable<any> {
+    return this.http.put<any>(this.urlAdmin + `/Edit/${id}`, updateAdminRequest);
   }
 
-  deleteAdmin(id: any): Observable<any>{
+  deleteAdmin(id: any): Observable<any> {
     return this.http.post<any>(this.urlAdmin + `/DeleteAddress?id=${id}`, {});
   }
 }

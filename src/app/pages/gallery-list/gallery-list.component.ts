@@ -18,11 +18,24 @@ export class GalleryListComponent {
   constructor() { }
 
   ngOnInit(): void {
-    this.galleryService.getAllGallery().subscribe(data => {
+    this.galleryService.getGallery({
+      "search": ""
+    }).subscribe(data => {
       this.gallery = data;
     })
   }
 
-  onDelete(id: any): void {}
+  onDelete(id: any): void {
+    if (confirm("Are you sure you want to delete?")) {
+      this.galleryService.deleteGallery(id).subscribe(data => {
+        if (data.id) {
+          this.gallery = this.gallery.filter((d: any) => d.id !== id);
+          alert("Gallery deleted successfully!");
+        } else {
+          console.error('Error deleting gallery:', data);
+        }
+      });
+    }
+  }
 
 }

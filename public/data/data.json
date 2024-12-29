@@ -86,13 +86,13 @@
     { "id": 8, "name": "O-" }
   ],
   "occupation": [
-    { "id": 1, "name": "Student" },
-    { "id": 2, "name": "Others" }
+    { "id": "Student", "name": "Student" },
+    { "id": "Others", "name": "Others" }
   ],
   "gender": [
-    { "id": 1, "name": "Male" },
-    { "id": 2, "name": "Female" },
-    { "id": 3, "name": "Others" }
+    { "id": "Male", "name": "Male" },
+    { "id": "Female", "name": "Female" },
+    { "id": "Others", "name": "Others" }
   ],
   "role": [
     { "id": 1, "name": "admin" },

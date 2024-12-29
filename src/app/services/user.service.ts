@@ -11,28 +11,30 @@ export class UserService {
 
   http = inject(HttpClient);
 
-  addUser(model: any | FormData): Observable<void>{
+  addUser(model: any | FormData): Observable<void> {
     return this.http.post<void>(this.urlUser, model)
   }
 
-  getAllUsers(query: any): Observable<any[]> {
-    return this.http.post<any[]>(this.urlUser + `/SearchDonerReg?Search=${encodeURIComponent(query)}`, {});
+  getUser(division: any = '', thana: any = '', bloodGroup: any = '', todayOrBack3Month: any = '', postBy: any = '', from: any = '', to: any = '', search: any = '', isAgree: any = ''): Observable<any[]> {
+    const query = {
+      "search": search,
+      "fromDate": from,
+      "toDate": to,
+      "division": division,
+      "thana": thana,
+      "bloodGroup": bloodGroup,
+      "todayOrBack3Month": todayOrBack3Month,
+      "isAgree": isAgree,
+      "postedBy": postBy
+    };
+    return this.http.post<any[]>(this.urlUser + `/Search`, query);
   }
 
-  searchUsers(division: any = '', thana: any = '', bloodGroup: any = '', date: any = '', postBy: any = '', from: any = '', to: any = ''): Observable<any[]> {
-    console.log(this.urlUser + `/SearchDonerReg?division=${division}&thana=${thana}&BloodGroup=${encodeURIComponent(bloodGroup)}&TodayOrBack3Month=${date}&postBy=${encodeURIComponent(postBy)}&from=${from}&to=${to ? to : from}`)
-    return this.http.post<any[]>(this.urlUser + `/SearchDonerReg?division=${division}&thana=${thana}&BloodGroup=${encodeURIComponent(bloodGroup)}&TodayOrBack3Month=${date}`, {});
+  updateUser(id: any, updateUserRequest: any | FormData): Observable<any> {
+    return this.http.put<any>(this.urlUser + `/Edit/${id}`, updateUserRequest);
   }
 
-  getUser(phone: any): Observable<any> {
-    return this.http.post<any>(this.urlUser + `/SearchDonerReg?Search=${phone}`, {});
-  }
-
-  updateUser(id: any, updateUserRequest: any | FormData): Observable<any>{
-    return this.http.put<any>(this.urlUser + `/EditReg/${id}`, updateUserRequest);
-  }
-
-  deleteUser(id: any): Observable<any>{
-    return this.http.post<any>(this.urlUser + `/DeleteAddress?id=${id}`, {});
+  deleteUser(id: any): Observable<any> {
+    return this.http.post<any>(this.urlUser + `/Delete?id=${id}`, {});
   }
 }
