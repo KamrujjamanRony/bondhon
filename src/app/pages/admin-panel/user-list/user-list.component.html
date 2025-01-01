@@ -1,0 +1,184 @@
+<section>
+  <app-cover
+    title="all User list"
+    sub1="Dashboard"
+    sub2="User List"
+  ></app-cover>
+
+  <div
+    class="container mx-auto my-2 px-2 flex flex-wrap justify-end items-center gap-2"
+  >
+    <app-inputs
+      type="text"
+      inputId="searchQuery"
+      placeholder="Search Here"
+      [(value)]="model.searchQuery"
+      (valueChange)="onSearch()"
+      class="-mt-4 w-full sm:max-w-48"
+    ></app-inputs>
+    <app-inputs
+      type="date"
+      inputId="from"
+      placeholder="Type Here"
+      [(value)]="model.from"
+      (valueChange)="getUsers()"
+      class="-mt-4"
+    ></app-inputs>
+    <app-inputs
+      type="date"
+      inputId="to"
+      placeholder="Type Here"
+      [(value)]="model.to"
+      (valueChange)="getUsers()"
+      class="-mt-4"
+    ></app-inputs>
+    <app-inputs
+      type="select"
+      defaultPlaceholder="Select Post By"
+      [options]="postPersons()"
+      inputId="postBy"
+      placeholder="Type Here"
+      [(value)]="model.postBy"
+      (valueChange)="getUsers()"
+    ></app-inputs>
+    <app-inputs
+      type="select"
+      defaultPlaceholder="Select division"
+      [options]="divisions()"
+      inputId="division"
+      placeholder="Type Here"
+      [(value)]="model.division"
+      (valueChange)="onDivisionChanged()"
+    ></app-inputs>
+    <app-inputs
+      type="select"
+      defaultPlaceholder="Select district"
+      [options]="districts()"
+      inputId="district"
+      placeholder="Type Here"
+      [(value)]="model.district"
+      (valueChange)="onDistrictChanged()"
+      [isDisabled]="districts().length === 0"
+    ></app-inputs>
+    <div>
+      <select
+        name="thana"
+        id="thana"
+        [(ngModel)]="model.thana"
+        (valueChange)="getUsers()"
+        [disabled]="thana().length === 0"
+        class="select select-bordered w-full"
+      >
+        <option selected disabled hidden value="">Select thana</option>
+        @for (option of thana(); track $index) {
+        <option [value]="option?.thana1">
+          {{ option?.thana1 }}
+        </option>
+        }
+      </select>
+    </div>
+    <app-inputs
+      type="select"
+      defaultPlaceholder="Select Blood Group"
+      [options]="bloodGroups()"
+      inputId="bloodGroup"
+      placeholder="Type Here"
+      (valueChange)="getUsers()"
+      [(value)]="model.bloodGroup"
+    ></app-inputs>
+    <a
+      routerLink="add-carousel"
+      class="btn bg-rose-500 hover:bg-rose-400 text-white font-bold py-2 px-4 border-b-4 border-rose-700 hover:border-rose-500 rounded uppercase cursor-pointer"
+      (click)="generatePDF()"
+    >
+      print
+    </a>
+    <a
+      routerLink="add"
+      class="btn bg-red-500 hover:bg-red-400 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded uppercase cursor-pointer"
+    >
+      Add User
+    </a>
+  </div>
+
+  <div class="mt-4 mx-4">
+    <div class="w-full overflow-hidden rounded-lg shadow-xs">
+      <div class="w-full overflow-x-auto">
+        @if (users().length > 0) {
+        <table class="w-full">
+          <thead>
+            <tr
+              class="text-xs font-semibold tracking-wide text-left text-gray-500 capitalize border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
+            >
+              <th class="px-4 py-3">name</th>
+              <th class="px-4 py-3">mobile Number</th>
+              <th class="px-4 py-3">gender</th>
+              <th class="px-4 py-3">division</th>
+              <th class="px-4 py-3">thana</th>
+              <th class="px-4 py-3">blood Group</th>
+              <th class="px-4 py-3">occupation</th>
+              <th class="px-4 py-3">college</th>
+              <th class="px-4 py-3">Date of Birth</th>
+              <th class="px-4 py-3">last Donate Date</th>
+              <th class="px-4 py-3">entry Date</th>
+              <th class="px-4 py-3">full Address</th>
+              <th class="px-4 py-3">posted By</th>
+              <th class="px-4 py-3">Actions</th>
+            </tr>
+          </thead>
+          <tbody
+            class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
+          >
+            @for (data of users(); track $index) {
+            <tr
+              class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400"
+            >
+              <td class="px-4 py-3 text-xs">{{ data?.name }}</td>
+              <td class="px-4 py-3 text-xs">{{ data?.mobileNumber }}</td>
+              <td class="px-4 py-3 text-xs">{{ data?.gender }}</td>
+              <td class="px-4 py-3 text-xs">{{ data?.division }}</td>
+              <td class="px-4 py-3 text-xs">{{ data?.thana }}</td>
+              <td class="px-4 py-3 text-xs">{{ data?.bloodGroup }}</td>
+              <td class="px-4 py-3 text-xs">{{ data?.occupation }}</td>
+              <td class="px-4 py-3 text-xs">{{ data?.college }}</td>
+              <td class="px-4 py-3 text-xs">{{ transform(data?.dob) }}</td>
+              <td class="px-4 py-3 text-xs">
+                {{ transform(data?.lastDoneteDate) }}
+              </td>
+              <td class="px-4 py-3 text-xs">
+                {{ transform(data?.entryDate) }}
+              </td>
+              <td class="px-4 py-3 text-xs">{{ data?.fullAddress }}</td>
+              <td class="px-4 py-3 text-xs">{{ data?.postedBy }}</td>
+              <td class="px-4 py-3 text-sm">
+                @if (admin?.role == 'super-admin' || admin?.role == 'admin' ||
+                admin?.name == data?.postedBy) {
+                <a
+                  [routerLink]="['edit', data?.gid]"
+                  class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded dark:bg-green-700 dark:text-green-100 mr-2 inline-block my-2"
+                >
+                  Edit
+                </a>
+                } @if (admin?.role == 'super-admin' || admin?.role == 'admin') {
+                <button
+                  (click)="onDelete(data?.gid)"
+                  class="px-2 py-1 font-semibold leading-tight text-red-700 bg-green-100 rounded dark:bg-red-700 dark:text-green-100 inline-block"
+                >
+                  Delete
+                </button>
+                }
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+        } @else {
+        <div class="text-center text-3xl text-rose-500">No User found.</div>
+        }
+      </div>
+      <div
+        class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800"
+      ></div>
+    </div>
+  </div>
+</section>

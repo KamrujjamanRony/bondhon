@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, signal } from '@angular/core';
 import { InputsComponent } from "../../components/shared/inputs/inputs.component";
 import { DataService } from '../../services/data.service';
 import { FormsModule } from '@angular/forms';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
+import { ThanaService } from '../../services/thana.service';
 
 @Component({
   selector: 'app-register',
@@ -15,11 +16,12 @@ import { Router } from '@angular/router';
 export class RegisterComponent {
   private dataService = inject(DataService);
   private userService = inject(UserService);
-  // private cdr = inject(ChangeDetectorRef);
+  private thanaService = inject(ThanaService);
   router = inject(Router);
   model: any;
-  divisions: any;
-  districts: any;
+  divisions = signal<any>([]);
+  districts = signal<any>([]);
+  thana = signal<any>([]);
   bloodGroups: any;
   occupation: any;
   conditions: any;
@@ -51,7 +53,7 @@ export class RegisterComponent {
 
   ngOnInit() {
     this.dataService.getJsonData().subscribe(data => {
-      this.divisions = data?.divisions;
+      this.divisions.set(data?.divisions);
       this.bloodGroups = data?.bloodGroups;
       this.occupation = data?.occupation;
       this.gender = data?.gender;
@@ -92,7 +94,7 @@ export class RegisterComponent {
         occupation,
         college,
         others,
-        isAgree : true,
+        isAgree: true,
         postedBy: 'user',
         entryDate
       };
@@ -131,12 +133,19 @@ export class RegisterComponent {
   onDivisionChanged() {
     this.dataService.getCityByParentId(this.model.division).subscribe(
       data => {
-        this.districts = data;
-        // this.cdr.detectChanges();
+        this.districts.set(data);
       },
       error => {
         console.error('Error fetching data', error);
       }
     );
+  }
+
+  onDistrictChanged() {
+    this.thanaService.getThana({
+      "Search": this.model.district
+    }).subscribe(data => {
+      this.thana.set(data);
+    })
   }
 }

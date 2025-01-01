@@ -9,20 +9,20 @@ import { LoginComponent } from './pages/login/login.component';
 import { AccountUpdateComponent } from './pages/account-update/account-update.component';
 import { AuthGuard } from './services/auth.guard';
 import { AdminPanelComponent } from './layout/admin-panel/admin-panel.component';
-import { UserListComponent } from './pages/user-list/user-list.component';
-import { AdminGuard } from './services/admin.guard';
-import { SuperAdminGuard } from './services/super-admin.guard';
-import { AdminLoginComponent } from './pages/admin-login/admin-login.component';
+import { AdminGuard } from './services/guard/admin.guard';
+import { SuperAdminGuard } from './services/guard/super-admin.guard';
 import { GalleryComponent } from './pages/gallery/gallery.component';
-import { GalleryListComponent } from './pages/gallery-list/gallery-list.component';
-import { GalleryFormComponent } from './pages/gallery-form/gallery-form.component';
-import { AdminFormComponent } from './pages/admin-form/admin-form.component';
-import { AboutUsComponent } from './pages/about-us/about-us.component';
-import { ThanaComponent } from './pages/thana/thana.component';
-import { ThanaFormComponent } from './pages/thana-form/thana-form.component';
-import { ReportComponent } from './pages/report/report.component';
-import { UserFormComponent } from './pages/user-form/user-form.component';
-import { AdminListComponent } from './pages/admin-list/admin-list.component';
+import { AboutUsComponent } from './pages/admin-panel/about-us/about-us.component';
+import { UserListComponent } from './pages/admin-panel/user-list/user-list.component';
+import { UserFormComponent } from './pages/admin-panel/user-form/user-form.component';
+import { AdminListComponent } from './pages/admin-panel/admin-list/admin-list.component';
+import { AdminFormComponent } from './pages/admin-panel/admin-form/admin-form.component';
+import { ThanaComponent } from './pages/admin-panel/thana/thana.component';
+import { ThanaFormComponent } from './pages/admin-panel/thana-form/thana-form.component';
+import { GalleryListComponent } from './pages/admin-panel/gallery-list/gallery-list.component';
+import { GalleryFormComponent } from './pages/admin-panel/gallery-form/gallery-form.component';
+import { AdminLoginComponent } from './pages/admin-panel/admin-login/admin-login.component';
+import { EditorGuard } from './services/guard/editor.guard';
 
 export const routes: Routes = [
   {
@@ -67,67 +67,63 @@ export const routes: Routes = [
   {
     path: 'admin-panel',
     component: AdminPanelComponent,
+    canActivate: [AdminGuard || SuperAdminGuard],
     children: [
       { path: '', redirectTo: 'user-list', pathMatch: 'full' },
       {
         path: 'user-list',
-        component: UserListComponent
+        component: UserListComponent, canActivate: [AdminGuard || SuperAdminGuard || EditorGuard]
       },
       {
         path: 'user-list/add',
-        component: UserFormComponent
+        component: UserFormComponent, canActivate: [AdminGuard || SuperAdminGuard || EditorGuard]
       },
       {
         path: 'user-list/edit/:id',
-        component: UserFormComponent
+        component: UserFormComponent, canActivate: [AdminGuard || SuperAdminGuard || EditorGuard]
       },
 
       {
         path: 'admin-list',
-        component: AdminListComponent
+        component: AdminListComponent, canActivate: [SuperAdminGuard]
       },
       {
         path: 'admin-list/add',
-        component: AdminFormComponent
+        component: AdminFormComponent, canActivate: [SuperAdminGuard]
       },
       {
         path: 'admin-list/edit/:id',
-        component: AdminFormComponent
+        component: AdminFormComponent, canActivate: [SuperAdminGuard]
       },
 
       {
         path: 'thana-list',
-        component: ThanaComponent
+        component: ThanaComponent, canActivate: [AdminGuard || SuperAdminGuard]
       },
       {
         path: 'thana-list/add',
-        component: ThanaFormComponent
+        component: ThanaFormComponent, canActivate: [AdminGuard || SuperAdminGuard]
       },
       {
         path: 'thana-list/edit/:id',
-        component: ThanaFormComponent
-      },
-
-      {
-        path: 'report',
-        component: ReportComponent
+        component: ThanaFormComponent, canActivate: [AdminGuard || SuperAdminGuard]
       },
       {
         path: 'gallery-list',
-        component: GalleryListComponent
+        component: GalleryListComponent, canActivate: [AdminGuard || SuperAdminGuard]
       },
       {
         path: 'gallery-list/add',
-        component: GalleryFormComponent
+        component: GalleryFormComponent, canActivate: [AdminGuard || SuperAdminGuard]
       },
       {
         path: 'gallery-list/edit/:id',
-        component: GalleryFormComponent
+        component: GalleryFormComponent, canActivate: [AdminGuard || SuperAdminGuard]
       },
 
       {
         path: 'update-about/:id',
-        component: AboutUsComponent
+        component: AboutUsComponent, canActivate: [AdminGuard || SuperAdminGuard]
       },
     ],
   },

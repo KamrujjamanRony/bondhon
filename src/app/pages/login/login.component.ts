@@ -16,9 +16,9 @@ export class LoginComponent {
   private userService = inject(UserService);
   private authService = inject(AuthService);
   router = inject(Router);
-  model : any;
-  error : any;
-  success : any;
+  model: any;
+  error: any;
+  success: any;
 
   constructor() {
     this.model = {
@@ -26,33 +26,33 @@ export class LoginComponent {
     };
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
-  onFormSubmit(){
+  onFormSubmit() {
     const { mobileNumber } = this.model;
     if (mobileNumber) {
-      this.userService.getUser(mobileNumber)
-      .subscribe({
-        next: (response) => {
-          console.log(response)
-          if (response[0]) {
-            this.authService.setUserInfo(response[0])
-            this.success = 'User login successfully';
-            setTimeout(() => {
-              this.router.navigateByUrl('/');
-            }, 1500);
-          } else {
-            this.error = 'Mobile Number is Incorrect!';
-            setTimeout(() => {
-              this.error = null;
-            }, 3000);            
+      this.userService.getUser('', '', '', '', '', '', '', mobileNumber)
+        .subscribe({
+          next: (response) => {
+            console.log(response)
+            if (response[0]) {
+              this.authService.setUserInfo(response[0])
+              this.success = 'User login successfully';
+              setTimeout(() => {
+                this.router.navigateByUrl('/');
+              }, 1500);
+            } else {
+              this.error = 'Mobile Number is Incorrect!';
+              setTimeout(() => {
+                this.error = null;
+              }, 3000);
+            }
+
+          },
+          error: (error) => {
+            console.error('Error login:', error);
           }
-          
-        },
-        error: (error) => {
-          console.error('Error login:', error);
-        }
-      });
+        });
     } else {
       this.error = 'Mobile Number is Required!';
       setTimeout(() => {

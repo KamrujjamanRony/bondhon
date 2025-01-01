@@ -9,6 +9,7 @@ export class AuthService {
   private router = inject(Router);
   private userKey = 'UserInfo';
   private adminKey = 'AdminInfo';
+  private expirationTime = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
   private userInfoSubject = new BehaviorSubject<any>(this.getUserInfo());
   private adminInfoSubject = new BehaviorSubject<any>(this.getAdminInfo());
 
@@ -20,18 +21,35 @@ export class AuthService {
     localStorage.setItem(this.userKey, JSON.stringify(value));
     this.userInfoSubject.next(value);
   }
+
   setAdminInfo(value: any) {
-    localStorage.setItem(this.adminKey, JSON.stringify(value));
-    this.adminInfoSubject.next(value);
+    const adminData = {
+      ...value,
+      timestamp: new Date().getTime() // Add timestamp
+    };
+    localStorage.setItem(this.adminKey, JSON.stringify(adminData));
+    this.adminInfoSubject.next(adminData);
   }
 
   getUserInfo() {
     const storedUserInfo = localStorage.getItem(this.userKey);
     return storedUserInfo ? JSON.parse(storedUserInfo) : null;
   }
+
   getAdminInfo() {
     const storedAdminInfo = localStorage.getItem(this.adminKey);
-    return storedAdminInfo ? JSON.parse(storedAdminInfo) : null;
+    if (storedAdminInfo) {
+      const adminData = JSON.parse(storedAdminInfo);
+      const currentTime = new Date().getTime();
+
+      // Check if the admin info has expired
+      if (currentTime - adminData.timestamp > this.expirationTime) {
+        this.deleteAdminInfo(); // Invalidate admin info
+        return null;
+      }
+      return adminData;
+    }
+    return null;
   }
 
   updateUserInfo(updatedData: any) {
@@ -41,10 +59,11 @@ export class AuthService {
       this.setUserInfo(currentUserInfo);
     }
   }
+
   updateAdminInfo(updatedData: any) {
     let currentAdminInfo = this.getAdminInfo();
     if (currentAdminInfo) {
-      currentAdminInfo = { ...currentAdminInfo, ...updatedData };
+      currentAdminInfo = { ...currentAdminInfo, ...updatedData, timestamp: new Date().getTime() }; // Update timestamp
       this.setAdminInfo(currentAdminInfo);
     }
   }
@@ -54,6 +73,7 @@ export class AuthService {
     this.userInfoSubject.next(null);
     this.router.navigateByUrl('/');
   }
+
   deleteAdminInfo() {
     localStorage.removeItem(this.adminKey);
     this.adminInfoSubject.next(null);

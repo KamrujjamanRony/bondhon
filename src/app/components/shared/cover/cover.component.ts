@@ -7,7 +7,7 @@ import { Component, Input } from '@angular/core';
   templateUrl: './cover.component.html',
   styles: `
     .breadcrumb_section {
-    background: url(/images/b.jpg) no-repeat;
+    background: url(/images/b.png) no-repeat;
     background-size: cover;
     position: relative;
     z-index: 1;

@@ -20,7 +20,7 @@ export class AdminService {
   }
 
   loginAdmin(username: any, password: any): Observable<any> {
-    return this.http.post<any>(`http://localhost:3000/admins?username=${username}&password=${password}`, {});
+    return this.http.post<any>(this.urlAdmin + `?username=${username}&password=${password}`, {});
   }
 
   updateAdmin(id: any, updateAdminRequest: any | FormData): Observable<any> {
@@ -28,6 +28,6 @@ export class AdminService {
   }
 
   deleteAdmin(id: any): Observable<any> {
-    return this.http.post<any>(this.urlAdmin + `/DeleteAddress?id=${id}`, {});
+    return this.http.delete<any>(this.urlAdmin + `/Delete?id=${id}`);
   }
 }
