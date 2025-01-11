@@ -33,14 +33,15 @@ export class RegisterComponent {
   constructor() {
     this.model = {
       division: '',
+      district: '',
       thana: '',
       name: '',
       mobileNumber: '',
       gender: '',
       dob: '',
       lastDoneteDate: '',
-      password: '',
-      rePassword: '',
+      // password: '',
+      // rePassword: '',
       bloodGroup: '',
       occupation: '',
       college: '',
@@ -68,6 +69,7 @@ export class RegisterComponent {
     // }
     const {
       division,
+      district,
       thana,
       name,
       mobileNumber,
@@ -77,11 +79,10 @@ export class RegisterComponent {
       bloodGroup,
       occupation,
       college,
-      isAgree,
       others,
       entryDate
     } = this.model;
-    if (division && thana && name && mobileNumber && bloodGroup && occupation) {
+    if (division && district && thana && name && mobileNumber && gender && dob && bloodGroup && occupation) {
       const userInfo = {
         division,
         thana,
@@ -110,7 +111,8 @@ export class RegisterComponent {
             this.router.navigateByUrl('login');
           },
           error: (error) => {
-            console.error('Error register:', error);
+            this.error = error.error.message;
+            console.error('Error register:', error.error);
           }
         });
     } else {

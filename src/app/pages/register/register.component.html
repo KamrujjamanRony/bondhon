@@ -78,6 +78,7 @@
             [(ngModel)]="model.thana"
             class="select select-bordered w-full"
             [disabled]="thana().length === 0"
+            required
           >
             <option selected disabled hidden value="">Select thana</option>
             @for (option of thana(); track $index) {
@@ -102,6 +103,7 @@
           placeholder="Type Here"
           label="Date of Birth (জন্মতারিখ)"
           [(value)]="model.dob"
+          [isRequired]="true"
         ></app-inputs>
 
         <app-inputs

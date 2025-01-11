@@ -9,10 +9,25 @@
         phone: <span class="text-rose-600">{{ model?.mobileNumber }}</span>
       </p>
       <p class="py-2 capitalize font-semibold text-xl">
+        gender: <span class="text-rose-600">{{ model?.gender }}</span>
+      </p>
+      <p class="py-2 capitalize font-semibold text-xl">
+        Date Of Birth: <span class="text-rose-600">{{ model?.dob }}</span>
+      </p>
+      @if (model?.lastDoneteDate) {
+      <p class="py-2 capitalize font-semibold text-xl">
+        lastDoneteDate:
+        <span class="text-rose-600">{{ model?.lastDoneteDate }}</span>
+      </p>
+      }
+      <p class="py-2 capitalize font-semibold text-xl">
         division: <span class="text-rose-600">{{ model?.division }}</span>
       </p>
       <p class="py-2 capitalize font-semibold text-xl">
-        district: <span class="text-rose-600">{{ model?.thana }}</span>
+        district: <span class="text-rose-600">{{ model?.district }}</span>
+      </p>
+      <p class="py-2 capitalize font-semibold text-xl">
+        Thana: <span class="text-rose-600">{{ model?.thana }}</span>
       </p>
       <p class="py-2 capitalize font-semibold text-xl">
         blood Group:
@@ -26,10 +41,11 @@
       <p class="py-2 capitalize font-semibold text-xl">
         college: <span class="text-rose-600">{{ model?.college }}</span>
       </p>
-      }
+      } @if (model?.others) {
       <p class="py-2 capitalize font-semibold text-xl">
         Full Address: <span class="text-rose-600">{{ model?.others }}</span>
       </p>
+      }
     </div>
     <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
       <form class="card-body" #form="ngForm" (ngSubmit)="onFormSubmit()">
@@ -73,7 +89,7 @@
         <app-inputs
           type="select"
           defaultPlaceholder="Select division"
-          [options]="divisions"
+          [options]="divisions()"
           inputId="division"
           placeholder="Type Here"
           label="division (বিভাগ)"
@@ -85,14 +101,36 @@
         <app-inputs
           type="select"
           defaultPlaceholder="Select district"
-          [options]="districts"
+          [options]="districts()"
           inputId="thana"
           placeholder="Type Here"
           label="district (জেলা)"
           [(value)]="model.thana"
           [isDisabled]="model.division === ''"
+          (valueChange)="onDistrictChanged()"
           [isRequired]="true"
         ></app-inputs>
+
+        <div>
+          <label for="thana" class="label capitalize">
+            <span class="label-text"> thana (থানা) </span>
+          </label>
+          <select
+            name="thana"
+            id="thana"
+            [(ngModel)]="model.thana"
+            class="select select-bordered w-full"
+            [disabled]="thana().length === 0"
+            required
+          >
+            <option selected disabled hidden value="">Select thana</option>
+            @for (option of thana(); track $index) {
+            <option [value]="option?.thana1">
+              {{ option?.thana1 }}
+            </option>
+            }
+          </select>
+        </div>
 
         <app-inputs
           type="textarea"

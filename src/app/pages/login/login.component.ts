@@ -31,11 +31,12 @@ export class LoginComponent {
   onFormSubmit() {
     const { mobileNumber } = this.model;
     if (mobileNumber) {
-      this.userService.getUser('', '', '', '', '', '', '', mobileNumber)
+      this.userService.getUser("", "", "", "", "", "", "", mobileNumber)
         .subscribe({
           next: (response) => {
             console.log(response)
             if (response[0]) {
+              console.log(response)
               this.authService.setUserInfo(response[0])
               this.success = 'User login successfully';
               setTimeout(() => {

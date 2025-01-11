@@ -1,9 +1,10 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, signal } from '@angular/core';
 import { DataService } from '../../services/data.service';
 import { UserService } from '../../services/user.service';
 import { InputsComponent } from "../../components/shared/inputs/inputs.component";
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { ThanaService } from '../../services/thana.service';
 
 @Component({
   selector: 'app-account-update',
@@ -16,31 +17,32 @@ export class AccountUpdateComponent {
   private dataService = inject(DataService);
   private userService = inject(UserService);
   private authService = inject(AuthService);
-  model : any;
-  userData : any;
-  divisions : any;
-  districts : any;
-  bloodGroups : any;
-  occupation : any;
-  error : any;
-  success : any;
-  gender : any;
+  private thanaService = inject(ThanaService);
+  model: any;
+  userData = signal<any>(null);
+  divisions = signal<any>([]);
+  districts = signal<any>([]);
+  thana = signal<any>([]);
+  bloodGroups: any;
+  occupation: any;
+  error: any;
+  success: any;
+  gender: any;
 
   constructor() {
     this.model = {
       division: '',
+      district: '',
       thana: '',
       name: '',
       mobileNumber: '',
       gender: '',
-      dob: new Date(),
+      dob: "",
       lastDoneteDate: '',
-      password: '',
-      rePassword: '',
       bloodGroup: '',
       occupation: '',
       college: '',
-      isAgree: false,
+      isAgree: true,
       others: '',
       postedBy: '',
       entryDate: ""
@@ -49,65 +51,71 @@ export class AccountUpdateComponent {
 
   ngOnInit() {
     this.dataService.getJsonData().subscribe(data => {
-      this.divisions = data?.divisions;
+      this.divisions.set(data?.divisions);
       this.bloodGroups = data?.bloodGroups;
       this.occupation = data?.occupation;
       this.gender = data?.gender;
     });
     this.authService.userInfo$.subscribe((user) => {
-      this.model = user;
+      const updateUser = { ...user, dob: user?.dob?.split('T')[0] }
+      this.model = updateUser;
+      console.log(this.model.dob)
+      this.userData.set(updateUser)
+      console.log(updateUser)
       this.onDivisionChanged();
-      this.userService.getUser(user.phone).subscribe((data) => {
-        const responseData = data[0] || user;
-        this.model = {
-          ...responseData,
-          dob: responseData.dob ? responseData.dob.split('T')[0] : '',
-          lastDoneteDate: responseData.lastDoneteDate ? responseData.lastDoneteDate.split('T')[0] : ''
-        };
-      });
     });
-    
+
   }
 
-  onFormSubmit(){
+  onFormSubmit() {
     const {
       division,
       district,
+      thana,
       name,
-      phone,
-      lastDateOfDonate,
-      password,
+      mobileNumber,
+      gender,
+      dob,
+      lastDoneteDate,
       bloodGroup,
       occupation,
+      isAgree,
+      postedBy,
+      entryDate,
       college,
       others
     } = this.model;
-    if (division && district && name && phone && password && bloodGroup && occupation) {
+    if (division && district && thana && name && mobileNumber && gender && dob && entryDate && postedBy && bloodGroup && occupation) {
       const userInfo = {
         division,
         district,
+        thana,
         name,
-        phone,
-        lastDateOfDonate,
-        password,
+        mobileNumber,
+        gender,
+        dob,
+        lastDoneteDate,
+        isAgree,
+        postedBy,
+        entryDate,
         bloodGroup,
         occupation,
         college,
         others
       };
-      this.userService.updateUser( this.userData.id, userInfo)
-      .subscribe({
-        next: (response) => {
-          this.success = 'Profile update successfully';
-          this.authService.updateUserInfo( userInfo );
-          setTimeout(() => {
-            this.success = null;
-          }, 3000);
-        },
-        error: (error) => {
-          console.error('Error update:', error);
-        }
-      });
+      this.userService.updateUser(this.userData().gid, userInfo)
+        .subscribe({
+          next: (response) => {
+            this.success = 'Profile update successfully';
+            this.authService.updateUserInfo(userInfo);
+            setTimeout(() => {
+              this.success = null;
+            }, 3000);
+          },
+          error: (error) => {
+            console.error('Error update:', error);
+          }
+        });
     } else {
       this.error = 'Please Fill all the required fields'
       setTimeout(() => {
@@ -116,15 +124,23 @@ export class AccountUpdateComponent {
     }
   }
 
-  onDivisionChanged(){
+  onDivisionChanged() {
     this.dataService.getCityByParentId(this.model.division).subscribe(
       data => {
-        this.districts = data;
+        this.districts.set(data);
       },
       error => {
         console.error('Error fetching data', error);
       }
     );
+  }
+
+  onDistrictChanged() {
+    this.thanaService.getThana({
+      "Search": this.model.district
+    }).subscribe(data => {
+      this.thana.set(data);
+    })
   }
 
 }
