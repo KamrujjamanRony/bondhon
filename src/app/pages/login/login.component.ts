@@ -31,7 +31,7 @@ export class LoginComponent {
   onFormSubmit() {
     const { mobileNumber } = this.model;
     if (mobileNumber) {
-      this.userService.getUser("", "", "", "", "", "", "", mobileNumber)
+      this.userService.getUser("", "", "", "", "", "", "", "", mobileNumber)
         .subscribe({
           next: (response) => {
             console.log(response)

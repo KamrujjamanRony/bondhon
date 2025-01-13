@@ -11,12 +11,17 @@
     </h5>
     @if (description) {
     <p class="mb-3 font-normal text-gray-700 dark:text-gray-400">
-      {{ description }}
+      {{ description?.slice(0, 300) }}
     </p>
     }
   </div>
 </div>
 
 @if(showModal){
-    <news-modal [img]="img" [title]="title" [description]="description" (closeNewsDetails)="closeNewsDetails()"></news-modal>
-  }
+<news-modal
+  [img]="img"
+  [title]="title"
+  [description]="description"
+  (closeNewsDetails)="closeNewsDetails()"
+></news-modal>
+}

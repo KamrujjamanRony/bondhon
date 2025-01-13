@@ -39,6 +39,7 @@ export class AccountUpdateComponent {
       gender: '',
       dob: "",
       lastDoneteDate: '',
+      fullAddress: '',
       bloodGroup: '',
       occupation: '',
       college: '',
@@ -59,10 +60,9 @@ export class AccountUpdateComponent {
     this.authService.userInfo$.subscribe((user) => {
       const updateUser = { ...user, dob: user?.dob?.split('T')[0] }
       this.model = updateUser;
-      console.log(this.model.dob)
       this.userData.set(updateUser)
-      console.log(updateUser)
       this.onDivisionChanged();
+      this.onDistrictChanged();
     });
 
   }
@@ -77,6 +77,7 @@ export class AccountUpdateComponent {
       gender,
       dob,
       lastDoneteDate,
+      fullAddress,
       bloodGroup,
       occupation,
       isAgree,
@@ -86,6 +87,13 @@ export class AccountUpdateComponent {
       others
     } = this.model;
     if (division && district && thana && name && mobileNumber && gender && dob && entryDate && postedBy && bloodGroup && occupation) {
+      if (mobileNumber.length < 11) {
+        this.error = 'Mobile number must be at least 11 characters!';
+        setTimeout(() => {
+          this.error = null;
+        }, 3000);
+        return;
+      }
       const userInfo = {
         division,
         district,
@@ -95,6 +103,7 @@ export class AccountUpdateComponent {
         gender,
         dob,
         lastDoneteDate,
+        fullAddress,
         isAgree,
         postedBy,
         entryDate,
@@ -130,17 +139,19 @@ export class AccountUpdateComponent {
         this.districts.set(data);
       },
       error => {
-        console.error('Error fetching data', error);
+        console.error('Error fetching districts', error);
       }
     );
   }
 
   onDistrictChanged() {
-    this.thanaService.getThana({
-      "Search": this.model.district
-    }).subscribe(data => {
-      this.thana.set(data);
-    })
+    this.thanaService.getThana({ "Search": this.model.district }).subscribe(
+      data => {
+        this.thana.set(data);
+      },
+      error => {
+        console.error('Error fetching thana', error);
+      })
   }
 
 }

@@ -30,6 +30,10 @@
         Thana: <span class="text-rose-600">{{ model?.thana }}</span>
       </p>
       <p class="py-2 capitalize font-semibold text-xl">
+        Full Address:
+        <span class="text-rose-600">{{ model?.fullAddress }}</span>
+      </p>
+      <p class="py-2 capitalize font-semibold text-xl">
         blood Group:
         <span class="text-rose-600">{{ model?.bloodGroup }}</span>
       </p>
@@ -40,10 +44,6 @@
       @if (model.occupation == 'Student') {
       <p class="py-2 capitalize font-semibold text-xl">
         college: <span class="text-rose-600">{{ model?.college }}</span>
-      </p>
-      } @if (model?.others) {
-      <p class="py-2 capitalize font-semibold text-xl">
-        Full Address: <span class="text-rose-600">{{ model?.others }}</span>
       </p>
       }
     </div>
@@ -102,10 +102,10 @@
           type="select"
           defaultPlaceholder="Select district"
           [options]="districts()"
-          inputId="thana"
+          inputId="district"
           placeholder="Type Here"
           label="district (জেলা)"
-          [(value)]="model.thana"
+          [(value)]="model.district"
           [isDisabled]="model.division === ''"
           (valueChange)="onDistrictChanged()"
           [isRequired]="true"
@@ -120,7 +120,7 @@
             id="thana"
             [(ngModel)]="model.thana"
             class="select select-bordered w-full"
-            [disabled]="thana().length === 0"
+            [disabled]="model.district === ''"
             required
           >
             <option selected disabled hidden value="">Select thana</option>
@@ -134,10 +134,10 @@
 
         <app-inputs
           type="textarea"
-          inputId="others"
+          inputId="fullAddress"
           placeholder="Type Here"
           label="full address (সম্পূর্ণ ঠিকানা)"
-          [(value)]="model.others"
+          [(value)]="model.fullAddress"
         ></app-inputs>
 
         <app-inputs

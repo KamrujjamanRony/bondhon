@@ -6,19 +6,19 @@ import { GalleryCardComponent } from "../../components/gallery/gallery-card/gall
 @Component({
   selector: 'app-gallery',
   standalone: true,
-  imports: [NewsModalComponent, GalleryCardComponent],
+  imports: [GalleryCardComponent],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.css'
 })
 export class GalleryComponent {
   galleryService = inject(GalleryService);
   gallery?: any;
-  
+
 
   ngOnInit(): void {
     this.galleryService.getGallery({
       "search": ""
-  }).subscribe(data => {
+    }).subscribe(data => {
       this.gallery = data;
     })
   }

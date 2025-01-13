@@ -19,8 +19,12 @@ export class AdminService {
     return this.http.post<any[]>(this.urlAdmin + '/Search', { "search": query });
   }
 
-  loginAdmin(username: any, password: any): Observable<any> {
-    return this.http.post<any>(this.urlAdmin + `?username=${username}&password=${password}`, {});
+  loginAdmin(mobileNo: any, password: any): Observable<any> {
+    const loginData = {
+      "mobileNo": mobileNo,
+      "password": password
+    }
+    return this.http.post<any>(this.urlAdmin + `/Login`, loginData);
   }
 
   updateAdmin(id: any, updateAdminRequest: any | FormData): Observable<any> {

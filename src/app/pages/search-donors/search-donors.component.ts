@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { InputsComponent } from "../../components/shared/inputs/inputs.component";
 import { FormsModule } from '@angular/forms';
 import { DataService } from '../../services/data.service';
 import { UserCardComponent } from "../../components/shared/user-card/user-card.component";
 import { UserService } from '../../services/user.service';
+import { ThanaService } from '../../services/thana.service';
 
 @Component({
   selector: 'app-search-donors',
@@ -15,10 +16,12 @@ import { UserService } from '../../services/user.service';
 export class SearchDonorsComponent {
   private dataService = inject(DataService);
   private userService = inject(UserService);
+  private thanaService = inject(ThanaService);
 
   model: any;
-  divisions: any;
-  districts: any;
+  divisions = signal<any>([]);
+  districts = signal<any>([]);
+  thana = signal<any>([]);
   bloodGroups: any;
   users: any;
   allUsers: any;
@@ -26,6 +29,7 @@ export class SearchDonorsComponent {
   constructor() {
     this.model = {
       division: '',
+      district: '',
       thana: '',
       date: '',
       TodayOrBack3Month: '',
@@ -35,7 +39,7 @@ export class SearchDonorsComponent {
 
   ngOnInit() {
     this.dataService.getJsonData().subscribe(data => {
-      this.divisions = data?.divisions;
+      this.divisions.set(data?.divisions);
       this.bloodGroups = data?.bloodGroups;
     });
   }
@@ -43,21 +47,23 @@ export class SearchDonorsComponent {
   onFormSubmit() {
     const {
       division,
+      district,
       thana,
       TodayOrBack3Month,
       BloodGroup
     } = this.model;
 
-    if (division && thana && TodayOrBack3Month && BloodGroup) {
+    if (division && district && TodayOrBack3Month && BloodGroup) {
       // Encode the parameters properly
       const encodedDivision = encodeURIComponent(division);
+      const encodedDistrict = encodeURIComponent(district);
       const encodedThana = encodeURIComponent(thana);
-      this.userService.getUser(encodedDivision, encodedThana, BloodGroup, TodayOrBack3Month).subscribe(data => {
+      this.userService.getUser(encodedDivision, encodedDistrict, encodedThana, BloodGroup, TodayOrBack3Month).subscribe(data => {
         this.allUsers = data;
         this.users = this.allUsers;
       });
     }
-    
+
   }
 
   // Method to subtract 4 months from a given date
@@ -75,17 +81,27 @@ export class SearchDonorsComponent {
   onDateChange(): void {
     this.model.TodayOrBack3Month = this.calculateMinusFourMonths(this.model.date);
   }
-  
+
 
 
   onDivisionChanged() {
     this.dataService.getCityByParentId(this.model.division).subscribe(
       data => {
-        this.districts = data;
+        this.districts.set(data);
       },
       error => {
         console.error('Error fetching data', error);
       }
     );
+  }
+
+  onDistrictChanged() {
+    this.thanaService.getThana({ "Search": this.model.district }).subscribe(
+      data => {
+        this.thana.set(data);
+      },
+      error => {
+        console.error('Error fetching thana', error);
+      })
   }
 }

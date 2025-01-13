@@ -6,7 +6,7 @@
       <app-inputs
         type="select"
         defaultPlaceholder="Select division"
-        [options]="divisions"
+        [options]="divisions()"
         inputId="division"
         placeholder="Type Here"
         label="division (বিভাগ)"
@@ -17,21 +17,44 @@
       <app-inputs
         type="select"
         defaultPlaceholder="Select district"
-        [options]="districts"
-        inputId="thana"
+        [options]="districts()"
+        inputId="district"
         placeholder="Type Here"
         label="district (জেলা)"
-        [(value)]="model.thana"
+        [(value)]="model.district"
+        (valueChange)="onDistrictChanged()"
         [isDisabled]="model.division === ''"
         [isRequired]="true"
       ></app-inputs>
+
+      <div>
+        <label for="thana" class="label capitalize">
+          <span class="label-text"> thana (থানা) </span>
+        </label>
+        <select
+          name="thana"
+          id="thana"
+          [(ngModel)]="model.thana"
+          class="select select-bordered w-full"
+          [disabled]="thana().length === 0"
+          required
+        >
+          <option selected value="">Select thana</option>
+          @for (option of thana(); track $index) {
+          <option [value]="option?.thana1">
+            {{ option?.thana1 }}
+          </option>
+          }
+        </select>
+      </div>
+
       <app-inputs
         type="date"
         inputId="date"
         placeholder="Type Here"
         label="needed (প্রয়োজন)"
         [(value)]="model.date"
-        (input) = "onDateChange()"
+        (input)="onDateChange()"
         [isRequired]="true"
       ></app-inputs>
       <app-inputs

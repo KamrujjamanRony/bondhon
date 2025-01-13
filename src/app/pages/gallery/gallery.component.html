@@ -3,7 +3,7 @@
     <h2 class="text-4xl capitalize font-bold">our gallery</h2>
   </div>
   <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-    @for (data of gallery; track data.id) {
+    @for (data of gallery?.slice(3, gallery.length+1); track data.id) {
     <app-gallery-card
       [img]="data.link"
       [title]="data.title"
@@ -11,4 +11,7 @@
     ></app-gallery-card>
     }
   </div>
+  @if (gallery?.length < 4) {
+  <p class="text-center text-2xl font-bold text-rose-500">No Gallery Found!</p>
+  }
 </div>

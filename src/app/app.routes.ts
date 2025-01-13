@@ -67,20 +67,20 @@ export const routes: Routes = [
   {
     path: 'admin-panel',
     component: AdminPanelComponent,
-    canActivate: [AdminGuard || SuperAdminGuard],
+    canActivate: [EditorGuard],
     children: [
       { path: '', redirectTo: 'user-list', pathMatch: 'full' },
       {
         path: 'user-list',
-        component: UserListComponent, canActivate: [AdminGuard || SuperAdminGuard || EditorGuard]
+        component: UserListComponent, canActivate: [EditorGuard]
       },
       {
         path: 'user-list/add',
-        component: UserFormComponent, canActivate: [AdminGuard || SuperAdminGuard || EditorGuard]
+        component: UserFormComponent, canActivate: [EditorGuard]
       },
       {
         path: 'user-list/edit/:id',
-        component: UserFormComponent, canActivate: [AdminGuard || SuperAdminGuard || EditorGuard]
+        component: UserFormComponent, canActivate: [EditorGuard]
       },
 
       {
@@ -98,32 +98,32 @@ export const routes: Routes = [
 
       {
         path: 'thana-list',
-        component: ThanaComponent, canActivate: [AdminGuard || SuperAdminGuard]
+        component: ThanaComponent, canActivate: [AdminGuard]
       },
       {
         path: 'thana-list/add',
-        component: ThanaFormComponent, canActivate: [AdminGuard || SuperAdminGuard]
+        component: ThanaFormComponent, canActivate: [AdminGuard]
       },
       {
         path: 'thana-list/edit/:id',
-        component: ThanaFormComponent, canActivate: [AdminGuard || SuperAdminGuard]
+        component: ThanaFormComponent, canActivate: [AdminGuard]
       },
       {
         path: 'gallery-list',
-        component: GalleryListComponent, canActivate: [AdminGuard || SuperAdminGuard]
+        component: GalleryListComponent, canActivate: [AdminGuard]
       },
       {
         path: 'gallery-list/add',
-        component: GalleryFormComponent, canActivate: [AdminGuard || SuperAdminGuard]
+        component: GalleryFormComponent, canActivate: [AdminGuard]
       },
       {
         path: 'gallery-list/edit/:id',
-        component: GalleryFormComponent, canActivate: [AdminGuard || SuperAdminGuard]
+        component: GalleryFormComponent, canActivate: [AdminGuard]
       },
 
       {
         path: 'update-about/:id',
-        component: AboutUsComponent, canActivate: [AdminGuard || SuperAdminGuard]
+        component: AboutUsComponent, canActivate: [AdminGuard]
       },
     ],
   },

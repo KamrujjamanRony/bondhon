@@ -43,7 +43,7 @@
       <app-inputs
         type="select"
         defaultPlaceholder="Select division"
-        [options]="divisions"
+        [options]="divisions()"
         inputId="division"
         placeholder="Type Here"
         label="division (বিভাগ)"
@@ -54,7 +54,7 @@
 
       <app-inputs
         type="select"
-        [options]="districts"
+        [options]="districts()"
         inputId="thana"
         label="district (জেলা)"
         [(value)]="model.district"
@@ -73,10 +73,10 @@
           id="thana"
           [(ngModel)]="model.thana"
           class="select select-bordered w-full"
-          [disabled]="thana.length === 0"
+          [disabled]="thana()?.length === 0"
         >
           <option selected disabled hidden value="">Select thana</option>
-          @for (option of thana; track $index) {
+          @for (option of thana(); track $index) {
           <option [value]="option?.thana1">
             {{ option?.thana1 }}
           </option>
@@ -120,7 +120,7 @@
       <app-inputs
         type="select"
         defaultPlaceholder="Select Blood Group"
-        [options]="bloodGroups"
+        [options]="bloodGroups()"
         inputId="bloodGroup"
         placeholder="Type Here"
         label="bloodGroup (রক্তের গ্রুপ)"
@@ -148,7 +148,7 @@
       ></app-inputs>
       }
 
-      <div class="form-control">
+      <div class="flex justify-start gap-1">
         <label for="isAgree" class="label capitalize cursor-pointer">
           <input
             id="isAgree"
@@ -186,3 +186,17 @@
   />
   } }
 </section>
+
+@if (error) {
+<div class="toast toast-top toast-end">
+  <div class="alert alert-error">
+    <span class="text-white">{{ error }}</span>
+  </div>
+</div>
+} @if (success) {
+<div class="toast toast-top toast-end">
+  <div class="alert alert-success">
+    <span class="text-white">{{ success }}</span>
+  </div>
+</div>
+}

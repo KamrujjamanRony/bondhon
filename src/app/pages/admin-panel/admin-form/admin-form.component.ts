@@ -22,7 +22,7 @@ export class AdminFormComponent {
   roles = [
     { value: 'admin', label: 'Admin' },
     { value: 'super-admin', label: 'Super Admin' },
-    { value: 'editor', label: 'Editor' }
+    { value: 'user-entry', label: 'User Entry' }
   ]
   paramsSubscription?: Subscription;
   adminSubscription?: Subscription;

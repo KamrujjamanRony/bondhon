@@ -1,0 +1,70 @@
+@if (index % 2 === 0) {
+<div class="flex flex-col md:flex-row gap-5 items-center">
+  <div class="w-full">
+    <div class="service_item">
+      <div class="overflow-hidden">
+        <img class="w-full" [src]="data?.link" [alt]="data?.title" />
+      </div>
+    </div>
+  </div>
+  <div class="w-full">
+    <div class="ps-5">
+      <h1 class="text-gray-300 text-5xl lg:text-7xl font-bold">
+        0{{ index + 1 }}
+      </h1>
+      <a href="#">
+        <h4 class="text-2xl lg:text-3xl font-bold mb-2 lg:mb-5">
+          {{ data?.title }}
+        </h4>
+      </a>
+      <p class="text-base mb-4 lg:mb-8">
+        {{ data?.description?.slice(0, 300) }}
+      </p>
+      <button
+        (click)="openNewsDetails()"
+        class="btn bg-rose-600 border-none text-white hover:bg-rose-500 rounded shadow-lg shadow-gray-500 text-lg lg:px-10"
+      >
+        Read More
+      </button>
+    </div>
+  </div>
+</div>
+} @else {
+<div class="flex flex-col-reverse md:flex-row gap-5 items-center">
+  <div class="w-full">
+    <div class="md:text-end ps-5 md:pe-5">
+      <h1 class="text-gray-300 text-5xl lg:text-7xl font-bold">
+        0{{ index + 1 }}
+      </h1>
+      <a href="#">
+        <h4 class="text-2xl lg:text-3xl font-bold mb-2 lg:mb-5">
+          {{ data?.title }}
+        </h4>
+      </a>
+      <p class="text-base text-justify mb-4 lg:mb-8">
+        {{ data?.description?.slice(0, 300) }}
+      </p>
+      <button
+        (click)="openNewsDetails()"
+        class="btn bg-rose-600 border-none text-white hover:bg-rose-500 rounded shadow-lg shadow-gray-500 text-lg lg:px-10"
+      >
+        Read More
+      </button>
+    </div>
+  </div>
+  <div class="w-full">
+    <div class="service_item">
+      <div class="overflow-hidden">
+        <img class="w-full" [src]="data?.link" [alt]="data?.title" />
+      </div>
+    </div>
+  </div>
+</div>
+} @if(showModal){
+<news-modal
+  [img]="data?.link"
+  [title]="data?.title"
+  [description]="data?.description"
+  (closeNewsDetails)="closeNewsDetails()"
+></news-modal>
+}

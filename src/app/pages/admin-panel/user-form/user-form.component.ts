@@ -1,12 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ConfirmModalComponent } from '../../../components/shared/confirm-modal/confirm-modal.component';
 import { InputsComponent } from '../../../components/shared/inputs/inputs.component';
 import { UserService } from '../../../services/user.service';
 import { DataService } from '../../../services/data.service';
 import { ThanaService } from '../../../services/thana.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-user-form',
@@ -19,13 +20,17 @@ export class UserFormComponent {
   private userService = inject(UserService);
   private dataService = inject(DataService);
   private thanaService = inject(ThanaService);
+  private authService = inject(AuthService);
   route = inject(ActivatedRoute);
+  router = inject(Router);
   id: any = null;
   model?: any;
-  divisions: any;
-  districts: any;
-  thana: any;
-  bloodGroups: any;
+  admin?: any;
+  divisions = signal<any>([]);
+  districts = signal<any>([]);
+  thana = signal<any>([]);
+  bloodGroups = signal<any>([]);
+  postPersons = signal<any>([]);
   occupation: any;
   conditions: any;
   gender: any;
@@ -33,6 +38,8 @@ export class UserFormComponent {
   confirmModal: boolean = false;
   paramsSubscription?: Subscription;
   UserSubscription?: Subscription;
+  error: any;
+  success: any;
 
   constructor() {
     const today = new Date();
@@ -41,9 +48,10 @@ export class UserFormComponent {
   }
 
   ngOnInit(): void {
+    this.model.postedBy = this.authService.getAdminInfo()?.name;
     this.dataService.getJsonData().subscribe(data => {
-      this.divisions = data?.divisions;
-      this.bloodGroups = data?.bloodGroups;
+      this.divisions.set(data?.divisions);
+      this.bloodGroups.set(data?.bloodGroups);
       this.occupation = data?.occupation;
       this.gender = data?.gender;
       this.conditions = data?.conditions;
@@ -52,12 +60,14 @@ export class UserFormComponent {
       next: (params) => {
         this.id = params.get('id');
         if (this.id) {
-          this.userService.getUser('', '', '', '', '', '', '', this.id)
+          this.userService.getUser('', '', '', '', '', '', '', '', this.id)
             .subscribe({
               next: (response) => {
                 console.log(response)
                 if (response) {
                   this.model = response[0];
+                  this.onDivisionChanged();
+                  this.onDistrictChanged();
                 }
               }
             });
@@ -67,22 +77,71 @@ export class UserFormComponent {
   }
 
   onFormSubmit(): void {
+    const {
+      division,
+      district,
+      thana,
+      name,
+      mobileNumber,
+      gender,
+      dob,
+      bloodGroup,
+      occupation,
+    } = this.model;
+    if (mobileNumber.length < 11) {
+      this.error = 'Mobile number must be at least 11 characters!';
+      setTimeout(() => {
+        this.error = null;
+      }, 3000);
+      return;
+    }
 
-    if (this.id) {
-      this.UserSubscription = this.userService.updateUser(this.id, this.model)
-        .subscribe({
-          next: (response) => {
-            this.confirmModal = true;
-          }
-        });
+    if (division && district && thana && name && mobileNumber && gender && dob && bloodGroup && occupation) {
+      if (this.id) {
+        this.UserSubscription = this.userService.updateUser(this.id, this.model)
+          .subscribe({
+            next: (response) => {
+              this.confirmModal = true;
+              this.success = 'User Update successfully';
+              setTimeout(() => {
+                this.success = null;
+                // this.router.navigateByUrl('/admin-panel/user-list');
+              }, 3000);
+            },
+            error: (error) => {
+              this.error = error.error.message;
+              console.error('Error Update User:', error.error);
+              setTimeout(() => {
+                this.error = null;
+              }, 3000);
+            }
+          });
+      } else {
+        console.log(this.model)
+        this.UserSubscription = this.userService.addUser(this.model)
+          .subscribe({
+            next: (response) => {
+              this.confirmModal = true;
+              this.success = 'User Add successfully';
+              setTimeout(() => {
+                this.success = null;
+              }, 3000);
+              // this.router.navigateByUrl('/admin-panel/user-list');
+            },
+            error: (error) => {
+              this.error = error.error.message;
+              console.error('Error Add User:', error.error);
+              setTimeout(() => {
+                this.error = null;
+              }, 3000);
+            }
+          });
+      }
     } else {
-      console.log(this.model)
-      this.UserSubscription = this.userService.addUser(this.model)
-        .subscribe({
-          next: (response) => {
-            this.confirmModal = true;
-          }
-        });
+      this.error = 'Please Fill all the required fields'
+      setTimeout(() => {
+        this.error = null;
+      }, 3000);
     }
   };
 
@@ -91,6 +150,8 @@ export class UserFormComponent {
       name: "",
       mobileNumber: "",
       gender: "",
+      division: "",
+      district: "",
       thana: "",
       bloodGroup: "",
       occupation: "",
@@ -101,8 +162,6 @@ export class UserFormComponent {
       isAgree: "",
       fullAddress: "",
       others: "",
-      division: "",
-      district: "",
       postedBy: "",
     };
   }
@@ -114,7 +173,7 @@ export class UserFormComponent {
   onDivisionChanged() {
     this.dataService.getCityByParentId(this.model.division).subscribe(
       data => {
-        this.districts = data;
+        this.districts.set(data);
         // this.cdr.detectChanges();
       },
       error => {
@@ -127,7 +186,7 @@ export class UserFormComponent {
     this.thanaService.getThana({
       "Search": this.model.district
     }).subscribe(data => {
-      this.thana = data;
+      this.thana.set(data);
     })
   }
 

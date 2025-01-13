@@ -15,12 +15,13 @@ export class UserService {
     return this.http.post<void>(this.urlUser, model)
   }
 
-  getUser(division: any = '', thana: any = '', bloodGroup: any = '', todayOrBack3Month: any = '', postBy: any = '', from: any = '', to: any = '', search: any = '', isAgree: any = ''): Observable<any[]> {
+  getUser(division: any = '', district: any = '', thana: any = '', bloodGroup: any = '', todayOrBack3Month: any = '', postBy: any = '', from: any = '', to: any = '', search: any = '', isAgree: any = ''): Observable<any[]> {
     const query = {
       "search": search,
       "fromDate": from,
       "toDate": to,
       "division": division,
+      "district": district,
       "thana": thana,
       "bloodGroup": bloodGroup,
       "todayOrBack3Month": todayOrBack3Month,

@@ -71,6 +71,7 @@ export class RegisterComponent {
       division,
       district,
       thana,
+      fullAddress,
       name,
       mobileNumber,
       gender,
@@ -83,9 +84,18 @@ export class RegisterComponent {
       entryDate
     } = this.model;
     if (division && district && thana && name && mobileNumber && gender && dob && bloodGroup && occupation) {
+      if (mobileNumber.length < 11) {
+        this.error = 'Mobile number must be at least 11 characters!';
+        setTimeout(() => {
+          this.error = null;
+        }, 3000);
+        return;
+      }
       const userInfo = {
         division,
+        district,
         thana,
+        fullAddress,
         name,
         mobileNumber,
         gender,

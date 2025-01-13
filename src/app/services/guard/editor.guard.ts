@@ -15,7 +15,7 @@ export class EditorGuard implements CanActivate {
         return this.authService.adminInfo$.pipe(
             take(1), // Ensure we only take the first emitted value
             map(admin => {
-                if (admin && admin?.role.toLowerCase() == 'editor') {
+                if (admin && (admin?.role.toLowerCase() === 'super-admin' || admin.role.toLowerCase() === 'admin' || admin.role.toLowerCase() === 'user-entry')) {
                     return true;
                 } else {
                     this.router.navigate(['/admin-login']);

@@ -13,7 +13,7 @@
       inputId="searchQuery"
       placeholder="Search Here"
       [(value)]="model.searchQuery"
-      (valueChange)="onSearch()"
+      (valueChange)="getUsers()"
       class="-mt-4 w-full sm:max-w-48"
     ></app-inputs>
     <app-inputs
@@ -32,6 +32,7 @@
       (valueChange)="getUsers()"
       class="-mt-4"
     ></app-inputs>
+    @if (admin.role !== 'user-entry') {
     <app-inputs
       type="select"
       defaultPlaceholder="Select Post By"
@@ -41,6 +42,8 @@
       [(value)]="model.postBy"
       (valueChange)="getUsers()"
     ></app-inputs>
+    }
+
     <app-inputs
       type="select"
       defaultPlaceholder="Select division"
@@ -65,7 +68,7 @@
         name="thana"
         id="thana"
         [(ngModel)]="model.thana"
-        (valueChange)="getUsers()"
+        (change)="getUsers()"
         [disabled]="thana().length === 0"
         class="select select-bordered w-full"
       >
@@ -83,12 +86,18 @@
       [options]="bloodGroups()"
       inputId="bloodGroup"
       placeholder="Type Here"
-      (valueChange)="getUsers()"
+      (change)="getUsers()"
       [(value)]="model.bloodGroup"
     ></app-inputs>
     <a
-      routerLink="add-carousel"
+      (click)="onClearFilter()"
       class="btn bg-rose-500 hover:bg-rose-400 text-white font-bold py-2 px-4 border-b-4 border-rose-700 hover:border-rose-500 rounded uppercase cursor-pointer"
+    >
+      Clear Filter
+    </a>
+    <a
+      routerLink="add-carousel"
+      class="btn bg-fuchsia-500 hover:bg-fuchsia-400 text-white font-bold py-2 px-4 border-b-4 border-fuchsia-700 hover:border-fuchsia-500 rounded uppercase cursor-pointer"
       (click)="generatePDF()"
     >
       print
@@ -114,6 +123,7 @@
               <th class="px-4 py-3">mobile Number</th>
               <th class="px-4 py-3">gender</th>
               <th class="px-4 py-3">division</th>
+              <th class="px-4 py-3">district</th>
               <th class="px-4 py-3">thana</th>
               <th class="px-4 py-3">blood Group</th>
               <th class="px-4 py-3">occupation</th>
@@ -137,6 +147,7 @@
               <td class="px-4 py-3 text-xs">{{ data?.mobileNumber }}</td>
               <td class="px-4 py-3 text-xs">{{ data?.gender }}</td>
               <td class="px-4 py-3 text-xs">{{ data?.division }}</td>
+              <td class="px-4 py-3 text-xs">{{ data?.district }}</td>
               <td class="px-4 py-3 text-xs">{{ data?.thana }}</td>
               <td class="px-4 py-3 text-xs">{{ data?.bloodGroup }}</td>
               <td class="px-4 py-3 text-xs">{{ data?.occupation }}</td>

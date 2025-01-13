@@ -51,29 +51,27 @@ export class UserListComponent {
 
   ngOnInit(): void {
     this.admin = this.authService.getAdminInfo();
-    console.log(this.admin);
-    const date = new Date();
-    this.getUsers()
-    this.model.from = date.toISOString().split('T')[0]
+    // console.log(this.admin);
+    // const date = new Date();
+    // this.model.from = date.toISOString().split('T')[0]
     this.adminService.getAdmin("").subscribe(data => {
       const allAdmin = data;
       this.postPersons.set(allAdmin.map(p => ({ id: p.name, name: p.name })))
-      console.log(this.postPersons());
+      this.postPersons().push({ id: "user", name: "user" });
     });
     this.dataService.getJsonData().subscribe(data => {
-      this.divisions.set(data?.divisions);
       this.bloodGroups.set(data?.bloodGroups);
+      this.divisions.set(data?.divisions);
+      this.model.division = this.divisions()[0]?.name;
+      this.onDivisionChanged();
     });
   }
 
   getUsers() {
-    this.userService.getUser(this.model.division, this.model.thana, this.model.bloodGroup, '', this.model.postBy, this.model.from, this.model.to).subscribe(data => {
-      this.users.set(data);
-    });
-  }
-
-  onSearch() {
-    this.userService.getUser(this.model.searchQuery.trim()).subscribe(data => {
+    if (this.admin.role === 'user-entry') {
+      this.model.postBy = this.admin.name;
+    }
+    this.userService.getUser(this.model.division, this.model.district, this.model.thana, this.model.bloodGroup, '', this.model.postBy, this.model.from, this.model.to, this.model.searchQuery.trim()).subscribe(data => {
       this.users.set(data);
     });
   }
@@ -83,12 +81,13 @@ export class UserListComponent {
     this.dataService.getCityByParentId(this.model.division).subscribe(
       data => {
         this.districts.set(data);
+        this.getUsers();
       },
       error => {
         console.error('Error fetching data', error);
       }
     );
-    this.getUsers()
+    // this.getUsers()
   }
 
   onDistrictChanged() {
@@ -96,6 +95,7 @@ export class UserListComponent {
       "Search": this.model.district
     }).subscribe(data => {
       this.thana.set(data);
+      this.getUsers();
     })
   }
 
@@ -112,17 +112,29 @@ export class UserListComponent {
     }
   }
 
+  onClearFilter() {
+    this.model = {
+      division: '',
+      district: '',
+      thana: '',
+      searchQuery: '',
+      from: '',
+      to: '',
+      postBy: '',
+      bloodGroup: ''
+    };
+    this.getUsers();
+  }
+
   transform(value: any, args: any = 'dd/MM/yyyy'): any {
     if (!value) return null;
     const datePipe = new DatePipe('en-US');
     return datePipe.transform(value, args);
   }
 
-
-
   // Method to generate PDF
   generatePDF() {
-    const { division, thana, bloodGroup, searchQuery } = this.model;
+    const { division, district, thana, bloodGroup, searchQuery, from, to } = this.model;
     const doc = new jsPDF();
 
     // Add header text
@@ -131,6 +143,8 @@ export class UserListComponent {
       doc.text('User Information Report', 105, 15, { align: 'center' });
       doc.setFontSize(10);
       doc.text(`Blood Group: ${bloodGroup ? bloodGroup : 'All'}`, 105, 20, { align: 'center' });
+      doc.setFontSize(10);
+      doc.text(`${division ? ('Division: ' + division) : ''}${district ? (', District: ' + district) : ''}${thana ? (', Thana: ' + thana) : ''}`, 105, 24, { align: 'center' });
     };
 
     // Format user data into table rows
@@ -152,7 +166,7 @@ export class UserListComponent {
       head: [['SL', 'Name', 'Phone', 'Blood Group', 'Last Donation', 'Occupation', 'College']],
       body: userRows,
       theme: 'grid', // Ensure the grid theme is used for borders
-      startY: 25,
+      startY: 26,
       // Customizing the header style to remove background color and apply border
       headStyles: {
         fillColor: [255, 255, 255], // Remove background color by setting it to white

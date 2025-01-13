@@ -35,15 +35,16 @@ export class AdminLoginComponent {
       password
     } = this.model;
     if (mobileNumber && password) {
-      this.adminService.getAdmin(mobileNumber)
+      this.adminService.loginAdmin(mobileNumber, password)
         .subscribe({
           next: (response) => {
             console.log(response)
-            if (response[0]) {
-              this.authService.setAdminInfo(response[0])
+            if (response) {
+              this.authService.setAdminInfo(response)
               this.success = 'Admin login successfully';
+              this.router.navigateByUrl('admin-panel/user-list');
               setTimeout(() => {
-                this.router.navigateByUrl('/admin-panel');
+                this.success = null;
               }, 1500);
             } else {
               this.error = 'Please Fill mobileNumber and password correctly';
