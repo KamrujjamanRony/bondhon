@@ -4,11 +4,12 @@ import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { SubBannerComponent } from "../../components/home/sub-banner/sub-banner.component";
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [InputsComponent, FormsModule],
+  imports: [InputsComponent, FormsModule, SubBannerComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
