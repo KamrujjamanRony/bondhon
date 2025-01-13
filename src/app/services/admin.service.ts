@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class AdminService {
 
-  urlAdmin = 'http://localhost:1001/api/Admin';
+  urlAdmin = 'https://a.bandhanblood.com/api/Admin';
 
   http = inject(HttpClient);
 

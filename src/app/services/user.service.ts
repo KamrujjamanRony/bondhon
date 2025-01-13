@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class UserService {
 
-  urlUser = 'http://localhost:1001/api/DonerReg';
+  urlUser = 'https://a.bandhanblood.com/api/DonerReg';
 
   http = inject(HttpClient);
 

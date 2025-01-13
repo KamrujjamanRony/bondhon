@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
 export class GalleryService {
 
   http = inject(HttpClient);
-  rootUrl = 'http://localhost:1001/api/Gallery';
+  rootUrl = 'https://a.bandhanblood.com/api/Gallery';
 
-  addGallery(model: any | FormData): Observable<void>{
+  addGallery(model: any | FormData): Observable<void> {
     return this.http.post<void>(this.rootUrl, model)
   }
 
@@ -18,11 +18,11 @@ export class GalleryService {
     return this.http.post<any>(`${this.rootUrl}/Search`, query);
   }
 
-  updateGallery(id: any, updateGalleryRequest: any | FormData): Observable<any>{
+  updateGallery(id: any, updateGalleryRequest: any | FormData): Observable<any> {
     return this.http.put<any>(`${this.rootUrl}/Edit/${id}`, updateGalleryRequest);
   }
 
-  deleteGallery(id: any): Observable<any>{
+  deleteGallery(id: any): Observable<any> {
     return this.http.delete<any>(`${this.rootUrl}/Delete?id=${id}`);
   }
 }

@@ -8,9 +8,9 @@ import { Observable } from 'rxjs';
 export class ThanaService {
 
   http = inject(HttpClient);
-  rootUrl = 'http://localhost:1001/api/Thana';
+  rootUrl = 'https://a.bandhanblood.com/api/Thana';
 
-  addThana(model: any | FormData): Observable<void>{
+  addThana(model: any | FormData): Observable<void> {
     return this.http.post<void>(this.rootUrl, model)
   }
 
@@ -18,11 +18,11 @@ export class ThanaService {
     return this.http.post<any>(`${this.rootUrl}/Search`, query);
   }
 
-  updateThana(id: any, updateThanaRequest: any | FormData): Observable<any>{
+  updateThana(id: any, updateThanaRequest: any | FormData): Observable<any> {
     return this.http.put<any>(`${this.rootUrl}/Edit/${id}`, updateThanaRequest);
   }
 
-  deleteThana(id: any): Observable<any>{
+  deleteThana(id: any): Observable<any> {
     return this.http.delete<any>(`${this.rootUrl}/Delete?id=${id}`);
   }
 }
