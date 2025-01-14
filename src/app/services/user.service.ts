@@ -17,16 +17,16 @@ export class UserService {
 
   getUser(division: any = '', district: any = '', thana: any = '', bloodGroup: any = '', todayOrBack3Month: any = '', postBy: any = '', from: any = '', to: any = '', search: any = '', isAgree: any = ''): Observable<any[]> {
     const query = {
-      "search": search,
+      "search": decodeURIComponent(search),
       "fromDate": from,
       "toDate": to,
-      "division": division,
-      "district": district,
-      "thana": thana,
+      "division": decodeURIComponent(division),
+      "district": decodeURIComponent(district),
+      "thana": decodeURIComponent(thana),
       "bloodGroup": bloodGroup,
       "todayOrBack3Month": todayOrBack3Month,
       "isAgree": isAgree,
-      "postedBy": postBy
+      "postedBy": decodeURIComponent(postBy)
     };
     return this.http.post<any[]>(this.urlUser + `/Search`, query);
   }
