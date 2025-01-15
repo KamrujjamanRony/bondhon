@@ -155,7 +155,8 @@ export class RegisterComponent {
 
   onDistrictChanged() {
     this.thanaService.getThana({
-      "Search": this.model.district
+      "Search": this.model.district,
+      "division": ""
     }).subscribe(data => {
       this.thana.set(data);
     })

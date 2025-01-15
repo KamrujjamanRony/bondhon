@@ -92,7 +92,8 @@ export class UserListComponent {
 
   onDistrictChanged() {
     this.thanaService.getThana({
-      "Search": this.model.district
+      "Search": this.model.district,
+      "division": ""
     }).subscribe(data => {
       this.thana.set(data);
       this.getUsers();
@@ -114,7 +115,7 @@ export class UserListComponent {
 
   onClearFilter() {
     this.model = {
-      division: '',
+      division: this.divisions()[0]?.name || '',
       district: '',
       thana: '',
       searchQuery: '',

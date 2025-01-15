@@ -38,7 +38,10 @@ export class ThanaFormComponent {
       next: (params) => {
         this.id = params.get('id');
         if (this.id) {
-          this.thanaService.getThana({ "search": this.id })
+          this.thanaService.getThana({
+            "search": this.id,
+            "division": ""
+          })
             .subscribe({
               next: (response) => {
                 if (response) {

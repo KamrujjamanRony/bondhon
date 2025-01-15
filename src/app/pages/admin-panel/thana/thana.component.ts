@@ -1,23 +1,46 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CoverComponent } from '../../../components/shared/cover/cover.component';
 import { ThanaService } from '../../../services/thana.service';
+import { DataService } from '../../../services/data.service';
+import { InputsComponent } from "../../../components/shared/inputs/inputs.component";
 
 @Component({
   selector: 'app-thana',
   standalone: true,
-  imports: [RouterLink, CoverComponent],
+  imports: [RouterLink, CoverComponent, InputsComponent],
   templateUrl: './thana.component.html',
   styleUrl: './thana.component.css'
 })
 export class ThanaComponent {
-  thanaService = inject(ThanaService);
+  private thanaService = inject(ThanaService);
+  private dataService = inject(DataService);
+  model: any;
+  divisions = signal<any>([]);
+  districts = signal<any>([]);
   thana?: any;
 
-  constructor() { }
+  constructor() {
+    this.model = {
+      division: '',
+      district: ''
+    };
+  }
 
   ngOnInit(): void {
-    this.thanaService.getThana({}).subscribe(data => {
+    this.dataService.getJsonData().subscribe(data => {
+      this.divisions.set(data?.divisions);
+      this.model.division = this.divisions()[0]?.name;
+      this.onDivisionChanged();
+    });
+  }
+
+  loadThana() {
+    const reqData = {
+      "division": this.model.division,
+      "Search": this.model.district
+    }
+    this.thanaService.getThana(reqData).subscribe(data => {
       this.thana = data;
     })
   }
@@ -33,6 +56,36 @@ export class ThanaComponent {
         }
       });
     }
+  }
+
+  onDivisionChanged() {
+    this.dataService.getCityByParentId(this.model.division).subscribe(
+      data => {
+        this.districts.set(data);
+        this.loadThana();
+      },
+      error => {
+        console.error('Error fetching data', error);
+      }
+    );
+  }
+
+  onDistrictChanged() {
+    this.thanaService.getThana({
+      "Search": this.model.district,
+      "division": ""
+    }).subscribe(data => {
+      this.thana.set(data);
+      this.loadThana();
+    })
+  }
+
+  onClearFilter() {
+    this.model = {
+      division: this.divisions()[0]?.name,
+      district: ''
+    };
+    this.loadThana();
   }
 
 }

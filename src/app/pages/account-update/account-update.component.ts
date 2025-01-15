@@ -145,7 +145,10 @@ export class AccountUpdateComponent {
   }
 
   onDistrictChanged() {
-    this.thanaService.getThana({ "Search": this.model.district }).subscribe(
+    this.thanaService.getThana({
+      "Search": this.model.district,
+      "division": ""
+    }).subscribe(
       data => {
         this.thana.set(data);
       },
