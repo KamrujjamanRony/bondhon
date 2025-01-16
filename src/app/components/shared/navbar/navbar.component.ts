@@ -78,13 +78,9 @@ export class NavbarComponent {
           link: '/search-donors'
         },
         // {
-        //   label: 'Blood Request',
-        //   link: '/blood-request'
+        //   label: 'Register',
+        //   link: '/register'
         // },
-        {
-          label: 'Register',
-          link: '/register'
-        },
         {
           label: 'Login',
           link: '/login'

@@ -73,7 +73,8 @@
     { "id": 61, "name": "Sylhet", "division": "Sylhet" },
     { "id": 62, "name": "Tangail", "division": "Dhaka" },
     { "id": 63, "name": "Thakurgaon", "division": "Rangpur" },
-    { "id": 64, "name": "Netrakona", "division": "Mymensingh" }
+    { "id": 64, "name": "Tangail", "division": "Mymensingh" },
+    { "id": 65, "name": "Kishoreganj", "division": "Mymensingh" }
   ],
   "bloodGroups": [
     { "id": 1, "name": "A+" },

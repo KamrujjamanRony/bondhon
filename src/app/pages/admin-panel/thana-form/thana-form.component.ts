@@ -58,21 +58,26 @@ export class ThanaFormComponent {
   }
 
   onFormSubmit(): void {
+    if (this.model.division && this.model.district && this.model.thana1) {
 
-    if (this.id) {
-      this.thanaSubscription = this.thanaService.updateThana(this.id, this.model)
-        .subscribe({
-          next: (response) => {
-            this.confirmModal = true;
-          }
-        });
+      if (this.id) {
+        this.thanaSubscription = this.thanaService.updateThana(this.id, this.model)
+          .subscribe({
+            next: (response) => {
+              this.confirmModal = true;
+            }
+          });
+      } else {
+        this.thanaSubscription = this.thanaService.addThana(this.model)
+          .subscribe({
+            next: (response) => {
+              this.confirmModal = true;
+            }
+          });
+      }
+
     } else {
-      this.thanaSubscription = this.thanaService.addThana(this.model)
-        .subscribe({
-          next: (response) => {
-            this.confirmModal = true;
-          }
-        });
+      alert('Please Fill all the required fields');
     }
   };
 
