@@ -77,10 +77,10 @@ export class NavbarComponent {
           label: 'Search Donors',
           link: '/search-donors'
         },
-        // {
-        //   label: 'Register',
-        //   link: '/register'
-        // },
+        {
+          label: 'Register',
+          link: '/register'
+        },
         {
           label: 'Login',
           link: '/login'

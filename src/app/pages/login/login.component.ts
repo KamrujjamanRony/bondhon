@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { InputsComponent } from "../../components/shared/inputs/inputs.component";
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
@@ -18,48 +18,53 @@ export class LoginComponent {
   private authService = inject(AuthService);
   router = inject(Router);
   model: any;
-  error: any;
-  success: any;
+  error = signal<any>(null);
+  success = signal<any>(null);
 
   constructor() {
     this.model = {
-      mobileNumber: ''
+      mobileNumber: '',
+      password: '',
     };
   }
 
   ngOnInit() { }
 
   onFormSubmit() {
-    const { mobileNumber } = this.model;
-    if (mobileNumber) {
-      this.userService.getUser("", "", "", "", "", "", "", "", mobileNumber)
+    const { mobileNumber, password } = this.model;
+    if (mobileNumber && password) {
+      this.userService.loginUser(this.model)
         .subscribe({
-          next: (response) => {
+          next: (response: any) => {
             console.log(response)
-            if (response[0]) {
+            if (response) {
               console.log(response)
-              this.authService.setUserInfo(response[0])
-              this.success = 'User login successfully';
+              this.authService.setUserInfo(response)
+              this.success.set('User login successfully');
               setTimeout(() => {
                 this.router.navigateByUrl('/');
               }, 1500);
             } else {
-              this.error = 'Mobile Number is Incorrect!';
+              this.error.set('Mobile Number or Password is Incorrect!');
               setTimeout(() => {
-                this.error = null;
-              }, 3000);
+                this.error.set(null);
+              }, 1500);
             }
 
           },
           error: (error) => {
             console.error('Error login:', error);
+            this.error.set(error?.error?.message);
+            setTimeout(() => {
+              this.error.set(null);
+            }, 1500);
           }
         });
     } else {
-      this.error = 'Mobile Number is Required!';
+      this.error.set('Mobile Number and Password is Required!');
       setTimeout(() => {
-        this.error = null;
-      }, 3000);
+        this.error.set(null);
+      }, 1500);
     }
   }
 

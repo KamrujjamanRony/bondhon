@@ -12,12 +12,15 @@
         gender: <span class="text-rose-600">{{ model?.gender }}</span>
       </p>
       <p class="py-2 capitalize font-semibold text-xl">
-        Date Of Birth: <span class="text-rose-600">{{ model?.dob }}</span>
+        Date Of Birth:
+        <span class="text-rose-600">{{ transform(model?.dob) }}</span>
       </p>
       @if (model?.lastDoneteDate) {
       <p class="py-2 capitalize font-semibold text-xl">
         lastDoneteDate:
-        <span class="text-rose-600">{{ model?.lastDoneteDate }}</span>
+        <span class="text-rose-600">{{
+          transform(model?.lastDoneteDate) || ""
+        }}</span>
       </p>
       }
       <p class="py-2 capitalize font-semibold text-xl">

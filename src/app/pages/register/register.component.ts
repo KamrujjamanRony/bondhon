@@ -26,9 +26,10 @@ export class RegisterComponent {
   occupation: any;
   conditions: any;
   gender: any;
-  error: any;
-  success: any;
-  isDisable: boolean = true;
+  error = signal<any>(null);
+  success = signal<any>(null);
+  isDisable = signal<boolean>(false);
+  passwordMismatch = signal<boolean>(false);
 
   constructor() {
     this.model = {
@@ -40,8 +41,8 @@ export class RegisterComponent {
       gender: '',
       dob: '',
       lastDoneteDate: '',
-      // password: '',
-      // rePassword: '',
+      password: '',
+      rePassword: '',
       bloodGroup: '',
       occupation: '',
       college: '',
@@ -63,10 +64,10 @@ export class RegisterComponent {
   }
 
   onFormSubmit() {
-    // if (this.passwordMismatch) {
-    //   this.error = 'Passwords do not match';
-    //   return;
-    // }
+    this.checkPasswordMatch();
+    if (this.passwordMismatch()) {
+      return;
+    }
     const {
       division,
       district,
@@ -74,6 +75,7 @@ export class RegisterComponent {
       fullAddress,
       name,
       mobileNumber,
+      password,
       gender,
       dob,
       lastDoneteDate,
@@ -85,10 +87,10 @@ export class RegisterComponent {
     } = this.model;
     if (division && district && thana && name && mobileNumber && gender && dob && bloodGroup && occupation) {
       if (mobileNumber.length < 11) {
-        this.error = 'Mobile number must be at least 11 characters!';
+        this.error.set('Mobile number must be at least 11 characters!');
         setTimeout(() => {
-          this.error = null;
-        }, 3000);
+          this.error.set(null);
+        }, 1000);
         return;
       }
       const userInfo = {
@@ -98,6 +100,7 @@ export class RegisterComponent {
         fullAddress,
         name,
         mobileNumber,
+        password,
         gender,
         dob,
         lastDoneteDate,
@@ -114,33 +117,33 @@ export class RegisterComponent {
         .subscribe({
           next: (response) => {
             console.log(response)
-            this.success = 'User registered successfully';
+            this.success.set('User registered successfully');
             setTimeout(() => {
-              this.success = null;
-            }, 3000);
+              this.success.set(null);
+            }, 1000);
             this.router.navigateByUrl('login');
           },
           error: (error) => {
-            this.error = error.error.message;
+            this.error.set(error.error.message);
             console.error('Error register:', error.error);
           }
         });
     } else {
-      this.error = 'Please Fill all the required fields'
+      this.error.set('Please Fill all the required fields');
       setTimeout(() => {
-        this.error = null;
-      }, 3000);
+        this.error.set(null);
+      }, 1000);
     }
   }
 
-  // checkPasswordMatch() {
-  //   this.error = '';
-  //   this.passwordMismatch = this.model.password !== this.model.rePassword;
-  //   if (this.passwordMismatch) {
-  //     this.error = 'Passwords do not match';
-  //   }
-  //   console.log(this.passwordMismatch);
-  // }
+  checkPasswordMatch() {
+    this.error.set('');
+    this.passwordMismatch.set(this.model.password !== this.model.rePassword);
+    if (this.passwordMismatch()) {
+      this.error.set('Passwords do not match');
+    }
+    console.log(this.passwordMismatch);
+  }
 
   onDivisionChanged() {
     this.dataService.getCityByParentId(this.model.division).subscribe(

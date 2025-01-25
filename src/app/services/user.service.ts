@@ -15,6 +15,10 @@ export class UserService {
     return this.http.post<void>(this.urlUser, model)
   }
 
+  loginUser(model: any): Observable<void> {
+    return this.http.post<void>(this.urlUser + '/userlogin', model)
+  }
+
   getUser(division: any = '', district: any = '', thana: any = '', bloodGroup: any = '', todayOrBack3Month: any = '', postBy: any = '', from: any = '', to: any = '', search: any = '', isAgree: any = ''): Observable<any[]> {
     const query = {
       "search": decodeURIComponent(search),

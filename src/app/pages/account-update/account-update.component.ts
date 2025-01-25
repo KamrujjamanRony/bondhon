@@ -5,6 +5,7 @@ import { InputsComponent } from "../../components/shared/inputs/inputs.component
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { ThanaService } from '../../services/thana.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-account-update',
@@ -46,6 +47,7 @@ export class AccountUpdateComponent {
       isAgree: true,
       others: '',
       postedBy: '',
+      password: '',
       entryDate: ""
     };
   }
@@ -84,6 +86,7 @@ export class AccountUpdateComponent {
       postedBy,
       entryDate,
       college,
+      password,
       others
     } = this.model;
     if (division && district && thana && name && mobileNumber && gender && dob && entryDate && postedBy && bloodGroup && occupation) {
@@ -91,7 +94,7 @@ export class AccountUpdateComponent {
         this.error = 'Mobile number must be at least 11 characters!';
         setTimeout(() => {
           this.error = null;
-        }, 3000);
+        }, 1500);
         return;
       }
       const userInfo = {
@@ -110,6 +113,7 @@ export class AccountUpdateComponent {
         bloodGroup,
         occupation,
         college,
+        password,
         others
       };
       this.userService.updateUser(this.userData().gid, userInfo)
@@ -155,6 +159,12 @@ export class AccountUpdateComponent {
       error => {
         console.error('Error fetching thana', error);
       })
+  }
+
+  transform(value: any, args: any = 'dd/MM/yyyy'): any {
+    if (!value) return null;
+    const datePipe = new DatePipe('en-US');
+    return datePipe.transform(value, args);
   }
 
 }

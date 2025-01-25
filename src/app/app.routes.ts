@@ -50,10 +50,10 @@ export const routes: Routes = [
         path: 'blood-request',
         component: BloodRequestComponent, canActivate: [AuthGuard]
       },
-      // {
-      //   path: 'register',
-      //   component: RegisterComponent
-      // },
+      {
+        path: 'register',
+        component: RegisterComponent
+      },
       {
         path: 'login',
         component: LoginComponent
