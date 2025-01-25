@@ -1,15 +1,14 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 import { NewsModalComponent } from '../../gallery/news-modal/news-modal.component';
 
 @Component({
-  selector: 'app-service-card',
-  standalone: true,
-  imports: [NewsModalComponent],
-  templateUrl: './service-card.component.html',
-  styleUrl: './service-card.component.css'
+    selector: 'app-service-card',
+    imports: [NewsModalComponent],
+    templateUrl: './service-card.component.html',
+    styleUrl: './service-card.component.css'
 })
 export class ServiceCardComponent {
-  @Input() data!: any;
+  readonly data = input.required<any>();
   @Input() index!: any;
   showModal: boolean = false;
 

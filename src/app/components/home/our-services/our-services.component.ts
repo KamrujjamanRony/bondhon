@@ -1,13 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { GalleryService } from '../../../services/gallery.service';
 import { CommonModule } from '@angular/common';
-import { NewsModalComponent } from '../../gallery/news-modal/news-modal.component';
 import { ServiceCardComponent } from "../service-card/service-card.component";
 
 @Component({
   selector: 'our-services',
-  standalone: true,
-  imports: [CommonModule, NewsModalComponent, ServiceCardComponent],
+  imports: [CommonModule, ServiceCardComponent],
   templateUrl: './our-services.component.html',
   styleUrl: './our-services.component.css'
 })

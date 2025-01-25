@@ -1,4 +1,4 @@
-<div class="hero py-10 mb-10">
+<div class="hero py-5">
   <div class="hero-content flex-col">
     <div class="text-center lg:text-left max-w-xl">
       <h1 class="text-5xl font-bold text-rose-600">Login now!</h1>
@@ -28,6 +28,9 @@
         </div>
       </form>
     </div>
+    <button class="text-red-500" (click)="modal.set(true)">
+      Forgot Password? Click here!
+    </button>
   </div>
 </div>
 <sub-banner></sub-banner>
@@ -44,4 +47,11 @@
     <span class="text-white">{{ success() }}</span>
   </div>
 </div>
+} @if (modal()) {
+<confirm-modal
+  title="Please Inform This Mail for Reset Password:
+  bandhanblood24@gmail.com"
+  url="/login"
+  (closeModal)="modal.set(false)"
+></confirm-modal>
 }

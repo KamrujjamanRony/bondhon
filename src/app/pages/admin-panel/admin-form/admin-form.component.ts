@@ -7,11 +7,10 @@ import { ConfirmModalComponent } from '../../../components/shared/confirm-modal/
 import { AdminService } from '../../../services/admin.service';
 
 @Component({
-  selector: 'app-admin-form',
-  standalone: true,
-  imports: [ConfirmModalComponent, FormsModule, CommonModule],
-  templateUrl: './admin-form.component.html',
-  styleUrl: './admin-form.component.css'
+    selector: 'app-admin-form',
+    imports: [ConfirmModalComponent, FormsModule, CommonModule],
+    templateUrl: './admin-form.component.html',
+    styleUrl: './admin-form.component.css'
 })
 export class AdminFormComponent {
   adminService = inject(AdminService);

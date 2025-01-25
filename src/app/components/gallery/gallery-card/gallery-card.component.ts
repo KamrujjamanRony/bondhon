@@ -1,18 +1,17 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 import { NewsModalComponent } from "../news-modal/news-modal.component";
 
 @Component({
-  selector: 'app-gallery-card',
-  standalone: true,
-  imports: [NewsModalComponent],
-  templateUrl: './gallery-card.component.html',
-  styleUrl: './gallery-card.component.css'
+    selector: 'app-gallery-card',
+    imports: [NewsModalComponent],
+    templateUrl: './gallery-card.component.html',
+    styleUrl: './gallery-card.component.css'
 })
 export class GalleryCardComponent {
-  @Input() img!: any;
-  @Input() title!: any;
+  readonly img = input.required<any>();
+  readonly title = input.required<any>();
   @Input() description!: any;
-  @Input() isAside: boolean = false;
+  readonly isAside = input<boolean>(false);
   showModal: boolean = false;
 
   openNewsDetails() {

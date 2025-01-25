@@ -1,20 +1,19 @@
-import { Component, ElementRef, inject, Input } from '@angular/core';
+import { Component, ElementRef, inject, input } from '@angular/core';
 
 @Component({
-  selector: 'app-counter',
-  standalone: true,
-  imports: [],
-  templateUrl: './counter.component.html',
-  styleUrl: './counter.component.css'
+    selector: 'app-counter',
+    imports: [],
+    templateUrl: './counter.component.html',
+    styleUrl: './counter.component.css'
 })
 export class CounterComponent {
   private el = inject(ElementRef);
 
-  @Input() finalCount: number = 0;  // Final count to be displayed
+  readonly finalCount = input<number>(0);  // Final count to be displayed
   count: number = 0;  // Start count
   interval: any;
   
-  @Input() duration: number = 2000; // Optional: Duration for count-up
+  readonly duration = input<number>(2000); // Optional: Duration for count-up
   private observer: IntersectionObserver | undefined;
 
   constructor() { }
@@ -41,10 +40,10 @@ export class CounterComponent {
   }
 
   startCountUp() {
-    const stepTime = Math.abs(Math.floor(this.duration / this.finalCount)); // Time per increment
+    const stepTime = Math.abs(Math.floor(this.duration() / this.finalCount())); // Time per increment
 
     this.interval = setInterval(() => {
-      if (this.count < this.finalCount) {
+      if (this.count < this.finalCount()) {
         this.count++;
       } else {
         clearInterval(this.interval);

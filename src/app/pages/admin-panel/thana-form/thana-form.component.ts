@@ -8,11 +8,10 @@ import { DataService } from '../../../services/data.service';
 import { ThanaService } from '../../../services/thana.service';
 
 @Component({
-  selector: 'app-thana-form',
-  standalone: true,
-  imports: [ConfirmModalComponent, FormsModule, CommonModule],
-  templateUrl: './thana-form.component.html',
-  styleUrl: './thana-form.component.css'
+    selector: 'app-thana-form',
+    imports: [ConfirmModalComponent, FormsModule, CommonModule],
+    templateUrl: './thana-form.component.html',
+    styleUrl: './thana-form.component.css'
 })
 export class ThanaFormComponent {
   private dataService = inject(DataService);

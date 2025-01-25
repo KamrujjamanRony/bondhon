@@ -5,11 +5,11 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { SubBannerComponent } from "../../components/home/sub-banner/sub-banner.component";
+import { ConfirmModalComponent } from "../../components/shared/confirm-modal/confirm-modal.component";
 
 @Component({
   selector: 'app-login',
-  standalone: true,
-  imports: [InputsComponent, FormsModule, SubBannerComponent],
+  imports: [InputsComponent, FormsModule, SubBannerComponent, ConfirmModalComponent],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -20,6 +20,7 @@ export class LoginComponent {
   model: any;
   error = signal<any>(null);
   success = signal<any>(null);
+  modal = signal<boolean>(false);
 
   constructor() {
     this.model = {

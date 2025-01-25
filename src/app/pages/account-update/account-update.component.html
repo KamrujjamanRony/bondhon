@@ -151,6 +151,28 @@
           [(value)]="model.lastDoneteDate"
         ></app-inputs>
 
+        <app-inputs
+          type="password"
+          inputId="password"
+          placeholder="Type Here"
+          label="password (পাসওয়ার্ড)"
+          [(value)]="model.password"
+          [isRequired]="true"
+        ></app-inputs>
+
+        <app-inputs
+          type="password"
+          inputId="re-password"
+          placeholder="Type Here"
+          label="re-password (পুনরায় পাসওয়ার্ড)"
+          [(value)]="model.rePassword"
+          (input)="checkPasswordMatch()"
+          [isRequired]="true"
+        ></app-inputs>
+        @if (passwordMismatch()) {
+        <div class="text-red-500 mt-2 text-xs">Password do not match</div>
+        }
+
         <!-- <app-inputs type="password" inputId="password" placeholder="Type Here" label="password (পাসওয়ার্ড)" [(value)]="model.password" [isRequired]="true"></app-inputs> -->
 
         <app-inputs
@@ -192,16 +214,16 @@
   </div>
 </div>
 
-@if (error) {
+@if (error()) {
 <div class="toast toast-top toast-end">
   <div class="alert alert-info">
-    <span class="text-white">{{ error }}</span>
+    <span class="text-white">{{ error() }}</span>
   </div>
 </div>
-} @if (success) {
+} @if (success()) {
 <div class="toast toast-top toast-end">
   <div class="alert alert-success">
-    <span class="text-white">{{ success }}</span>
+    <span class="text-white">{{ success() }}</span>
   </div>
 </div>
 }

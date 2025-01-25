@@ -6,11 +6,10 @@ import { DataService } from '../../../services/data.service';
 import { InputsComponent } from "../../../components/shared/inputs/inputs.component";
 
 @Component({
-  selector: 'app-thana',
-  standalone: true,
-  imports: [RouterLink, CoverComponent, InputsComponent],
-  templateUrl: './thana.component.html',
-  styleUrl: './thana.component.css'
+    selector: 'app-thana',
+    imports: [RouterLink, CoverComponent, InputsComponent],
+    templateUrl: './thana.component.html',
+    styleUrl: './thana.component.css'
 })
 export class ThanaComponent {
   private thanaService = inject(ThanaService);

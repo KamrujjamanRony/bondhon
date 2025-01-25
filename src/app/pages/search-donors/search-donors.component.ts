@@ -7,11 +7,10 @@ import { UserService } from '../../services/user.service';
 import { ThanaService } from '../../services/thana.service';
 
 @Component({
-  selector: 'app-search-donors',
-  standalone: true,
-  imports: [InputsComponent, FormsModule, UserCardComponent],
-  templateUrl: './search-donors.component.html',
-  styleUrl: './search-donors.component.css'
+    selector: 'app-search-donors',
+    imports: [InputsComponent, FormsModule, UserCardComponent],
+    templateUrl: './search-donors.component.html',
+    styleUrl: './search-donors.component.css'
 })
 export class SearchDonorsComponent {
   private dataService = inject(DataService);

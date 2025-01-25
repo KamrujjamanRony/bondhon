@@ -13,11 +13,10 @@ import { ThanaService } from '../../../services/thana.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-user-list',
-  standalone: true,
-  imports: [RouterLink, CoverComponent, InputsComponent, FormsModule],
-  templateUrl: './user-list.component.html',
-  styleUrl: './user-list.component.css'
+    selector: 'app-user-list',
+    imports: [RouterLink, CoverComponent, InputsComponent, FormsModule],
+    templateUrl: './user-list.component.html',
+    styleUrl: './user-list.component.css'
 })
 export class UserListComponent {
   private userService = inject(UserService);

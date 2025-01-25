@@ -4,11 +4,10 @@ import { NewsModalComponent } from "../../components/gallery/news-modal/news-mod
 import { GalleryCardComponent } from "../../components/gallery/gallery-card/gallery-card.component";
 
 @Component({
-  selector: 'app-gallery',
-  standalone: true,
-  imports: [GalleryCardComponent],
-  templateUrl: './gallery.component.html',
-  styleUrl: './gallery.component.css'
+    selector: 'app-gallery',
+    imports: [GalleryCardComponent],
+    templateUrl: './gallery.component.html',
+    styleUrl: './gallery.component.css'
 })
 export class GalleryComponent {
   galleryService = inject(GalleryService);

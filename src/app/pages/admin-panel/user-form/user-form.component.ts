@@ -11,7 +11,6 @@ import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-user-form',
-  standalone: true,
   imports: [ConfirmModalComponent, FormsModule, InputsComponent],
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.css'
@@ -66,7 +65,7 @@ export class UserFormComponent {
               next: (response) => {
                 console.log(response)
                 if (response) {
-                  this.model = response[0];
+                  this.model = { ...response[0], password: "" };
                   this.onDivisionChanged();
                   this.onDistrictChanged();
                 }
@@ -78,10 +77,6 @@ export class UserFormComponent {
   }
 
   onFormSubmit(): void {
-    this.checkPasswordMatch();
-    if (this.passwordMismatch()) {
-      return;
-    }
     const {
       division,
       district,
@@ -92,6 +87,7 @@ export class UserFormComponent {
       dob,
       bloodGroup,
       occupation,
+      password,
     } = this.model;
     if (mobileNumber.length < 11) {
       this.error.set('Mobile number must be at least 11 characters!');
@@ -101,7 +97,7 @@ export class UserFormComponent {
       return;
     }
 
-    if (division && district && thana && name && mobileNumber && gender && dob && bloodGroup && occupation) {
+    if (division && district && thana && name && mobileNumber && gender && dob && bloodGroup && occupation && password) {
       if (this.id) {
         this.UserSubscription = this.userService.updateUser(this.id, this.model)
           .subscribe({

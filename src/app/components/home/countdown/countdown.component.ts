@@ -2,11 +2,10 @@ import { Component } from '@angular/core';
 import { CounterComponent } from "../../shared/counter/counter.component";
 
 @Component({
-  selector: 'app-countdown',
-  standalone: true,
-  imports: [CounterComponent],
-  templateUrl: './countdown.component.html',
-  styleUrl: './countdown.component.css'
+    selector: 'app-countdown',
+    imports: [CounterComponent],
+    templateUrl: './countdown.component.html',
+    styleUrl: './countdown.component.css'
 })
 export class CountdownComponent {
 

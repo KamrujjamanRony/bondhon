@@ -5,11 +5,10 @@ import { AdminService } from '../../../services/admin.service';
 import { DataService } from '../../../services/data.service';
 
 @Component({
-  selector: 'app-admin-list',
-  standalone: true,
-  imports: [CoverComponent, RouterLink],
-  templateUrl: './admin-list.component.html',
-  styleUrl: './admin-list.component.css'
+    selector: 'app-admin-list',
+    imports: [CoverComponent, RouterLink],
+    templateUrl: './admin-list.component.html',
+    styleUrl: './admin-list.component.css'
 })
 export class AdminListComponent {
   private adminService = inject(AdminService);

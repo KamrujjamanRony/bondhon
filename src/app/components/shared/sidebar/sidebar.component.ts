@@ -4,11 +4,10 @@ import { AuthService } from '../../../services/auth.service';
 import { AboutService } from '../../../services/about.service';
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css'],
-  standalone: true,
-  imports: [RouterLink]
+    selector: 'app-sidebar',
+    templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.css'],
+    imports: [RouterLink]
 })
 export class SidebarComponent implements OnInit {
   private authService = inject(AuthService);

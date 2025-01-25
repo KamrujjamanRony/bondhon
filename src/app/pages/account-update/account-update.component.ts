@@ -9,7 +9,6 @@ import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-account-update',
-  standalone: true,
   imports: [InputsComponent, FormsModule],
   templateUrl: './account-update.component.html',
   styleUrl: './account-update.component.css'
@@ -26,8 +25,9 @@ export class AccountUpdateComponent {
   thana = signal<any>([]);
   bloodGroups: any;
   occupation: any;
-  error: any;
-  success: any;
+  error = signal<any>(null);
+  success = signal<any>(null);
+  passwordMismatch = signal<boolean>(false);
   gender: any;
 
   constructor() {
@@ -48,6 +48,7 @@ export class AccountUpdateComponent {
       others: '',
       postedBy: '',
       password: '',
+      rePassword: '',
       entryDate: ""
     };
   }
@@ -60,7 +61,7 @@ export class AccountUpdateComponent {
       this.gender = data?.gender;
     });
     this.authService.userInfo$.subscribe((user) => {
-      const updateUser = { ...user, dob: user?.dob?.split('T')[0] }
+      const updateUser = { ...user, dob: user?.dob?.split('T')[0], lastDoneteDate: user?.lastDoneteDate?.split('T')[0], password: '' }
       this.model = updateUser;
       this.userData.set(updateUser)
       this.onDivisionChanged();
@@ -70,6 +71,10 @@ export class AccountUpdateComponent {
   }
 
   onFormSubmit() {
+    this.checkPasswordMatch();
+    if (this.passwordMismatch()) {
+      return;
+    }
     const {
       division,
       district,
@@ -91,9 +96,9 @@ export class AccountUpdateComponent {
     } = this.model;
     if (division && district && thana && name && mobileNumber && gender && dob && entryDate && postedBy && bloodGroup && occupation) {
       if (mobileNumber.length < 11) {
-        this.error = 'Mobile number must be at least 11 characters!';
+        this.error.set('Mobile number must be at least 11 characters!');
         setTimeout(() => {
-          this.error = null;
+          this.error.set(null);
         }, 1500);
         return;
       }
@@ -119,22 +124,31 @@ export class AccountUpdateComponent {
       this.userService.updateUser(this.userData().gid, userInfo)
         .subscribe({
           next: (response) => {
-            this.success = 'Profile update successfully';
+            this.success.set('Profile update successfully');
             this.authService.updateUserInfo(userInfo);
             setTimeout(() => {
-              this.success = null;
-            }, 3000);
+              this.success.set(null);
+            }, 1500);
           },
           error: (error) => {
             console.error('Error update:', error);
           }
         });
     } else {
-      this.error = 'Please Fill all the required fields'
+      this.error.set('Please Fill all the required fields')
       setTimeout(() => {
-        this.error = null;
-      }, 3000);
+        this.error.set(null);
+      }, 1500);
     }
+  }
+
+  checkPasswordMatch() {
+    this.error.set('');
+    this.passwordMismatch.set(this.model.password !== this.model.rePassword);
+    if (this.passwordMismatch()) {
+      this.error.set('Passwords do not match');
+    }
+    console.log(this.passwordMismatch);
   }
 
   onDivisionChanged() {

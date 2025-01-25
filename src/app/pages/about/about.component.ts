@@ -4,11 +4,10 @@ import { CoverComponent } from '../../components/shared/cover/cover.component';
 import { AboutService } from '../../services/about.service';
 
 @Component({
-  selector: 'app-about',
-  templateUrl: './about.component.html',
-  styleUrls: ['./about.component.css'],
-  standalone: true,
-  imports: [CoverComponent]
+    selector: 'app-about',
+    templateUrl: './about.component.html',
+    styleUrls: ['./about.component.css'],
+    imports: [CoverComponent]
 })
 export class AboutComponent implements OnInit {
   allAbout$?: Observable<any[]>;

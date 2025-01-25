@@ -4,11 +4,10 @@ import { CoverComponent } from '../../../components/shared/cover/cover.component
 import { GalleryService } from '../../../services/gallery.service';
 
 @Component({
-  selector: 'app-gallery-list',
-  standalone: true,
-  imports: [RouterLink, CoverComponent],
-  templateUrl: './gallery-list.component.html',
-  styleUrl: './gallery-list.component.css'
+    selector: 'app-gallery-list',
+    imports: [RouterLink, CoverComponent],
+    templateUrl: './gallery-list.component.html',
+    styleUrl: './gallery-list.component.css'
 })
 export class GalleryListComponent {
   galleryService = inject(GalleryService);

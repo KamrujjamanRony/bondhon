@@ -7,11 +7,10 @@ import { Router } from '@angular/router';
 import { ThanaService } from '../../services/thana.service';
 
 @Component({
-  selector: 'app-register',
-  standalone: true,
-  imports: [InputsComponent, FormsModule],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.css'
+    selector: 'app-register',
+    imports: [InputsComponent, FormsModule],
+    templateUrl: './register.component.html',
+    styleUrl: './register.component.css'
 })
 export class RegisterComponent {
   private dataService = inject(DataService);

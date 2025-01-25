@@ -1,51 +1,51 @@
-@if (type == "select") { @if (label) {
-<label [for]="inputId" class="label capitalize">
+@if (type() == "select") { @if (label) {
+<label [for]="inputId()" class="label capitalize">
   <span class="label-text"
-    >{{ label }}@if (isRequired) {<span class="text-rose-600">*</span>}</span
+    >{{ label }}@if (isRequired()) {<span class="text-rose-600">*</span>}</span
   >
 </label>
 }
 
 <select
-  [id]="inputId"
+  [id]="inputId()"
   [(ngModel)]="value"
   [ngClass]="{
-    'cursor-not-allowed': isDisabled,
-    'cursor-pointer': !isDisabled
+    'cursor-not-allowed': isDisabled(),
+    'cursor-pointer': !isDisabled()
   }"
   (ngModelChange)="onValueChange()"
   class="select select-bordered w-full"
-  [disabled]="isDisabled"
+  [disabled]="isDisabled()"
 >
   <option selected disabled hidden value="">
-    {{ defaultPlaceholder }}
+    {{ defaultPlaceholder() }}
   </option>
-  @for (option of options; track $index) {
+  @for (option of options(); track $index) {
   <option [value]="option?.name">
     {{ option?.name }}
   </option>
   }
 </select>
-} @else if(type == "textarea"){
+} @else if(type() == "textarea"){
 <div class="form-control">
-  <label [for]="inputId" class="label capitalize">
+  <label [for]="inputId()" class="label capitalize">
     <span class="label-text"
-      >{{ label }}@if (isRequired) {<span class="text-rose-600">*</span>}</span
+      >{{ label }}@if (isRequired()) {<span class="text-rose-600">*</span>}</span
     >
   </label>
   <textarea
-    [id]="inputId"
+    [id]="inputId()"
     class="textarea textarea-bordered"
-    [placeholder]="placeholder"
+    [placeholder]="placeholder()"
     [(ngModel)]="value"
     (ngModelChange)="onValueChange()"
   ></textarea>
 </div>
-}  @else if(type == "checkbox"){
+}  @else if(type() == "checkbox"){
   <div class="form-control">
-    <label [for]="inputId" class="label capitalize cursor-pointer">
+    <label [for]="inputId()" class="label capitalize cursor-pointer">
       <input
-      [id]="inputId"
+      [id]="inputId()"
       type="checkbox"
       [(ngModel)]="value"
       (ngModelChange)="onValueChange()"
@@ -58,19 +58,19 @@
   </div>
   } @else {
 <div class="form-control relative">
-  <label [for]="inputId" class="label capitalize">
+  <label [for]="inputId()" class="label capitalize">
     <span class="label-text"
-      >{{ label }}@if (isRequired) {<span class="text-rose-600">*</span>}</span
+      >{{ label }}@if (isRequired()) {<span class="text-rose-600">*</span>}</span
     >
   </label>
-  @if (type === 'password') {
+  @if (type() === 'password') {
     <input
-    [id]="inputId"
+    [id]="inputId()"
     [type]="showPassword ? 'text' : 'password'"
     [(ngModel)]="value"
-    [required]="isRequired"
+    [required]="isRequired()"
     (ngModelChange)="onValueChange()"
-    [placeholder]="placeholder"
+    [placeholder]="placeholder()"
     class="input input-bordered w-full"
   />
   <span class="absolute right-3 top-12 cursor-pointer" (click)="togglePasswordVisibility()">
@@ -82,10 +82,10 @@
   </span>
   } @else {
     <input
-    [id]="inputId"
-    [type]="type"
-    [maxlength]="maxLength"
-    [placeholder]="placeholder"
+    [id]="inputId()"
+    [type]="type()"
+    [maxlength]="maxLength()"
+    [placeholder]="placeholder()"
     [(ngModel)]="value"
     (ngModelChange)="onValueChange()"
     (keydown)="preventOverLimit($event)"

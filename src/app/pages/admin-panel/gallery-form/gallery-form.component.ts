@@ -6,11 +6,10 @@ import { ConfirmModalComponent } from '../../../components/shared/confirm-modal/
 import { GalleryService } from '../../../services/gallery.service';
 
 @Component({
-  selector: 'app-gallery-form',
-  standalone: true,
-  imports: [ConfirmModalComponent, FormsModule],
-  templateUrl: './gallery-form.component.html',
-  styleUrl: './gallery-form.component.css'
+    selector: 'app-gallery-form',
+    imports: [ConfirmModalComponent, FormsModule],
+    templateUrl: './gallery-form.component.html',
+    styleUrl: './gallery-form.component.css'
 })
 export class GalleryFormComponent {
   galleryService = inject(GalleryService);

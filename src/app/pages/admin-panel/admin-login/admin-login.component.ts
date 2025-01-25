@@ -6,11 +6,10 @@ import { AdminService } from '../../../services/admin.service';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
-  selector: 'app-admin-login',
-  standalone: true,
-  imports: [InputsComponent, FormsModule],
-  templateUrl: './admin-login.component.html',
-  styleUrl: './admin-login.component.css'
+    selector: 'app-admin-login',
+    imports: [InputsComponent, FormsModule],
+    templateUrl: './admin-login.component.html',
+    styleUrl: './admin-login.component.css'
 })
 export class AdminLoginComponent {
   private adminService = inject(AdminService);

@@ -3,11 +3,10 @@ import { BtnPrimaryComponent } from "../../shared/btn-primary/btn-primary.compon
 import { DataService } from '../../../services/data.service';
 
 @Component({
-  selector: 'app-intro',
-  standalone: true,
-  imports: [BtnPrimaryComponent],
-  templateUrl: './intro.component.html',
-  styleUrl: './intro.component.css'
+    selector: 'app-intro',
+    imports: [BtnPrimaryComponent],
+    templateUrl: './intro.component.html',
+    styleUrl: './intro.component.css'
 })
 export class IntroComponent {
   private dataService = inject(DataService);

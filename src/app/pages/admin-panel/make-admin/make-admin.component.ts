@@ -5,11 +5,10 @@ import { AdminService } from '../../../services/admin.service';
 import { DataService } from '../../../services/data.service';
 
 @Component({
-  selector: 'app-make-admin',
-  standalone: true,
-  imports: [CoverComponent, RouterLink],
-  templateUrl: './make-admin.component.html',
-  styleUrl: './make-admin.component.css'
+    selector: 'app-make-admin',
+    imports: [CoverComponent, RouterLink],
+    templateUrl: './make-admin.component.html',
+    styleUrl: './make-admin.component.css'
 })
 export class MakeAdminComponent {
   private adminService = inject(AdminService);

@@ -5,16 +5,16 @@
 <div class="overflow-hidden bg-white rounded shadow-md text-slate-500 shadow-slate-200 max-w-xl">
     @if (img) {
       <figure>
-        <img [src]="img" [alt]="title" class="aspect-video w-full" />
+        <img [src]="img" [alt]="title()" class="aspect-video w-full" />
       </figure>
     }
     <div class="p-6">
       <header class="mb-4">
-        <h3 class="text-xl font-medium text-slate-700">{{title}}</h3>
-        <p class="text-sm text-slate-400 italic">{{subtitle}}</p>
+        <h3 class="text-xl font-medium text-slate-700">{{title()}}</h3>
+        <p class="text-sm text-slate-400 italic">{{subtitle()}}</p>
       </header>
       <p>
-        {{description}}
+        {{description()}}
       </p>
     </div>
   <div class="flex justify-end gap-2 p-2 pt-0">

@@ -12,7 +12,7 @@ export class UserService {
   http = inject(HttpClient);
 
   addUser(model: any | FormData): Observable<void> {
-    return this.http.post<void>(this.urlUser, model)
+    return this.http.post<void>(this.urlUser + '/CreateDonerReg', model)
   }
 
   loginUser(model: any): Observable<void> {

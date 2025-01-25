@@ -6,11 +6,10 @@ import { CoverComponent } from '../../../components/shared/cover/cover.component
 import { AboutService } from '../../../services/about.service';
 
 @Component({
-  selector: 'app-about-us',
-  templateUrl: './about-us.component.html',
-  styleUrls: ['./about-us.component.css'],
-  standalone: true,
-  imports: [CoverComponent, FormsModule]
+    selector: 'app-about-us',
+    templateUrl: './about-us.component.html',
+    styleUrls: ['./about-us.component.css'],
+    imports: [CoverComponent, FormsModule]
 })
 export class AboutUsComponent implements OnInit, OnDestroy {
   id: string | null = null;

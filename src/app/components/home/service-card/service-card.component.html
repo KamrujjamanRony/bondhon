@@ -3,7 +3,7 @@
   <div class="w-full">
     <div class="service_item">
       <div class="overflow-hidden">
-        <img class="w-full" [src]="data?.link" [alt]="data?.title" />
+        <img class="w-full" [src]="data()?.link" [alt]="data()?.title" />
       </div>
     </div>
   </div>
@@ -14,11 +14,11 @@
       </h1>
       <a href="#">
         <h4 class="text-2xl lg:text-3xl font-bold mb-2 lg:mb-5">
-          {{ data?.title }}
+          {{ data()?.title }}
         </h4>
       </a>
       <p class="text-base mb-4 lg:mb-8">
-        {{ data?.description?.slice(0, 300) }}
+        {{ data()?.description?.slice(0, 300) }}
       </p>
       <button
         (click)="openNewsDetails()"
@@ -38,11 +38,11 @@
       </h1>
       <a href="#">
         <h4 class="text-2xl lg:text-3xl font-bold mb-2 lg:mb-5">
-          {{ data?.title }}
+          {{ data()?.title }}
         </h4>
       </a>
       <p class="text-base text-justify mb-4 lg:mb-8">
-        {{ data?.description?.slice(0, 300) }}
+        {{ data()?.description?.slice(0, 300) }}
       </p>
       <button
         (click)="openNewsDetails()"
@@ -55,16 +55,17 @@
   <div class="w-full">
     <div class="service_item">
       <div class="overflow-hidden">
-        <img class="w-full" [src]="data?.link" [alt]="data?.title" />
+        <img class="w-full" [src]="data()?.link" [alt]="data()?.title" />
       </div>
     </div>
   </div>
 </div>
 } @if(showModal){
 <news-modal
-  [img]="data?.link"
-  [title]="data?.title"
-  [description]="data?.description"
+  [img]="data()?.link"
+  [title]="data()?.title"
+  [subtitle]="data()?.subtitle"
+  [description]="data()?.description"
   (closeNewsDetails)="closeNewsDetails()"
 ></news-modal>
 }
