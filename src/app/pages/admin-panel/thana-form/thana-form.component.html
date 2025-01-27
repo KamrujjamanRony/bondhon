@@ -11,53 +11,53 @@
       (ngSubmit)="onFormSubmit()"
       class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
     >
-
       <div class="mb-4">
-        <label
-          class="block text-gray-700 text-sm font-bold mb-2"
-          for="division"
-        >
-        division (বিভাগ)
+        <label class="block text-black text-sm font-bold mb-2" for="division">
+          division (বিভাগ)
         </label>
-        <select name="division" id="division" [(ngModel)]="model.division" (change)="onDivisionChanged()" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-          <option selected disabled hidden value="">
-            Select division
-          </option>
+        <select
+          name="division"
+          id="division"
+          [(ngModel)]="model.division"
+          (change)="onDivisionChanged()"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
+        >
+          <option selected disabled hidden value="">Select division</option>
           @for (option of divisions; track $index) {
           <option [value]="option?.name">
             {{ option?.name }}
           </option>
-        }
+          }
         </select>
       </div>
 
       <div class="mb-4">
-        <label
-          class="block text-gray-700 text-sm font-bold mb-2"
-          for="district"
-        >
-        district (জেলা)
+        <label class="block text-black text-sm font-bold mb-2" for="district">
+          district (জেলা)
         </label>
-        <select name="district" id="district" [(ngModel)]="model.district" [disabled]="!model.division" [ngClass]="{'cursor-not-allowed': !model.division}" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
-          <option selected disabled hidden value="">
-            Select district
-          </option>
+        <select
+          name="district"
+          id="district"
+          [(ngModel)]="model.district"
+          [disabled]="!model.division"
+          [ngClass]="{ 'cursor-not-allowed': !model.division }"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
+        >
+          <option selected disabled hidden value="">Select district</option>
           @for (option of districts; track $index) {
           <option [value]="option?.name">
             {{ option?.name }}
           </option>
-        }
+          }
         </select>
       </div>
 
       <div class="mb-4">
-        <label
-          for="imageFile"
-          class="block text-gray-700 text-sm font-bold mb-2"
+        <label for="imageFile" class="block text-black text-sm font-bold mb-2"
           >thana</label
         >
         <input
-          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-black leading-tight focus:outline-none focus:shadow-outline"
           id="thana1"
           name="thana1"
           type="text"

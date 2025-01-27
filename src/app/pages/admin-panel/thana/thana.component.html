@@ -47,7 +47,7 @@
         <table class="w-full">
           <thead>
             <tr
-              class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
+              class="text-xs font-semibold tracking-wide text-left text-black uppercase border-b bg-gray-50"
             >
               <th class="px-4 py-3">division</th>
               <th class="px-4 py-3">district</th>
@@ -55,26 +55,22 @@
               <th class="px-4 py-3">Actions</th>
             </tr>
           </thead>
-          <tbody
-            class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
-          >
+          <tbody class="bg-white divide-y">
             @for (data of thana; track $index) {
-            <tr
-              class="bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-900 text-gray-700 dark:text-gray-400"
-            >
+            <tr class="bg-gray-50 hover:bg-gray-100 text-black">
               <td class="px-4 py-3 text-xs">{{ data?.division }}</td>
               <td class="px-4 py-3 text-xs">{{ data?.district }}</td>
               <td class="px-4 py-3 text-xs">{{ data?.thana1 }}</td>
               <td class="px-4 py-3 text-sm">
                 <a
                   [routerLink]="['edit', data?.id]"
-                  class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded dark:bg-green-700 dark:text-green-100 mr-2 inline-block my-2"
+                  class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded mr-2 inline-block my-2"
                 >
                   Edit
                 </a>
                 <button
                   (click)="onDelete(data?.id)"
-                  class="px-2 py-1 font-semibold leading-tight text-red-700 bg-green-100 rounded dark:bg-red-700 dark:text-green-100 inline-block"
+                  class="px-2 py-1 font-semibold leading-tight text-red-700 bg-green-100 rounded inline-block"
                 >
                   Delete
                 </button>
@@ -85,7 +81,7 @@
         </table>
       </div>
       <div
-        class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800"
+        class="grid px-4 py-3 text-xs font-semibold tracking-wide text-black uppercase border-t bg-gray-50 sm:grid-cols-9"
       ></div>
     </div>
   </div>

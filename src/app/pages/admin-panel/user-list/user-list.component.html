@@ -117,7 +117,7 @@
         <table class="w-full">
           <thead>
             <tr
-              class="text-xs font-semibold tracking-wide text-left text-gray-100 capitalize border-b dark:border-gray-700 bg-gray-800"
+              class="text-xs font-semibold tracking-wide text-left text-gray-100 capitalize border-b bg-gray-800"
             >
               <th class="px-4 py-3">name</th>
               <th class="px-4 py-3">mobile Number</th>
@@ -136,9 +136,7 @@
               <th class="px-4 py-3">Actions</th>
             </tr>
           </thead>
-          <tbody
-            class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
-          >
+          <tbody class="bg-white divide-y">
             @for (data of users(); track $index) {
             <tr class="bg-gray-700 hover:bg-gray-800 text-gray-100">
               <td class="px-4 py-3 text-xs">{{ data?.name }}</td>
@@ -164,14 +162,14 @@
                 admin?.name == data?.postedBy) {
                 <a
                   [routerLink]="['edit', data?.gid]"
-                  class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded dark:bg-green-700 dark:text-green-100 mr-2 inline-block my-2"
+                  class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded mr-2 inline-block my-2"
                 >
                   Edit
                 </a>
                 } @if (admin?.role == 'super-admin' || admin?.role == 'admin') {
                 <button
                   (click)="onDelete(data?.gid)"
-                  class="px-2 py-1 font-semibold leading-tight text-red-700 bg-green-100 rounded dark:bg-red-700 dark:text-green-100 inline-block"
+                  class="px-2 py-1 font-semibold leading-tight text-red-700 bg-green-100 rounded inline-block"
                 >
                   Delete
                 </button>
@@ -186,7 +184,7 @@
         }
       </div>
       <div
-        class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800"
+        class="grid px-4 py-3 text-xs font-semibold tracking-wide text-black uppercase border-t bg-gray-50 sm:grid-cols-9"
       ></div>
     </div>
   </div>
