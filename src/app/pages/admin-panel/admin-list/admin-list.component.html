@@ -9,6 +9,11 @@
   </a>
 </div>
 
+@if (loading()) {
+<div class="flex items-center justify-center h-full text-2xl text-rose-600">
+  Loading...
+</div>
+} @else {
 <div class="mt-4">
   <div class="w-full overflow-hidden rounded-lg shadow-xs">
     <div class="w-full overflow-x-auto">
@@ -64,8 +69,7 @@
     ></div>
   </div>
 </div>
-
-@if (success()) {
+} @if (success()) {
 <div class="toast toast-top toast-end z-50">
   <div class="alert alert-success">
     <span class="text-white">{{ success() }}</span>

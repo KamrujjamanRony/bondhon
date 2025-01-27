@@ -2,7 +2,6 @@ import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { ConfirmModalComponent } from '../../../components/shared/confirm-modal/confirm-modal.component';
 import { InputsComponent } from '../../../components/shared/inputs/inputs.component';
 import { UserService } from '../../../services/user.service';
 import { DataService } from '../../../services/data.service';
@@ -11,7 +10,7 @@ import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-user-form',
-  imports: [ConfirmModalComponent, FormsModule, InputsComponent],
+  imports: [FormsModule, InputsComponent],
   templateUrl: './user-form.component.html',
   styleUrl: './user-form.component.css'
 })
@@ -34,11 +33,11 @@ export class UserFormComponent {
   conditions: any;
   gender: any;
   todayDate: any;
-  confirmModal: boolean = false;
   paramsSubscription?: Subscription;
   UserSubscription?: Subscription;
   error = signal<any>(null);
   success = signal<any>(null);
+  loading = signal<boolean>(false);
   passwordMismatch = signal<boolean>(false);
 
   constructor() {
@@ -98,22 +97,26 @@ export class UserFormComponent {
     }
 
     if (division && district && thana && name && mobileNumber && gender && dob && bloodGroup && occupation && password) {
+      this.loading.set(true);
       if (this.id) {
         this.UserSubscription = this.userService.updateUser(this.id, this.model)
           .subscribe({
             next: (response) => {
-              this.confirmModal = true;
               this.success.set('User Update successfully');
+              this.onReset();
+              this.id = null;
               setTimeout(() => {
                 this.success.set(null);
+                this.loading.set(false);
                 // this.router.navigateByUrl('/admin-panel/user-list');
               }, 1500);
             },
             error: (error) => {
-              this.error = error.error.message;
+              this.error.set(error.error.message);
               console.error('Error Update User:', error.error);
               setTimeout(() => {
                 this.error.set(null);
+                this.loading.set(false);
               }, 1500);
             }
           });
@@ -122,18 +125,20 @@ export class UserFormComponent {
         this.UserSubscription = this.userService.addUser(this.model)
           .subscribe({
             next: (response) => {
-              this.confirmModal = true;
               this.success.set('User Add successfully');
+              this.onReset();
               setTimeout(() => {
                 this.success.set(null);
+                this.loading.set(false);
               }, 1500);
               // this.router.navigateByUrl('/admin-panel/user-list');
             },
             error: (error) => {
-              this.error = error.error.message;
+              this.error.set(error.error.message);
               console.error('Error Add User:', error.error);
               setTimeout(() => {
                 this.error.set(null);
+                this.loading.set(false);
               }, 1500);
             }
           });
@@ -142,6 +147,7 @@ export class UserFormComponent {
       this.error.set('Please Fill all the required fields')
       setTimeout(() => {
         this.error.set(null);
+        this.loading.set(false);
       }, 1500);
     }
   };
@@ -177,9 +183,9 @@ export class UserFormComponent {
     };
   }
 
-  closeModal() {
-    this.confirmModal = false;
-  }
+  // closeModal() {
+  //   this.confirmModal = false;
+  // }
 
   onDivisionChanged() {
     this.dataService.getCityByParentId(this.model.division).subscribe(

@@ -1,24 +1,25 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { ConfirmModalComponent } from '../../../components/shared/confirm-modal/confirm-modal.component';
 import { GalleryService } from '../../../services/gallery.service';
 
 @Component({
-    selector: 'app-gallery-form',
-    imports: [ConfirmModalComponent, FormsModule],
-    templateUrl: './gallery-form.component.html',
-    styleUrl: './gallery-form.component.css'
+  selector: 'app-gallery-form',
+  imports: [FormsModule],
+  templateUrl: './gallery-form.component.html',
+  styleUrl: './gallery-form.component.css'
 })
 export class GalleryFormComponent {
   galleryService = inject(GalleryService);
   route = inject(ActivatedRoute);
   id: any = null;
   model?: any;
-  confirmModal: boolean = false;
   paramsSubscription?: Subscription;
   gallerySubscription?: Subscription;
+  error = signal<any>(null);
+  success = signal<any>(null);
+  loading = signal<boolean>(false);
 
   constructor() {
     this.onReset();
@@ -45,21 +46,58 @@ export class GalleryFormComponent {
   }
 
   onFormSubmit(): void {
+    this.loading.set(true);
+    const { title, link } = this.model;
 
-    if (this.id) {
-      this.gallerySubscription = this.galleryService.updateGallery(this.id, this.model)
-        .subscribe({
-          next: (response) => {
-            this.confirmModal = true;
-          }
-        });
+    if (title && link) {
+      if (this.id) {
+        this.gallerySubscription = this.galleryService.updateGallery(this.id, this.model)
+          .subscribe({
+            next: (response) => {
+              this.success.set('Gallery Update successfully');
+              this.onReset();
+              this.id = null;
+              setTimeout(() => {
+                this.success.set(null);
+                this.loading.set(false);
+              }, 1500);
+            },
+            error: (error) => {
+              this.error.set(error.error.message);
+              console.error('Error Update Gallery:', error.error);
+              setTimeout(() => {
+                this.error.set(null);
+                this.loading.set(false);
+              }, 1500);
+            }
+          });
+      } else {
+        this.gallerySubscription = this.galleryService.addGallery(this.model)
+          .subscribe({
+            next: (response) => {
+              this.success.set('Gallery Add successfully');
+              this.onReset();
+              setTimeout(() => {
+                this.success.set(null);
+                this.loading.set(false);
+              }, 1500);
+            },
+            error: (error) => {
+              this.error.set(error.error.message);
+              console.error('Error Add Gallery:', error.error);
+              setTimeout(() => {
+                this.error.set(null);
+                this.loading.set(false);
+              }, 1500);
+            }
+          });
+      }
     } else {
-      this.gallerySubscription = this.galleryService.addGallery(this.model)
-        .subscribe({
-          next: (response) => {
-            this.confirmModal = true;
-          }
-        });
+      this.error.set('Please Fill all the required fields')
+      setTimeout(() => {
+        this.error.set(null);
+        this.loading.set(false);
+      }, 1500);
     }
   };
 
@@ -69,10 +107,6 @@ export class GalleryFormComponent {
       description: "",
       link: "",
     };
-  }
-
-  closeModal() {
-    this.confirmModal = false;
   }
 
   ngOnDestroy(): void {

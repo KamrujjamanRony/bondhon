@@ -6,10 +6,10 @@ import { DataService } from '../../../services/data.service';
 import { InputsComponent } from "../../../components/shared/inputs/inputs.component";
 
 @Component({
-    selector: 'app-thana',
-    imports: [RouterLink, CoverComponent, InputsComponent],
-    templateUrl: './thana.component.html',
-    styleUrl: './thana.component.css'
+  selector: 'app-thana',
+  imports: [RouterLink, CoverComponent, InputsComponent],
+  templateUrl: './thana.component.html',
+  styleUrl: './thana.component.css'
 })
 export class ThanaComponent {
   private thanaService = inject(ThanaService);
@@ -18,6 +18,7 @@ export class ThanaComponent {
   divisions = signal<any>([]);
   districts = signal<any>([]);
   thana?: any;
+  loading = signal<boolean>(false);
 
   constructor() {
     this.model = {
@@ -27,6 +28,7 @@ export class ThanaComponent {
   }
 
   ngOnInit(): void {
+    this.loading.set(true);
     this.dataService.getJsonData().subscribe(data => {
       this.divisions.set(data?.divisions);
       this.model.division = this.divisions()[0]?.name;
@@ -41,6 +43,7 @@ export class ThanaComponent {
     }
     this.thanaService.getThana(reqData).subscribe(data => {
       this.thana = data;
+      this.loading.set(false);
     })
   }
 

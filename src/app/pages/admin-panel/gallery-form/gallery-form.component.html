@@ -65,26 +65,33 @@
           [(ngModel)]="model.description"
         ></textarea>
       </div>
+
+      @if (loading()) {
+      <button [disabled]="loading()" class="btn btn-error text-white">
+        Processing...
+      </button>
+      } @else {
       <input
         type="submit"
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         [value]="id ? 'Update' : 'Add'"
       />
+      }
     </form>
     }
   </div>
 
-  @if(confirmModal){ @if (id) {
-  <confirm-modal
-    title="Gallery is successfully updated!"
-    url="/admin-panel/gallery-list"
-    (closeModal)="closeModal()"
-  />
-  } @else {
-  <confirm-modal
-    title="Gallery is successfully added!"
-    url="/admin-panel/gallery-list"
-    (closeModal)="closeModal()"
-  />
-  } }
+  @if (error()) {
+  <div class="toast toast-top toast-end">
+    <div class="alert alert-error">
+      <span class="text-white">{{ error() }}</span>
+    </div>
+  </div>
+  } @if (success()) {
+  <div class="toast toast-top toast-end">
+    <div class="alert alert-success">
+      <span class="text-white">{{ success() }}</span>
+    </div>
+  </div>
+  }
 </section>

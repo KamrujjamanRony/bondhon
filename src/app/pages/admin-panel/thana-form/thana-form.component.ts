@@ -1,17 +1,16 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
-import { ConfirmModalComponent } from '../../../components/shared/confirm-modal/confirm-modal.component';
 import { DataService } from '../../../services/data.service';
 import { ThanaService } from '../../../services/thana.service';
 
 @Component({
-    selector: 'app-thana-form',
-    imports: [ConfirmModalComponent, FormsModule, CommonModule],
-    templateUrl: './thana-form.component.html',
-    styleUrl: './thana-form.component.css'
+  selector: 'app-thana-form',
+  imports: [FormsModule, CommonModule],
+  templateUrl: './thana-form.component.html',
+  styleUrl: './thana-form.component.css'
 })
 export class ThanaFormComponent {
   private dataService = inject(DataService);
@@ -21,9 +20,11 @@ export class ThanaFormComponent {
   model?: any;
   divisions: any;
   districts: any;
-  confirmModal: boolean = false;
   paramsSubscription?: Subscription;
   thanaSubscription?: Subscription;
+  error = signal<any>(null);
+  success = signal<any>(null);
+  loading = signal<boolean>(false);
 
   constructor() {
     this.onReset();
@@ -57,26 +58,55 @@ export class ThanaFormComponent {
   }
 
   onFormSubmit(): void {
-    if (this.model.division && this.model.district && this.model.thana1) {
-
+    const { division, district, thana1 } = this.model;
+    this.loading.set(true);
+    if (division && district && thana1) {
       if (this.id) {
         this.thanaSubscription = this.thanaService.updateThana(this.id, this.model)
           .subscribe({
             next: (response) => {
-              this.confirmModal = true;
+              this.success.set('Thana Update successfully');
+              this.onReset();
+              this.id = null;
+              setTimeout(() => {
+                this.success.set(null);
+                this.loading.set(false);
+              }, 1500);
+            },
+            error: (error) => {
+              this.error.set(error.error.message);
+              console.error('Error Update Thana:', error.error);
+              setTimeout(() => {
+                this.error.set(null);
+                this.loading.set(false);
+              }, 1500);
             }
           });
       } else {
         this.thanaSubscription = this.thanaService.addThana(this.model)
           .subscribe({
             next: (response) => {
-              this.confirmModal = true;
+              this.success.set('Thana Add successfully');
+              this.onReset();
+              setTimeout(() => {
+                this.success.set(null);
+                this.loading.set(false);
+              }, 1500);
+            },
+            error: (error) => {
+              this.error.set(error.error.message);
+              console.error('Error Add Thana:', error.error);
+              setTimeout(() => {
+                this.error.set(null);
+                this.loading.set(false);
+              }, 1500);
             }
           });
       }
 
     } else {
       alert('Please Fill all the required fields');
+      this.loading.set(false);
     }
   };
 
@@ -97,10 +127,6 @@ export class ThanaFormComponent {
         console.error('Error fetching data', error);
       }
     );
-  }
-
-  closeModal() {
-    this.confirmModal = false;
   }
 
   ngOnDestroy(): void {

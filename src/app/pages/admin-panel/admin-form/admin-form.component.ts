@@ -1,23 +1,21 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { ConfirmModalComponent } from '../../../components/shared/confirm-modal/confirm-modal.component';
 import { AdminService } from '../../../services/admin.service';
 
 @Component({
-    selector: 'app-admin-form',
-    imports: [ConfirmModalComponent, FormsModule, CommonModule],
-    templateUrl: './admin-form.component.html',
-    styleUrl: './admin-form.component.css'
+  selector: 'app-admin-form',
+  imports: [FormsModule, CommonModule],
+  templateUrl: './admin-form.component.html',
+  styleUrl: './admin-form.component.css'
 })
 export class AdminFormComponent {
   adminService = inject(AdminService);
   route = inject(ActivatedRoute);
   id: any = null;
   model?: any;
-  confirmModal: boolean = false;
   roles = [
     { value: 'admin', label: 'Admin' },
     { value: 'super-admin', label: 'Super Admin' },
@@ -25,6 +23,9 @@ export class AdminFormComponent {
   ]
   paramsSubscription?: Subscription;
   adminSubscription?: Subscription;
+  error = signal<any>(null);
+  success = signal<any>(null);
+  loading = signal<boolean>(false);
 
   constructor() {
     this.onReset();
@@ -50,21 +51,58 @@ export class AdminFormComponent {
   }
 
   onFormSubmit(): void {
+    const { name, mobileNumber, role, pass } = this.model;
+    this.loading.set(true);
+    if (name && mobileNumber && role && pass) {
 
-    if (this.id) {
-      this.adminSubscription = this.adminService.updateAdmin(this.id, this.model)
-        .subscribe({
-          next: (response) => {
-            this.confirmModal = true;
-          }
-        });
+      if (this.id) {
+        this.adminSubscription = this.adminService.updateAdmin(this.id, this.model)
+          .subscribe({
+            next: (response) => {
+              this.success.set('Admin Update successfully');
+              this.onReset();
+              this.id = null;
+              setTimeout(() => {
+                this.success.set(null);
+                this.loading.set(false);
+              }, 1500);
+            },
+            error: (error) => {
+              this.error.set(error.error.message);
+              console.error('Error Update Admin:', error.error);
+              setTimeout(() => {
+                this.error.set(null);
+                this.loading.set(false);
+              }, 1500);
+            }
+          });
+      } else {
+        this.adminSubscription = this.adminService.addAdmin(this.model)
+          .subscribe({
+            next: (response) => {
+              this.success.set('Admin Add successfully');
+              this.onReset();
+              setTimeout(() => {
+                this.success.set(null);
+                this.loading.set(false);
+              }, 1500);
+            },
+            error: (error) => {
+              this.error.set(error.error.message);
+              console.error('Error Add Admin:', error.error);
+              setTimeout(() => {
+                this.error.set(null);
+                this.loading.set(false);
+              }, 1500);
+            }
+          });
+      }
     } else {
-      this.adminSubscription = this.adminService.addAdmin(this.model)
-        .subscribe({
-          next: (response) => {
-            this.confirmModal = true;
-          }
-        });
+      this.error.set('All Fields are required!');
+      setTimeout(() => {
+        this.error.set(null);
+        this.loading.set(false);
+      }, 1500);
     }
   };
 
@@ -76,10 +114,6 @@ export class AdminFormComponent {
       role: "",
       pass: "",
     };
-  }
-
-  closeModal() {
-    this.confirmModal = false;
   }
 
   ngOnDestroy(): void {

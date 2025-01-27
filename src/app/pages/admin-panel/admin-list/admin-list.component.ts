@@ -5,10 +5,10 @@ import { AdminService } from '../../../services/admin.service';
 import { DataService } from '../../../services/data.service';
 
 @Component({
-    selector: 'app-admin-list',
-    imports: [CoverComponent, RouterLink],
-    templateUrl: './admin-list.component.html',
-    styleUrl: './admin-list.component.css'
+  selector: 'app-admin-list',
+  imports: [CoverComponent, RouterLink],
+  templateUrl: './admin-list.component.html',
+  styleUrl: './admin-list.component.css'
 })
 export class AdminListComponent {
   private adminService = inject(AdminService);
@@ -18,10 +18,13 @@ export class AdminListComponent {
   roles: any;
   selectedRole: any = '';
   success = signal<any>("");
+  loading = signal<boolean>(false);
 
   ngOnInit(): void {
+    this.loading.set(true);
     this.adminService.getAdmin("").subscribe(data => {
       this.filterAdmins.set(data);
+      this.loading.set(false);
     });
     this.dataService.getJsonData().subscribe(data => {
       this.roles = data?.role;

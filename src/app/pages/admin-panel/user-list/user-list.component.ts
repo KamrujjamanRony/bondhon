@@ -13,10 +13,10 @@ import { ThanaService } from '../../../services/thana.service';
 import { FormsModule } from '@angular/forms';
 
 @Component({
-    selector: 'app-user-list',
-    imports: [RouterLink, CoverComponent, InputsComponent, FormsModule],
-    templateUrl: './user-list.component.html',
-    styleUrl: './user-list.component.css'
+  selector: 'app-user-list',
+  imports: [RouterLink, CoverComponent, InputsComponent, FormsModule],
+  templateUrl: './user-list.component.html',
+  styleUrl: './user-list.component.css'
 })
 export class UserListComponent {
   private userService = inject(UserService);
@@ -34,6 +34,7 @@ export class UserListComponent {
   thana = signal<any>([]);
   bloodGroups = signal<any>([]);
   postPersons = signal<any>([]);
+  loading = signal<boolean>(false);
 
   constructor() {
     this.model = {
@@ -49,19 +50,21 @@ export class UserListComponent {
   }
 
   ngOnInit(): void {
+    this.loading.set(true);
     this.admin = this.authService.getAdminInfo();
     // console.log(this.admin);
-    // const date = new Date();
-    // this.model.from = date.toISOString().split('T')[0]
+    const date = new Date();
+    this.model.from = date.toISOString().split('T')[0]
     this.adminService.getAdmin("").subscribe(data => {
       const allAdmin = data;
       this.postPersons.set(allAdmin.map(p => ({ id: p.name, name: p.name })))
       this.postPersons().push({ id: "user", name: "user" });
+      this.loading.set(false);
     });
     this.dataService.getJsonData().subscribe(data => {
       this.bloodGroups.set(data?.bloodGroups);
       this.divisions.set(data?.divisions);
-      this.model.division = this.divisions()[0]?.name;
+      // this.model.division = this.divisions()[0]?.name;
       this.onDivisionChanged();
     });
   }
@@ -102,8 +105,8 @@ export class UserListComponent {
   onDelete(id: any): void {
     if (confirm("Are you sure you want to delete?")) {
       this.userService.deleteUser(id).subscribe(data => {
-        if (data.id) {
-          this.users.set(this.users().filter((d: any) => d.id !== id));
+        if (data.gid) {
+          this.users.set(this.users().filter((d: any) => d.gid !== id));
           alert("User deleted successfully!");
         } else {
           console.error('Error deleting User:', data);
@@ -113,12 +116,13 @@ export class UserListComponent {
   }
 
   onClearFilter() {
+    const date = new Date();
     this.model = {
-      division: this.divisions()[0]?.name || '',
+      division: '',
       district: '',
       thana: '',
       searchQuery: '',
-      from: '',
+      from: date.toISOString().split('T')[0],
       to: '',
       postBy: '',
       bloodGroup: ''

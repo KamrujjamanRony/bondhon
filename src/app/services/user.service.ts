@@ -40,6 +40,6 @@ export class UserService {
   }
 
   deleteUser(id: any): Observable<any> {
-    return this.http.post<any>(this.urlUser + `/Delete?id=${id}`, {});
+    return this.http.delete<any>(this.urlUser + `/Delete?id=${id}`);
   }
 }

@@ -1,26 +1,29 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { CoverComponent } from '../../../components/shared/cover/cover.component';
 import { GalleryService } from '../../../services/gallery.service';
 
 @Component({
-    selector: 'app-gallery-list',
-    imports: [RouterLink, CoverComponent],
-    templateUrl: './gallery-list.component.html',
-    styleUrl: './gallery-list.component.css'
+  selector: 'app-gallery-list',
+  imports: [RouterLink, CoverComponent],
+  templateUrl: './gallery-list.component.html',
+  styleUrl: './gallery-list.component.css'
 })
 export class GalleryListComponent {
   galleryService = inject(GalleryService);
   gallery?: any;
   emptyImg: any = 'https://www.mykite.in/kb/NoImageFound.jpg.png'
+  loading = signal<boolean>(false);
 
   constructor() { }
 
   ngOnInit(): void {
+    this.loading.set(true);
     this.galleryService.getGallery({
       "search": ""
     }).subscribe(data => {
       this.gallery = data;
+      this.loading.set(false);
     })
   }
 

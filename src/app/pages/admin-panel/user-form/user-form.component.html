@@ -177,15 +177,24 @@
       </div>
 
       <div class="form-control mt-6">
-        <button [disabled]="!model.isAgree" class="btn btn-error text-white">
+        @if (loading()) {
+        <button [disabled]="loading()" class="btn btn-error text-white">
+          Processing...
+        </button>
+        } @else {
+        <button
+          [disabled]="!model.isAgree"
+          class="btn font-bold btn-error text-white"
+        >
           {{ id ? "Update" : "Add" }}
         </button>
+        }
       </div>
     </form>
     }
   </div>
 
-  @if(confirmModal){ @if (id) {
+  <!-- @if(confirmModal){ @if (id) {
   <confirm-modal
     title="user is successfully updated!"
     url="/admin-panel/user-list"
@@ -197,7 +206,7 @@
     url="/admin-panel/user-list"
     (closeModal)="closeModal()"
   />
-  } }
+  } } -->
 </section>
 
 @if (error()) {
