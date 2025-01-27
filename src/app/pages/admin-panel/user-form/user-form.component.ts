@@ -65,7 +65,7 @@ export class UserFormComponent {
               next: (response) => {
                 console.log(response)
                 if (response) {
-                  this.model = { ...response[0], password: "" };
+                  this.model = { ...response[0], password: "", dob: response[0]?.dob?.split("T")[0], lastDoneteDate: response[0]?.lastDoneteDate?.split("T")[0] };
                   this.onDivisionChanged();
                   this.onDistrictChanged();
                 }
