@@ -157,7 +157,7 @@ export class UserListComponent {
       user.name,
       user.mobileNumber,
       user.bloodGroup,
-      user.lastDoneteDate.split("T")[0] || 'N/A',
+      user.lastDoneteDate?.split("T")[0] || 'N/A',
       user.occupation,
       user.college || 'N/A'
     ]);
