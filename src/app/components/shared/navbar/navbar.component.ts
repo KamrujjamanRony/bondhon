@@ -3,10 +3,10 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
-    selector: 'app-navbar',
-    imports: [RouterLink],
-    templateUrl: './navbar.component.html',
-    styleUrls: ['./navbar.component.css']
+  selector: 'app-navbar',
+  imports: [RouterLink],
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
   private authService = inject(AuthService);
@@ -47,6 +47,7 @@ export class NavbarComponent {
         // },
         {
           label: 'Account',
+          link: '/account-update',
           subItems: [
             {
               label: 'Update',
