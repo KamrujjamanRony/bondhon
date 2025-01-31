@@ -96,9 +96,10 @@ export class UserFormComponent {
       return;
     }
 
-    if (division && district && thana && name && mobileNumber && gender && dob && bloodGroup && occupation && password) {
-      this.loading.set(true);
-      if (this.id) {
+
+
+    if (this.id) {
+      if (division && district && thana && name && mobileNumber && gender && dob && bloodGroup && occupation) {
         this.UserSubscription = this.userService.updateUser(this.id, this.model)
           .subscribe({
             next: (response) => {
@@ -121,6 +122,17 @@ export class UserFormComponent {
             }
           });
       } else {
+        this.error.set('Please Fill all the required fields')
+        setTimeout(() => {
+          this.error.set(null);
+          this.loading.set(false);
+        }, 1500);
+      }
+
+
+
+    } else {
+      if (division && district && thana && name && mobileNumber && gender && dob && bloodGroup && occupation && password) {
         console.log(this.model)
         this.UserSubscription = this.userService.addUser(this.model)
           .subscribe({
@@ -142,14 +154,16 @@ export class UserFormComponent {
               }, 1500);
             }
           });
+      } else {
+        this.error.set('Please Fill all the required fields')
+        setTimeout(() => {
+          this.error.set(null);
+          this.loading.set(false);
+        }, 1500);
       }
-    } else {
-      this.error.set('Please Fill all the required fields')
-      setTimeout(() => {
-        this.error.set(null);
-        this.loading.set(false);
-      }, 1500);
+
     }
+
   };
 
   checkPasswordMatch() {
