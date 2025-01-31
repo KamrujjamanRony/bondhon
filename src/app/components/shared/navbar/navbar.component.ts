@@ -41,23 +41,13 @@ export class NavbarComponent {
           label: 'Search Donors',
           link: '/search-donors'
         },
-        // {
-        //   label: 'Blood Request',
-        //   link: '/blood-request'
-        // },
         {
-          label: 'Account',
-          link: '/account-update',
-          subItems: [
-            {
-              label: 'Update',
-              link: '/account-update'
-            },
-            {
-              label: 'Logout',
-              action: () => this.logout()
-            }
-          ]
+          label: 'Account Update',
+          link: '/account-update'
+        },
+        {
+          label: 'Logout',
+          action: () => this.logout()
         },
       ]
       : [
