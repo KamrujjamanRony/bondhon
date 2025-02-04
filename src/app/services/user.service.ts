@@ -11,8 +11,17 @@ export class UserService {
 
   http = inject(HttpClient);
 
-  addUser(model: any | FormData): Observable<void> {
+  addUser(model: any): Observable<void> {
     return this.http.post<void>(this.urlUser + '/CreateDonerReg', model)
+  }
+
+  getOTP(model: any): Observable<string> {
+    return this.http.post<string>(this.urlUser + '/GetOTP', model, { responseType: 'text' as 'json' });
+  }
+
+
+  tokenVerify(model: any): Observable<void> {
+    return this.http.post<void>(this.urlUser + '/TokenVerify', model, { responseType: 'text' as 'json' });
   }
 
   loginUser(model: any): Observable<void> {
@@ -35,7 +44,7 @@ export class UserService {
     return this.http.post<any[]>(this.urlUser + `/Search`, query);
   }
 
-  updateUser(id: any, updateUserRequest: any | FormData): Observable<any> {
+  updateUser(id: any, updateUserRequest: any): Observable<any> {
     return this.http.put<any>(this.urlUser + `/Edit/${id}`, updateUserRequest);
   }
 

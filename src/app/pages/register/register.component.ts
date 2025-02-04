@@ -7,10 +7,10 @@ import { Router } from '@angular/router';
 import { ThanaService } from '../../services/thana.service';
 
 @Component({
-    selector: 'app-register',
-    imports: [InputsComponent, FormsModule],
-    templateUrl: './register.component.html',
-    styleUrl: './register.component.css'
+  selector: 'app-register',
+  imports: [InputsComponent, FormsModule],
+  templateUrl: './register.component.html',
+  styleUrl: './register.component.css'
 })
 export class RegisterComponent {
   private dataService = inject(DataService);
@@ -29,6 +29,9 @@ export class RegisterComponent {
   success = signal<any>(null);
   isDisable = signal<boolean>(false);
   passwordMismatch = signal<boolean>(false);
+  isOtpSent = signal<boolean>(false);
+  token = signal<string>('');
+  otp = signal<any>('');
 
   constructor() {
     this.model = {
@@ -67,71 +70,91 @@ export class RegisterComponent {
     if (this.passwordMismatch()) {
       return;
     }
-    const {
-      division,
-      district,
-      thana,
-      fullAddress,
-      name,
-      mobileNumber,
-      password,
-      gender,
-      dob,
-      lastDoneteDate,
-      bloodGroup,
-      occupation,
-      college,
-      others,
-      entryDate
-    } = this.model;
-    if (division && district && thana && name && mobileNumber && gender && dob && bloodGroup && occupation) {
-      if (mobileNumber.length < 11) {
-        this.error.set('Mobile number must be at least 11 characters!');
-        setTimeout(() => {
-          this.error.set(null);
-        }, 1000);
-        return;
+
+    if (!this.model.mobileNumber || this.model.mobileNumber.length < 11) {
+      this.error.set('Mobile number must be at least 11 characters!');
+      return;
+    }
+
+    this.requestOtp();
+  }
+
+  requestOtp() {
+    this.userService.getOTP({ contacts: this.model.mobileNumber }).subscribe({
+      next: (response: string) => {
+        console.log('OTP Token:', response);
+        this.token.set(response);
+        this.isOtpSent.set(true);
+        this.success.set('OTP has been sent to your mobile number.');
+      },
+      error: (error) => {
+        console.log('Error Response:', error.error);
+
+        let errorMessage = 'Something went wrong!';
+
+        try {
+          const parsedError = JSON.parse(error.error); // Parse string to object
+          errorMessage = parsedError.message || errorMessage;
+        } catch (e) {
+          console.error('Error parsing response:', e);
+        }
+
+        this.error.set(errorMessage);
+        console.error('Error getting OTP:', error);
       }
+    });
+  }
+
+
+
+  verifyOtp() {
+    this.userService.tokenVerify({ token: this.token(), otp: this.otp(), contacts: this.model.mobileNumber }).subscribe({
+      next: (response: any) => {
+        console.log(response)
+        if (response.status === 'Error') {
+          this.error.set('Invalid OTP or expired!');
+          return;
+        }
+
+        this.success.set('OTP verified successfully.');
+        this.registerUser();
+      },
+      error: (error) => {
+        this.error.set('OTP verification failed.');
+        console.error('Error verifying OTP:', error);
+      }
+    });
+  }
+
+  registerUser() {
+    const {
+      division, district, thana, fullAddress, name, mobileNumber, password,
+      gender, dob, lastDoneteDate, bloodGroup, occupation, college, others, entryDate
+    } = this.model;
+
+    if (division && district && thana && name && mobileNumber && gender && dob && bloodGroup && occupation) {
       const userInfo = {
-        division,
-        district,
-        thana,
-        fullAddress,
-        name,
-        mobileNumber,
-        password,
-        gender,
-        dob,
-        lastDoneteDate,
-        bloodGroup,
-        occupation,
-        college,
-        others,
-        isAgree: true,
-        postedBy: 'user',
-        entryDate
+        division, district, thana, fullAddress, name, mobileNumber, password,
+        gender, dob, lastDoneteDate, bloodGroup, occupation, college, others,
+        isAgree: true, postedBy: 'user', entryDate
       };
-      console.log(userInfo)
-      this.userService.addUser(userInfo)
-        .subscribe({
-          next: (response) => {
-            console.log(response)
-            this.success.set('User registered successfully');
-            setTimeout(() => {
-              this.success.set(null);
-            }, 1000);
-            this.router.navigateByUrl('login');
-          },
-          error: (error) => {
-            this.error.set(error.error.message);
-            console.error('Error register:', error.error);
-          }
-        });
+
+      this.userService.addUser(userInfo).subscribe({
+        next: (response) => {
+          this.success.set('User registered successfully');
+          setTimeout(() => {
+            this.success.set(null);
+            this.otp.set("");
+          }, 1000);
+          this.router.navigateByUrl('login');
+        },
+        error: (error) => {
+          this.error.set(error.error.message);
+          console.error('Error registering user:', error.error);
+        }
+      });
     } else {
-      this.error.set('Please Fill all the required fields');
-      setTimeout(() => {
-        this.error.set(null);
-      }, 1000);
+      this.error.set('Please fill all the required fields');
     }
   }
 
@@ -141,7 +164,6 @@ export class RegisterComponent {
     if (this.passwordMismatch()) {
       this.error.set('Passwords do not match');
     }
-    console.log(this.passwordMismatch);
   }
 
   onDivisionChanged() {

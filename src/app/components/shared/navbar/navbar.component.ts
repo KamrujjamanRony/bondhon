@@ -67,10 +67,10 @@ export class NavbarComponent {
           label: 'Search Donors',
           link: '/search-donors'
         },
-        // {
-        //   label: 'Register',
-        //   link: '/register'
-        // },
+        {
+          label: 'Register',
+          link: '/register'
+        },
         {
           label: 'Login',
           link: '/login'
@@ -80,6 +80,7 @@ export class NavbarComponent {
 
   // Method to handle logout and update menu items
   logout() {
+    console.log("object is logged out")
     this.authService.deleteUserInfo();
   }
 }

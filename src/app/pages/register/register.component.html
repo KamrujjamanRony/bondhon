@@ -59,7 +59,7 @@
         <app-inputs
           type="select"
           [options]="districts()"
-          inputId="thana"
+          inputId="district"
           label="district (জেলা)"
           [(value)]="model.district"
           (valueChange)="onDistrictChanged()"
@@ -192,7 +192,44 @@
   </div>
 </div>
 
-@if (error()) {
+@if (isOtpSent()) {
+<div
+  class="fixed top-0 left-0 w-screen h-screen z-50 bg-black/20 backdrop-blur-sm flex justify-center items-center"
+>
+  <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl mt-5">
+    <form class="card-body" (ngSubmit)="verifyOtp()">
+      <label for="otp">OTP (ওটিপি)</label>
+      <input
+        id="otp"
+        type="number"
+        placeholder="Enter OTP"
+        required
+        name="otp"
+        [(ngModel)]="otp"
+        class="input input-bordered"
+      />
+
+      <div class="form-control mt-6">
+        <button class="btn btn-primary text-white">Verify OTP</button>
+      </div>
+    </form>
+  </div>
+
+  @if (error()) {
+  <div class="toast toast-top toast-end">
+    <div class="alert alert-error">
+      <span class="text-white">{{ error() }}</span>
+    </div>
+  </div>
+  } @if (success()) {
+  <div class="toast toast-top toast-end">
+    <div class="alert alert-success">
+      <span class="text-white">{{ success() }}</span>
+    </div>
+  </div>
+  }
+</div>
+} @if (error()) {
 <div class="toast toast-top toast-end">
   <div class="alert alert-error">
     <span class="text-white">{{ error() }}</span>
