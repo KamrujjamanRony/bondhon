@@ -128,6 +128,7 @@
             <tr
               class="text-xs font-semibold tracking-wide text-left text-gray-100 capitalize border-b bg-gray-800"
             >
+              <th class="px-4 py-3">entry Date</th>
               <th class="px-4 py-3">name</th>
               <th class="px-4 py-3">mobile Number</th>
               <th class="px-4 py-3">gender</th>
@@ -139,7 +140,6 @@
               <th class="px-4 py-3">college</th>
               <th class="px-4 py-3">Date of Birth</th>
               <th class="px-4 py-3">last Donate Date</th>
-              <th class="px-4 py-3">entry Date</th>
               <th class="px-4 py-3">full Address</th>
               <th class="px-4 py-3">posted By</th>
               <th class="px-4 py-3">Actions</th>
@@ -148,6 +148,9 @@
           <tbody class="bg-white divide-y">
             @for (data of users(); track $index) {
             <tr class="bg-gray-700 hover:bg-gray-800 text-gray-100">
+              <td class="px-4 py-3 text-xs">
+                {{ transform(data?.entryDate) }}
+              </td>
               <td class="px-4 py-3 text-xs">{{ data?.name }}</td>
               <td class="px-4 py-3 text-xs">{{ data?.mobileNumber }}</td>
               <td class="px-4 py-3 text-xs">{{ data?.gender }}</td>
@@ -160,9 +163,6 @@
               <td class="px-4 py-3 text-xs">{{ transform(data?.dob) }}</td>
               <td class="px-4 py-3 text-xs">
                 {{ transform(data?.lastDoneteDate) }}
-              </td>
-              <td class="px-4 py-3 text-xs">
-                {{ transform(data?.entryDate) }}
               </td>
               <td class="px-4 py-3 text-xs">{{ data?.fullAddress }}</td>
               <td class="px-4 py-3 text-xs">{{ data?.postedBy }}</td>

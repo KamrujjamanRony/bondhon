@@ -50,7 +50,7 @@ export class UserListComponent {
   }
 
   ngOnInit(): void {
-    this.loading.set(true);
+    // this.loading.set(true);
     this.admin = this.authService.getAdminInfo();
     // console.log(this.admin);
     const date = new Date();
@@ -59,7 +59,7 @@ export class UserListComponent {
       const allAdmin = data;
       this.postPersons.set(allAdmin.map(p => ({ id: p.name, name: p.name })))
       this.postPersons().push({ id: "user", name: "user" });
-      this.loading.set(false);
+      // this.loading.set(false);
     });
     this.dataService.getJsonData().subscribe(data => {
       this.bloodGroups.set(data?.bloodGroups);
@@ -70,11 +70,13 @@ export class UserListComponent {
   }
 
   getUsers() {
+    this.loading.set(true);
     if (this.admin.role === 'user-entry') {
       this.model.postBy = this.admin.name;
     }
     this.userService.getUser(this.model.division, this.model.district, this.model.thana, this.model.bloodGroup, '', this.model.postBy, this.model.from, this.model.to, this.model.searchQuery.trim()).subscribe(data => {
       this.users.set(data);
+      this.loading.set(false);
     });
   }
 
@@ -139,14 +141,14 @@ export class UserListComponent {
   // Method to generate PDF
   generatePDF() {
     const { division, district, thana, bloodGroup, searchQuery, from, to } = this.model;
-    const doc = new jsPDF();
+    const doc = new jsPDF({ orientation: 'l', unit: 'mm', format: 'A4' });
 
     // Add header text
     const header = (doc: jsPDF) => {
       doc.setFontSize(14);
-      doc.text('User Information Report', 105, 15, { align: 'center' });
+      doc.text('User Information Report', 155, 15, { align: 'center' });
       doc.setFontSize(10);
-      doc.text(`Blood Group: ${bloodGroup ? bloodGroup : 'All'}`, 105, 20, { align: 'center' });
+      doc.text(`Blood Group: ${bloodGroup ? bloodGroup : 'All'}`, 155, 20, { align: 'center' });
       doc.setFontSize(10);
       doc.text(`${division ? ('Division: ' + division) : ''}${district ? (', District: ' + district) : ''}${thana ? (', Thana: ' + thana) : ''}`, 105, 24, { align: 'center' });
     };
@@ -154,12 +156,20 @@ export class UserListComponent {
     // Format user data into table rows
     const userRows = this.users().map((user: any, sl: number) => [
       sl + 1,
-      user.name,
-      user.mobileNumber,
-      user.bloodGroup,
-      user.lastDoneteDate?.split("T")[0] || 'N/A',
-      user.occupation,
-      user.college || 'N/A'
+      this.transform(user?.entryDate),
+      user?.name,
+      user?.mobileNumber,
+      user?.gender,
+      user?.division,
+      user?.district,
+      user?.thana,
+      user?.bloodGroup,
+      user?.occupation,
+      user?.college || 'N/A',
+      this.transform(user?.dob),
+      this.transform(user?.lastDoneteDate) || 'N/A',
+      user?.fullAddress || 'N/A',
+      user?.postedBy || 'N/A',
     ]);
 
     // Add header before table
@@ -167,7 +177,7 @@ export class UserListComponent {
 
     // Generate table with autoTable
     (doc as any).autoTable({
-      head: [['SL', 'Name', 'Phone', 'Blood Group', 'Last Donation', 'Occupation', 'College']],
+      head: [['SL', 'Entry Date', 'Name', 'Phone', 'Gender', 'Division', 'District', 'Thana', 'Blood Group', 'Occupation', 'College', 'Date of Birth', 'Last Donation', 'Full Address', 'Posted By']],
       body: userRows,
       theme: 'grid', // Ensure the grid theme is used for borders
       startY: 26,
@@ -176,12 +186,15 @@ export class UserListComponent {
         fillColor: [255, 255, 255], // Remove background color by setting it to white
         textColor: [0, 0, 0], // Set the text color to black
         lineWidth: 0.2, // Define border width
-        lineColor: [0, 0, 0] // Define border color
+        lineColor: [0, 0, 0], // Define border color
+        fontSize: 8,
       },
       styles: {
         lineWidth: 0.2, // Border thickness for body cells
+        textColor: [0, 0, 0], // Set the text color to black
         lineColor: [0, 0, 0], // Border color for body cells
         halign: 'center', // Horizontal alignment for all cells
+        fontSize: 8,
       },
       columnStyles: {
         0: { halign: 'center' }, // SL column centered
