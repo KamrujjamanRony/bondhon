@@ -19,6 +19,7 @@
     { "id": 7, "name": "Brahmanbaria", "division": "Chattogram" },
     { "id": 8, "name": "Chandpur", "division": "Chattogram" },
     { "id": 9, "name": "Chattogram", "division": "Chattogram" },
+    { "id": 66, "name": "Chapainawabganj", "division": "Rajshahi" },
     { "id": 10, "name": "Chuadanga", "division": "Khulna" },
     { "id": 11, "name": "Cox's Bazar", "division": "Chattogram" },
     { "id": 12, "name": "Cumilla", "division": "Chattogram" },
@@ -114,5 +115,9 @@
       "id": 5,
       "name": "বর্তমান অবস্থান উল্লেখ করতে হবে।"
     }
-  ]
+  ],
+  "download": {
+    "android": "1Vsli1BPosaVDD5f3RifbOOBaC5HSwK1p",
+    "ios": "https://apps.apple.com/us/app/blood-donor/id1234567890"
+  }
 }
