@@ -135,7 +135,7 @@ export class RegisterComponent {
     if (division && district && thana && name && mobileNumber && gender && dob && bloodGroup && occupation) {
       const userInfo = {
         division, district, thana, fullAddress, name, mobileNumber, password,
-        gender, dob, lastDoneteDate, bloodGroup, occupation, college, others,
+        gender, dob, lastDoneteDate: lastDoneteDate || dob, bloodGroup, occupation, college, others,
         isAgree: true, postedBy: 'user', entryDate
       };
 
